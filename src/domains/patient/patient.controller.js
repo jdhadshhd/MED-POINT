@@ -220,7 +220,18 @@ const patientController = {
    * POST /patient/upload - Handle file upload
    */
   handleUpload: [
-    upload.single('file'),
+    // Wrap multer to handle errors gracefully
+    (req, res, next) => {
+      upload.single('file')(req, res, (err) => {
+        if (err) {
+          console.error('[Upload] Multer error:', err.message);
+          const referer = req.get('Referer') || '/patient/upload';
+          const redirectUrl = referer.includes('dashboard') ? '/patient/dashboard' : '/patient/upload';
+          return res.redirect(`${redirectUrl}?error=${encodeURIComponent(err.message)}`);
+        }
+        next();
+      });
+    },
     async (req, res) => {
       try {
         // Check database connection FIRST
