@@ -1,0 +1,50 @@
+<!-- Admin Support Tickets -->
+<div class="page-header">
+  <h1 class="page-title">Support Tickets</h1>
+</div>
+
+<div class="card">
+  <% if (tickets.length === 0) { %>
+  <div class="empty-state">
+    <i class="bi bi-headset"></i>
+    <h3>No tickets</h3>
+    <p>There are no support tickets at this time.</p>
+  </div>
+  <% } else { %>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>User</th>
+          <th>Priority</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% tickets.forEach(function(ticket) { %>
+        <tr>
+          <td><%= ticket.title %></td>
+          <td><%= ticket.user.name %></td>
+          <td><span class="badge badge-<%= ticket.priority.toLowerCase() %>"><%= ticket.priority %></span></td>
+          <td><span class="badge badge-<%= ticket.status.toLowerCase() %>"><%= ticket.status %></span></td>
+          <td><%= new Date(ticket.createdAt).toLocaleDateString() %></td>
+          <td>
+            <a href="/admin/support/<%= ticket.id %>" class="btn btn-outline btn-sm">View</a>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+</div>
+
+<style>
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.85rem;
+}
+</style>

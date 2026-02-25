@@ -1,0 +1,131 @@
+<!-- Doctor Appointments -->
+<div class="page-header">
+  <div class="page-title">
+    <h2><i class="fas fa-calendar-alt"></i> My Appointments</h2>
+    <p>Manage your scheduled appointments</p>
+  </div>
+</div>
+
+<div class="dashboard-card">
+  <% if (appointments.length === 0) { %>
+  <div class="empty-state" style="text-align: center; padding: 60px;">
+    <i class="fas fa-calendar-times" style="font-size: 64px; color: #ccc; margin-bottom: 20px;"></i>
+    <h3 style="color: var(--Paraghfont); margin-bottom: 10px;">No Appointments</h3>
+    <p style="color: #888;">You don't have any appointments yet.</p>
+  </div>
+  <% } else { %>
+  <div class="patient-queue">
+    <% appointments.forEach(function(apt) { %>
+    <div class="queue-item <%= apt.status === 'WAITING' ? 'urgent' : '' %>">
+      <div class="queue-avatar">
+        <%= apt.patient.name.charAt(0).toUpperCase() %>
+      </div>
+      <div class="queue-info">
+        <h4><%= apt.patient.name %></h4>
+        <p><i class="fas fa-calendar"></i> <%= new Date(apt.dateTime).toLocaleString() %></p>
+        <% if (apt.notes) { %>
+        <p><i class="fas fa-sticky-note"></i> <%= apt.notes %></p>
+        <% } %>
+      </div>
+      <div class="queue-actions" style="display: flex; align-items: center; gap: 15px;">
+        <span class="status-badge status-<%= apt.status.toLowerCase().replace('_', '-') %>"><%= apt.status %></span>
+        <form action="/doctor/appointments/<%= apt.id %>/status" method="POST" style="display: flex; gap: 10px;">
+          <select name="status" class="form-control" style="width: auto; padding: 8px 12px;">
+            <option value="WAITING" <%= apt.status === 'WAITING' ? 'selected' : '' %>>Waiting</option>
+            <option value="IN_PROGRESS" <%= apt.status === 'IN_PROGRESS' ? 'selected' : '' %>>In Progress</option>
+            <option value="COMPLETED" <%= apt.status === 'COMPLETED' ? 'selected' : '' %>>Completed</option>
+            <option value="CANCELLED" <%= apt.status === 'CANCELLED' ? 'selected' : '' %>>Cancelled</option>
+          </select>
+          <button type="submit" class="btn btn-success btn-small">
+            <i class="fas fa-check"></i> Update
+          </button>
+        </form>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+  <% } %>
+</div>
+
+<style>
+.patient-queue {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.queue-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid var(--navcolor);
+  transition: var(--transition);
+}
+
+.queue-item:hover {
+  box-shadow: var(--shadow);
+}
+
+.queue-item.urgent {
+  border-left-color: var(--warning);
+  background: rgba(255, 193, 7, 0.05);
+}
+
+.queue-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navcolor), var(--spanfonts));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.queue-info {
+  flex: 1;
+}
+
+.queue-info h4 {
+  color: var(--Paraghfont);
+  margin-bottom: 5px;
+}
+
+.queue-info p {
+  color: #888;
+  font-size: 14px;
+  margin: 3px 0;
+}
+
+.queue-info p i {
+  width: 18px;
+  margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+  .queue-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .queue-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .queue-actions form {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .queue-actions select {
+    width: 100% !important;
+  }
+}
+</style>

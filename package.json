@@ -1,0 +1,40 @@
+{
+  "name": "smart-medipoint",
+  "version": "1.0.0",
+  "description": "Smart MediPoint - Medical Practice Management System",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:seed": "node prisma/seed.js",
+    "prisma:studio": "npx prisma studio",
+    "prisma:generate": "npx prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.2.0",
+    "@prisma/client": "^6.19.2",
+    "bcrypt": "^6.0.0",
+    "chart.js": "^4.5.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.3.1",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "prisma": "^6.19.2",
+    "socket.io": "^4.8.3",
+    "uuid": "^13.0.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

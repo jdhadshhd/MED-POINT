@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediPoint - Login System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 45%;
+            height: 100%;
+            background: #1a5855;
+            border-bottom-right-radius: 50%;
+            border-radius: 0% 100% 100% 0% / 0% 100% 100% 0%;
+            z-index: 1;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .welcome-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px;
+            color: white;
+            position: relative;
+            z-index: 3;
+            max-width: 50%;
+        }
+
+        .welcome-content {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .welcome-section span {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 15px;
+            color: #a5d6d4;
+            font-weight: 300;
+        }
+
+        .welcome-section h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .welcome-section p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 400px;
+        }
+
+        .form-section-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            max-width: 50%;
+        }
+
+        .logo-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            padding-right: 20px;
+        }
+
+        .logo img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .form-card {
+            background-color: #F5F5F5;
+            width: 500px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .form-card h2 {
+            color: #1d7874;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 32px;
+        }
+
+        .form-card label {
+            color: #1d7874;
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-box {
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            display: block;
+            height: 50px;
+            box-sizing: border-box;
+            position: relative;
+            background: white;
+        }
+
+        .input-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #1a5855;
+            font-size: 18px;
+        }
+
+        .input-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            height: 100%;
+            border-radius: 6px;
+            padding: 0 50px 0 15px;
+            font-size: 16px;
+        }
+
+        .input-box select {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            border-radius: 6px;
+            padding: 0 50px 0 15px;
+            font-size: 16px;
+            background: white;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        #doctorSpecialty,
+        .doctor-id-field {
+            display: none;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+            color: #2f8f83;
+            flex-direction: row;
+        }
+
+        .checkbox label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            cursor: pointer;
+            font-size: smaller;
+        }
+
+        .checkbox input {
+            cursor: pointer;
+        }
+
+        .btn {
+            text-align: center;
+            border-radius: 6px;
+            padding: 1%;
+            color: #f2f8f7;
+            height: 50px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 18px;
+            display: block;
+            margin: 20px auto 10px;
+            background-color: #1a5855;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        .btn:hover:not(:disabled) {
+            background-color: #144a47;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .form-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-links a {
+            color: #2f8f83;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .form-links a:hover {
+            color: #1a5855;
+            text-decoration: underline;
+        }
+
+        .back-btn {
+            color: #2f8f83;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: inline-block;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: #1a5855;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .footer {
+            text-align: center;
+            color: #666;
+            padding: 15px;
+            font-size: 14px;
+            position: relative;
+            z-index: 3;
+            margin-top: auto;
+        }
+
+        .user-type-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .user-type-btn {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            color: #666;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-type-btn:hover:not(.active) {
+            border-color: #1a5855;
+            color: #1a5855;
+        }
+
+        .user-type-btn.active {
+            background-color: #1a5855;
+            border-color: #1a5855;
+            color: white;
+        }
+
+        .user-type-icon {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .doctor-id-field {
+            display: none;
+        }
+
+        .signup-type-link {
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        #show-forgot-password {
+            cursor: pointer;
+            font-size: smaller;
+        }
+
+        #show-forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background: white;
+            border-left: 4px solid;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left-color: #4CAF50;
+        }
+
+        .toast.error {
+            border-left-color: #f44336;
+        }
+
+        .toast.info {
+            border-left-color: #2196F3;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 15px;
+        }
+
+        @media (max-width: 992px) {
+            .page::after {
+                width: 100%;
+                height: 40%;
+                border-radius: 0% 0% 100% 0% / 0% 0% 40% 0%;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .welcome-section {
+                max-width: 100%;
+                padding: 30px 20px;
+                text-align: center;
+                min-height: 40vh;
+                justify-content: flex-start;
+                padding-top: 60px;
+            }
+
+            .form-section-container {
+                max-width: 100%;
+                padding: 20px;
+                min-height: 60vh;
+            }
+
+            .form-card {
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .welcome-section h1 {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo-container {
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 10px;
+                background: rgba(255, 255, 255, 0.9);
+                padding: 8px 15px;
+                border-radius: 30px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="toast-container"></div>
+
+    <div class="page">
+        <div class="container">
+            <div class="welcome-section">
+                <div class="welcome-content">
+                    <span>HELLO</span>
+                    <h1>WELCOME TO MEDIPOINT</h1>
+                    <p>Your all-in-one platform for patient care and nutrition monitoring. Access medical services from anywhere.</p>
+                </div>
+            </div>
+
+            <div class="form-section-container">
+                <div class="form-card">
+                    <!-- Login Form -->
+                    <div id="login-section" class="form-section active">
+                        <h2>Login Account</h2>
+
+                        <div class="user-type-selector">
+                            <button type="button" class="user-type-btn active" id="patient-btn">
+                                <i class="fas fa-user-injured user-type-icon"></i> Patient
+                            </button>
+                            <button type="button" class="user-type-btn" id="doctor-btn">
+                                <i class="fas fa-user-md user-type-icon"></i> Doctor
+                            </button>
+                        </div>
+
+                        <form id="login-form">
+                            <div class="form-group doctor-id-field" id="doctor-id-field">
+                                <label for="doctor-id">Doctor ID</label>
+                                <div class="input-box">
+                                    <input type="text" id="doctor-id" placeholder="Enter your doctor ID">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                            </div>
+
+                            <label for="login-email">Email Address</label>
+                            <div class="input-box">
+                                <input type="email" id="login-email" placeholder="Enter your email" required>
+                                <i class="fa-regular fa-message"></i>
+                            </div>
+
+                            <label for="login-password">Password</label>
+                            <div class="input-box">
+                                <input type="password" id="login-password" placeholder="**********" required>
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="remember-password"> Remember password
+                                </label>
+                                <a id="show-forgot-password">Forgot password?</a>
+                            </div>
+
+                            <button type="submit" class="btn" id="login-button">
+                                <span id="login-button-text">Login as Patient</span>
+                            </button>
+                        </form>
+
+                        <div class="form-links">
+                            <span>Don't have an account?</span>
+                            <a id="show-signup">Sign Up</a>
+                        </div>
+                    </div>
+
+                    <!-- Forgot Password Form -->
+                    <div id="forgot-section" class="form-section">
+                        <div class="back-btn" id="back-to-login-from-forgot">
+                            <i class="fa-solid fa-arrow-left"></i> Back to Login
+                        </div>
+
+                        <h2>Forgot Password</h2>
+
+                        <form id="forgot-form">
+                            <label>Email Address</label>
+                            <div class="input-box">
+                                <input type="email" id="forgot-email" placeholder="Enter your email" required>
+                                <i class="fa-regular fa-message"></i>
+                            </div>
+
+                            <button type="submit" class="btn" id="forgot-button">
+                                <span id="forgot-button-text">Send Reset Link</span>
+                            </button>
+                        </form>
+
+                        <div class="form-links">
+                            <a id="show-login-from-forgot">Back to Login</a>
+                        </div>
+                    </div>
+
+                    <!-- Signup Form -->
+                    <div id="signup-section" class="form-section">
+                        <div class="back-btn" id="back-to-login-from-signup">
+                            <i class="fa-solid fa-arrow-left"></i> Back to Login
+                        </div>
+
+                        <h2>Create Account</h2>
+
+                        <div class="user-type-selector">
+                            <button type="button" class="user-type-btn active" id="signup-patient-btn">
+                                <i class="fas fa-user-injured user-type-icon"></i> Patient
+                            </button>
+                            <button type="button" class="user-type-btn" id="signup-doctor-btn">
+                                <i class="fas fa-user-md user-type-icon"></i> Doctor
+                            </button>
+                        </div>
+
+                        <form id="signup-form">
+                            <div class="form-group doctor-id-field" id="signup-doctor-id-field">
+                                <label for="signup-doctor-id">Doctor ID</label>
+                                <div class="input-box">
+                                    <input type="text" id="signup-doctor-id" placeholder="Enter your doctor ID if available">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                            </div>
+
+                            <label>Full Name</label>
+                            <div class="input-box">
+                                <input type="text" id="signup-name" placeholder="Enter your full name" required>
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+
+                            <label>Email Address</label>
+                            <div class="input-box">
+                                <input type="email" id="signup-email" placeholder="Enter your email" required>
+                                <i class="fa-regular fa-message"></i>
+                            </div>
+
+                            <div class="form-group" id="doctorSpecialty">
+                                <label for="specialty">Medical Specialty</label>
+                                <div class="input-box">
+                                    <select id="specialty" required>
+                                        <option value="">Select specialty</option>
+                                        <option value="general">General Medicine</option>
+                                        <option value="pediatrics">Pediatrics</option>
+                                        <option value="nutrition">Nutrition</option>
+                                        <option value="cardiology">Cardiology</option>
+                                        <option value="dermatology">Dermatology</option>
+                                        <option value="orthopedics">Orthopedics</option>
+                                        <option value="gastroenterology">Gastroenterology</option>
+                                    </select>
+                                    <i class="fa-solid fa-stethoscope"></i>
+                                </div>
+                            </div>
+
+                            <label>Date of Birth</label>
+                            <div class="input-box">
+                                <input type="date" id="dob" required>
+                                <p id="age-display" style="margin-top:5px; font-size:14px; color:#1a5855;"></p>
+                            </div>
+
+                            <label>Password</label>
+                            <div class="input-box">
+                                <input type="password" id="signup-password" placeholder="**********" required minlength="6">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+
+                            <label>Confirm Password</label>
+                            <div class="input-box">
+                                <input type="password" id="signup-confirm-password" placeholder="Re-enter your password" required>
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+
+                            <div class="checkbox" style="justify-content: flex-start; font-size: 15px;">
+                                <label>
+                                    <input type="checkbox" id="terms" required> I accept all terms and conditions
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn" id="signup-button">
+                                <span id="signup-button-text">Create Patient Account</span>
+                            </button>
+                        </form>
+
+                        <div class="form-links">
+                            <span>Already have an account?</span>
+                            <a id="show-login-from-signup">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="logo-container">
+            <div class="logo"><img src="media/logo.png" alt="MediPoint Logo"></div>
+        </div>
+
+        <div class="footer">
+            <p style="font-size: smaller;">&copy; 2025 SmartMediPoint. All Rights Reserved || Developed by Computer Engineering Students - IUG</p>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'https://api.example.com'; // Replace with your actual API base URL
+        const API_ENDPOINTS = {
+            LOGIN: `${API_BASE_URL}/auth/login`,
+            REGISTER: `${API_BASE_URL}/auth/register`,
+            FORGOT_PASSWORD: `${API_BASE_URL}/auth/forgot-password`,
+            RESET_PASSWORD: `${API_BASE_URL}/auth/reset-password`,
+            VALIDATE_DOCTOR_ID: `${API_BASE_URL}/doctors/validate`
+        };
+
+        // Toast Notification System
+        class Toast {
+            static show(message, type = 'info', duration = 5000) {
+                const container = document.querySelector('.toast-container');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                
+                const icons = {
+                    success: 'fa-check-circle',
+                    error: 'fa-times-circle',
+                    info: 'fa-info-circle'
+                };
+                
+                toast.innerHTML = `
+                    <div class="toast-content">
+                        <div class="toast-title">
+                            <i class="fas ${icons[type]}"></i> ${type.charAt(0).toUpperCase() + type.slice(1)}
+                        </div>
+                        <div class="toast-message">${message}</div>
+                    </div>
+                    <button class="toast-close"><i class="fas fa-times"></i></button>
+                `;
+                
+                container.appendChild(toast);
+                
+                // Trigger animation
+                setTimeout(() => toast.classList.add('show'), 100);
+                
+                // Auto remove
+                const removeToast = () => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                };
+                
+                // Close button
+                toast.querySelector('.toast-close').addEventListener('click', removeToast);
+                
+                // Auto remove after duration
+                setTimeout(removeToast, duration);
+            }
+        }
+
+        // API Service
+        class ApiService {
+            static async request(endpoint, method = 'GET', data = null) {
+                const headers = {
+                    'Content-Type': 'application/json',
+                };
+
+                // Add authorization header if token exists
+                const token = localStorage.getItem('token');
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+
+                const config = {
+                    method,
+                    headers,
+                };
+
+                if (data) {
+                    config.body = JSON.stringify(data);
+                }
+
+                try {
+                    const response = await fetch(endpoint, config);
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.message || 'Something went wrong');
+                    }
+
+                    return result;
+                } catch (error) {
+                    console.error('API Error:', error);
+                    throw error;
+                }
+            }
+
+            static async login(email, password, userType, doctorId = null) {
+                const data = {
+                    email,
+                    password,
+                    userType,
+                    ...(userType === 'doctor' && { doctorId })
+                };
+                
+                return this.request(API_ENDPOINTS.LOGIN, 'POST', data);
+            }
+
+            static async register(userData) {
+                return this.request(API_ENDPOINTS.REGISTER, 'POST', userData);
+            }
+
+            static async forgotPassword(email) {
+                return this.request(API_ENDPOINTS.FORGOT_PASSWORD, 'POST', { email });
+            }
+
+            static async validateDoctorId(doctorId) {
+                return this.request(`${API_ENDPOINTS.VALIDATE_DOCTOR_ID}/${doctorId}`, 'GET');
+            }
+        }
+
+        // Auth Service
+        class AuthService {
+            static async handleLogin(email, password, userType, doctorId = null) {
+                try {
+                    const response = await ApiService.login(email, password, userType, doctorId);
+                    
+                    // Store token and user data
+                    localStorage.setItem('token', response.token);
+                    localStorage.setItem('user', JSON.stringify(response.user));
+                    localStorage.setItem('userType', userType);
+                    
+                    // Set remember me if checked
+                    const rememberMe = document.getElementById('remember-password').checked;
+                    if (rememberMe) {
+                        localStorage.setItem('rememberedEmail', email);
+                    } else {
+                        localStorage.removeItem('rememberedEmail');
+                    }
+                    
+                    Toast.show('Login successful! Redirecting...', 'success');
+                    
+                    // Redirect based on user type
+                    setTimeout(() => {
+                        window.location.href = userType === 'doctor' ? 
+                            '/doctor-dashboard.html' : 
+                            '/patient-dashboard.html';
+                    }, 1500);
+                    
+                    return response;
+                } catch (error) {
+                    Toast.show(error.message || 'Login failed. Please check your credentials.', 'error');
+                    throw error;
+                }
+            }
+
+            static async handleRegister(formData) {
+                try {
+                    // Validate passwords match
+                    if (formData.password !== formData.confirmPassword) {
+                        throw new Error('Passwords do not match');
+                    }
+
+                    const response = await ApiService.register(formData);
+                    
+                    Toast.show('Registration successful! You can now login.', 'success');
+                    
+                    // Clear form
+                    document.getElementById('signup-form').reset();
+                    
+                    return response;
+                } catch (error) {
+                    Toast.show(error.message || 'Registration failed. Please try again.', 'error');
+                    throw error;
+                }
+            }
+
+            static async handleForgotPassword(email) {
+                try {
+                    await ApiService.forgotPassword(email);
+                    Toast.show('Password reset link has been sent to your email.', 'success');
+                } catch (error) {
+                    Toast.show(error.message || 'Failed to send reset link. Please try again.', 'error');
+                    throw error;
+                }
+            }
+
+            static checkAuth() {
+            const token = localStorage.getItem('token');
+            const userType = localStorage.getItem('userType');
+            
+            if (token) {
+                // Redirect to appropriate dashboard
+                setTimeout(() => {
+                    window.location.href = userType === 'doctor' ? 
+                        '/doctor-dashboard.html' : 
+                        '/patient-dashboard.html';
+                }, 100);
+            }
+        }
+        }
+
+        // UI Controller
+        class UIController {
+            constructor() {
+                this.currentUserType = 'patient';
+                this.currentSignupType = 'patient';
+                this.initializeElements();
+                this.setupEventListeners();
+                this.loadRememberedEmail();
+                AuthService.checkAuth();
+            }
+
+            initializeElements() {
+                // Form sections
+                this.loginSection = document.getElementById('login-section');
+                this.forgotSection = document.getElementById('forgot-section');
+                this.signupSection = document.getElementById('signup-section');
+
+                // Buttons
+                this.showForgotPassword = document.getElementById('show-forgot-password');
+                this.showSignup = document.getElementById('show-signup');
+                this.showLoginFromForgot = document.getElementById('show-login-from-forgot');
+                this.showLoginFromSignup = document.getElementById('show-login-from-signup');
+                this.backToLoginFromForgot = document.getElementById('back-to-login-from-forgot');
+                this.backToLoginFromSignup = document.getElementById('back-to-login-from-signup');
+
+                // User type buttons
+                this.patientBtn = document.getElementById('patient-btn');
+                this.doctorBtn = document.getElementById('doctor-btn');
+                this.doctorIdField = document.getElementById('doctor-id-field');
+                this.loginButton = document.getElementById('login-button');
+                this.loginButtonText = document.getElementById('login-button-text');
+
+                // Signup elements
+                this.signupPatientBtn = document.getElementById('signup-patient-btn');
+                this.signupDoctorBtn = document.getElementById('signup-doctor-btn');
+                this.signupDoctorIdField = document.getElementById('signup-doctor-id-field');
+                this.signupButton = document.getElementById('signup-button');
+                this.signupButtonText = document.getElementById('signup-button-text');
+                this.doctorSpecialty = document.getElementById('doctorSpecialty');
+
+                // Form buttons text
+                this.forgotButtonText = document.getElementById('forgot-button-text');
+            }
+
+            setupEventListeners() {
+                // Form navigation
+                this.showForgotPassword.addEventListener('click', () => this.showForgot());
+                this.showSignup.addEventListener('click', () => this.showSignupForm());
+                this.showLoginFromForgot.addEventListener('click', () => this.showLogin());
+                this.showLoginFromSignup.addEventListener('click', () => this.showLogin());
+                this.backToLoginFromForgot.addEventListener('click', () => this.showLogin());
+                this.backToLoginFromSignup.addEventListener('click', () => this.showLogin());
+
+                // User type selection
+                this.patientBtn.addEventListener('click', () => this.setUserType('patient'));
+                this.doctorBtn.addEventListener('click', () => this.setUserType('doctor'));
+                this.signupPatientBtn.addEventListener('click', () => this.setSignupUserType('patient'));
+                this.signupDoctorBtn.addEventListener('click', () => this.setSignupUserType('doctor'));
+
+                // Form submissions
+                document.getElementById('login-form').addEventListener('submit', (e) => this.handleLoginSubmit(e));
+                document.getElementById('forgot-form').addEventListener('submit', (e) => this.handleForgotSubmit(e));
+                document.getElementById('signup-form').addEventListener('submit', (e) => this.handleSignupSubmit(e));
+
+                // Date of birth validation
+                document.getElementById('dob').addEventListener('change', (e) => this.calculateAge(e.target.value));
+            }
+
+            showLogin() {
+                this.loginSection.classList.add('active');
+                this.forgotSection.classList.remove('active');
+                this.signupSection.classList.remove('active');
+            }
+
+            showForgot() {
+                this.loginSection.classList.remove('active');
+                this.forgotSection.classList.add('active');
+                this.signupSection.classList.remove('active');
+            }
+
+            showSignupForm() {
+                this.loginSection.classList.remove('active');
+                this.forgotSection.classList.remove('active');
+                this.signupSection.classList.add('active');
+            }
+
+            setUserType(type) {
+                this.currentUserType = type;
+                
+                if (type === 'doctor') {
+                    this.patientBtn.classList.remove('active');
+                    this.doctorBtn.classList.add('active');
+                    this.doctorIdField.style.display = 'block';
+                    this.loginButtonText.textContent = 'Login as Doctor';
+                    document.getElementById('doctor-id').required = true;
+                } else {
+                    this.patientBtn.classList.add('active');
+                    this.doctorBtn.classList.remove('active');
+                    this.doctorIdField.style.display = 'none';
+                    this.loginButtonText.textContent = 'Login as Patient';
+                    document.getElementById('doctor-id').required = false;
+                }
+            }
+
+            setSignupUserType(type) {
+                this.currentSignupType = type;
+                const specialtySelect = document.getElementById('specialty');
+                const doctorIdInput = document.getElementById('signup-doctor-id');
+
+                if (type === 'doctor') {
+                    this.signupPatientBtn.classList.remove('active');
+                    this.signupDoctorBtn.classList.add('active');
+                    this.signupDoctorIdField.style.display = 'block';
+                    this.doctorSpecialty.style.display = 'block';
+                    this.signupButtonText.textContent = 'Create Doctor Account';
+                    
+                    doctorIdInput.required = true;
+                    specialtySelect.required = true;
+                } else {
+                    this.signupPatientBtn.classList.add('active');
+                    this.signupDoctorBtn.classList.remove('active');
+                    this.signupDoctorIdField.style.display = 'none';
+                    this.doctorSpecialty.style.display = 'none';
+                    this.signupButtonText.textContent = 'Create Patient Account';
+                    
+                    doctorIdInput.required = false;
+                    specialtySelect.required = false;
+                    doctorIdInput.value = '';
+                    specialtySelect.value = '';
+                }
+            }
+
+            async handleLoginSubmit(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const doctorId = this.currentUserType === 'doctor' ? 
+                    document.getElementById('doctor-id').value : null;
+
+                // Validate required fields
+                if (this.currentUserType === 'doctor' && (!doctorId || doctorId.trim() === '')) {
+                    Toast.show('Please enter your Doctor ID', 'error');
+                    return;
+                }
+
+                // Disable button and show loading
+                this.loginButton.disabled = true;
+                this.loginButtonText.innerHTML = '<div class="spinner"></div> Logging in...';
+
+                try {
+                    await AuthService.handleLogin(email, password, this.currentUserType, doctorId);
+                } catch (error) {
+                    // Re-enable button on error
+                    this.loginButton.disabled = false;
+                    this.loginButtonText.textContent = this.currentUserType === 'doctor' ? 
+                        'Login as Doctor' : 'Login as Patient';
+                }
+            }
+
+            async handleForgotSubmit(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('forgot-email').value;
+                const button = document.getElementById('forgot-button');
+                const buttonText = this.forgotButtonText;
+
+                // Disable button and show loading
+                button.disabled = true;
+                buttonText.innerHTML = '<div class="spinner"></div> Sending...';
+
+                try {
+                    await AuthService.handleForgotPassword(email);
+                    this.showLogin();
+                } catch (error) {
+                    // Re-enable button on error
+                    button.disabled = false;
+                    buttonText.textContent = 'Send Reset Link';
+                }
+            }
+
+            async handleSignupSubmit(e) {
+                e.preventDefault();
+                
+                // Collect form data
+                const formData = {
+                    name: document.getElementById('signup-name').value,
+                    email: document.getElementById('signup-email').value,
+                    password: document.getElementById('signup-password').value,
+                    confirmPassword: document.getElementById('signup-confirm-password').value,
+                    dateOfBirth: document.getElementById('dob').value,
+                    userType: this.currentSignupType,
+                    ...(this.currentSignupType === 'doctor' && {
+                        doctorId: document.getElementById('signup-doctor-id').value,
+                        specialty: document.getElementById('specialty').value
+                    })
+                };
+
+                // Validate date of birth
+                const age = this.calculateAge(formData.dateOfBirth);
+                if (age < 18) {
+                    Toast.show('You must be at least 18 years old to register', 'error');
+                    return;
+                }
+
+                // Disable button and show loading
+                this.signupButton.disabled = true;
+                this.signupButtonText.innerHTML = '<div class="spinner"></div> Creating Account...';
+
+                try {
+                    await AuthService.handleRegister(formData);
+                    this.showLogin();
+                } catch (error) {
+                    // Re-enable button on error
+                    this.signupButton.disabled = false;
+                    this.signupButtonText.textContent = this.currentSignupType === 'doctor' ? 
+                        'Create Doctor Account' : 'Create Patient Account';
+                }
+            }
+
+            calculateAge(birthDate) {
+                if (!birthDate) return 0;
+                
+                const today = new Date();
+                const birth = new Date(birthDate);
+                let age = today.getFullYear() - birth.getFullYear();
+                const monthDiff = today.getMonth() - birth.getMonth();
+                
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                    age--;
+                }
+                
+                // Update age display
+                const ageDisplay = document.getElementById('age-display');
+                ageDisplay.textContent = age > 0 ? `Age: ${age} years` : '';
+                
+                return age;
+            }
+
+            loadRememberedEmail() {
+                const rememberedEmail = localStorage.getItem('rememberedEmail');
+                if (rememberedEmail) {
+                    document.getElementById('login-email').value = rememberedEmail;
+                    document.getElementById('remember-password').checked = true;
+                }
+            }
+        }
+
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const uiController = new UIController();
+            
+            // Add input focus effects
+            const inputs = document.querySelectorAll('.input-box input, .input-box select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.borderColor = '#1a5855';
+                    this.parentElement.style.boxShadow = '0 0 0 2px rgba(26, 88, 85, 0.2)';
+                });
+
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.borderColor = '#ccc';
+                    this.parentElement.style.boxShadow = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
+<!-- // Example API structure
+POST /auth/login
+Body: { email, password, userType, doctorId? }
+
+POST /auth/register
+Body: { name, email, password, dateOfBirth, userType, doctorId?, specialty? }
+
+POST /auth/forgot-password
+Body: { email }
+
+GET /doctors/validate/:doctorId -->
+<!--//////////////////////////////////////////Replace API Base URL//////////////////////-->
+<!-- const API_BASE_URL = 'https://api.example.com'; // Change to your actual API URL -->

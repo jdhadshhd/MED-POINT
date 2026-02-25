@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Smart MediPoint</title>
+    <link rel="icon" href="media/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Copy the same CSS from index.html up to header styles */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #F5F5F5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        :root {
+            --background: #F5F5F5;
+            --navcolor: #1D7874;
+            --spanfonts: #2CA58D;
+            --Paraghfont: #14535E;
+            --fontAtNav: #E4E4E4;
+            --hover-color: #144a47;
+            --card-bg: #FFFFFF;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles - Same as index.html */
+        header {
+            background-color: var(--background);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .head {
+            display: flex;
+            flex-direction: column;
+            gap: 0 10px;
+        }
+
+        .headNav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .headNav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 3%;
+            width: 100%;
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-title a {
+            text-decoration: none;
+            color: var(--Paraghfont);
+        }
+
+        .logo-title h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .headNav img {
+            width: 150px;
+            height: 150px;
+            
+            
+        }
+
+
+        .language {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--Paraghfont);
+            font-weight: 600;
+        }
+
+        .language img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .navBar {
+            padding: 0;
+        }
+
+        nav {
+            background-color: var(--navcolor);
+            padding: 0 5%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .menu ul li a {
+            text-decoration: none;
+            color: var(--fontAtNav);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .menu ul li a:hover {
+            background-color: var(--fontAtNav);
+            color: var(--navcolor);
+            transform: translateY(-2px);
+        }
+
+        .login a {
+            text-decoration: none;
+            color: var(--Paraghfont);
+            background-color: var(--fontAtNav);
+            padding: 12px 35px;
+            border-radius: 25px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .login a:hover {
+            background-color: var(--navcolor);
+            color: var(--fontAtNav);
+            border-color: var(--fontAtNav);
+            transform: translateY(-2px);
+        }
+
+        /* About Page Specific Styles */
+        .about-hero {
+            background: linear-gradient(135deg, var(--navcolor) 0%, var(--spanfonts) 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .about-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .about-hero p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .mission-card, .vision-card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .mission-card:hover, .vision-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .mission-card i, .vision-card i {
+            font-size: 60px;
+            color: var(--navcolor);
+            margin-bottom: 25px;
+        }
+
+        .mission-card h2, .vision-card h2 {
+            color: var(--Paraghfont);
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+
+        .mission-card p, .vision-card p {
+            color: var(--Paraghfont);
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .our-story {
+            margin-bottom: 80px;
+        }
+
+        .story-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .story-text {
+            flex: 1;
+        }
+
+        .story-text h2 {
+            color: var(--Paraghfont);
+            font-size: 36px;
+            margin-bottom: 25px;
+        }
+
+        .story-text p {
+            color: var(--Paraghfont);
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .story-image {
+            flex: 1;
+        }
+
+        .story-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .values {
+            margin-bottom: 80px;
+        }
+
+        .values h2 {
+            text-align: center;
+            color: var(--Paraghfont);
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .value-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .value-card i {
+            font-size: 40px;
+            color: var(--navcolor);
+            margin-bottom: 20px;
+        }
+
+        .value-card h3 {
+            color: var(--Paraghfont);
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .value-card p {
+            color: var(--Paraghfont);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Footer Styles - Same as index.html */
+        footer {
+            background-color: var(--navcolor);
+            padding: 50px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-logo h3 {
+            color: var(--fontAtNav);
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo p {
+            color: rgba(228, 228, 228, 0.8);
+            max-width: 300px;
+        }
+
+        .footer-links {
+            flex: 2;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-column h4 {
+            color: var(--fontAtNav);
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: rgba(228, 228, 228, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--fontAtNav);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(228, 228, 228, 0.1);
+            border-radius: 50%;
+            color: var(--fontAtNav);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--fontAtNav);
+            color: var(--navcolor);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(228, 228, 228, 0.2);
+            color: rgba(228, 228, 228, 0.8);
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .story-content {
+                flex-direction: column;
+            }
+            
+            .about-hero h1 {
+                font-size: 40px;
+            }
+            
+            .mission-card, .vision-card {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .headNav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav {
+                flex-direction: column;
+                height: auto;
+                padding: 20px;
+                gap: 20px;
+            }
+            
+            .menu ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .about-hero {
+                padding: 70px 0;
+            }
+            
+            .about-hero h1 {
+                font-size: 32px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+            }
+            
+            .about-hero h1 {
+                font-size: 28px;
+            }
+            
+            .mission-card, .vision-card, .value-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="head">
+            
+                <div class="headNav">
+                    <div class="logo-title">
+                        <a href="index.html">
+                            <h1>Smart MediPoint</h1>
+                        </a>
+                        
+                    </div>
+                    <img src="media/logo.png" alt="Smart MediPoint Logo">
+                    <div class="language">
+                        <img src="media/world.png" alt="Language">
+                        <span>EN-US</span>
+                    </div>
+                </div>
+            
+                <div class="navBar">
+                    <nav>
+                        <div class="menu">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="Index.html #Services">Services</a></li>
+                                <li><a href="Index.html #medicalTeam">Medical Team</a></li>
+                                <li><a href="aboutUs.html">About Us</a></li>
+                                <li><a href="#footerBar">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="login">
+                            <a href="login.html">Login</a>
+                        </div>
+                    </nav>
+                </div>
+        
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="about-hero">
+            <div class="container">
+                <h1>About Smart MediPoint</h1>
+                <p>Transforming healthcare delivery through innovation and compassion. We're dedicated to making quality medical care accessible to everyone, everywhere.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- Mission & Vision -->
+            <section class="mission-vision">
+                <div class="mission-card">
+                    <i class="fas fa-bullseye"></i>
+                    <h2>Our Mission</h2>
+                    <p>To provide accessible, high-quality healthcare services through innovative technology solutions that bridge the gap between patients and medical professionals, especially in underserved and conflict-affected areas.</p>
+                </div>
+                
+                <div class="vision-card">
+                    <i class="fas fa-eye"></i>
+                    <h2>Our Vision</h2>
+                    <p>To become the leading digital healthcare platform in the region, transforming how medical care is delivered and making quality healthcare accessible to every individual regardless of their location or circumstances.</p>
+                </div>
+            </section>
+
+            <!-- Our Story -->
+            <section class="our-story">
+                <div class="story-content">
+                    <div class="story-text">
+                        <h2>Our Story</h2>
+                        <p>Smart MediPoint was founded in 2023 by a group of passionate computer engineering students from the Islamic University of Gaza. Witnessing the healthcare challenges in conflict zones, particularly the difficulties in accessing medical services, we envisioned a platform that could bridge these gaps.</p>
+                        <p>What started as a university project quickly evolved into a comprehensive healthcare solution. Our team combined technical expertise with medical consultation to create a platform that addresses real-world healthcare challenges.</p>
+                        <p>Today, Smart MediPoint serves thousands of patients and healthcare providers, continuously evolving to meet the changing needs of our community while maintaining our core values of innovation, accessibility, and compassion.</p>
+                    </div>
+                    <div class="story-image">
+                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Medical team collaboration">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Values -->
+            <section class="values">
+                <h2>Our Core Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>Compassion</h3>
+                        <p>We approach every patient with empathy and understanding, recognizing the human behind every medical case.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Innovation</h3>
+                        <p>We continuously seek new ways to improve healthcare delivery through technology and creative solutions.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Integrity</h3>
+                        <p>We maintain the highest ethical standards in all our operations and patient interactions.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Collaboration</h3>
+                        <p>We believe in the power of teamwork between patients, doctors, and our platform to achieve the best outcomes.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <i class="fas fa-globe"></i>
+                        <h3>Accessibility</h3>
+                        <p>We are committed to making healthcare available to everyone, breaking down barriers to access.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <i class="fas fa-star"></i>
+                        <h3>Excellence</h3>
+                        <p>We strive for the highest quality in every aspect of our service, from technology to patient care.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="footerBar">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Smart MediPoint</h3>
+                    <p>Your trusted partner in healthcare. Providing comprehensive medical services with compassion and excellence.</p>
+                    <div class="social-icons">
+                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="index.html #Services">Services</a></li>
+                            <li><a href="index.html #medicalTeam">Medical Team</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="Index.html #foot">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Our Services</h4>
+                        <ul>
+                            <li><a href="index.html#Services">Nutrition Monitoring</a></li>
+                            <li><a href="index.html#Services">Appointment Booking</a></li>
+                            <li><a href="index.html#Services">Medical Records</a></li>
+                            <li><a href="index.html#Services">Teleconsultation</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Contact Info</h4>
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt"></i> Gaza, Palestine</li>
+                            <li><i class="fas fa-phone"></i> +970 567327679</li>
+                            <li><i class="fas fa-envelope"></i> elshariefdareen@gmail.com</li>
+                            <li><i class="fas fa-clock"></i> 24/7 Available</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 SmartMediPoint. All Rights Reserved || Developed by Computer Engineering Students - IUG</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Highlight active link
+        const currentPage = window.location.pathname.split('/').pop();
+        document.querySelectorAll('.menu a').forEach(link => {
+            if(link.getAttribute('href') === currentPage) {
+                link.style.backgroundColor = 'var(--fontAtNav)';
+                link.style.color = 'var(--navcolor)';
+            }
+        });
+    </script>
+</body>
+</html>

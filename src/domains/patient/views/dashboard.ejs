@@ -1,0 +1,2090 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Patient Portal</title>
+    <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css">
+    <link rel="icon" href="/media/logo.png">
+    <style>
+        /* Your CSS remains the same */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--background);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--Paraghfont);
+            line-height: 1.6;
+            direction: ltr;
+            text-align: left;
+        }
+
+        :root {
+            --background: #F5F5F5;
+            --navcolor: #1D7874;
+            --spanfonts: #2CA58D;
+            --Paraghfont: #14535E;
+            --fontAtNav: #E4E4E4;
+            --error-color: #e74c3c;
+            --warning-color: #f39c12;
+            --success-color: #2CA58D;
+            /* Enhanced design tokens */
+            --border-radius-small: 10px;
+            --border-radius-medium: 15px;
+            --border-radius-large: 25px;
+            --box-shadow-light: 0 3px 10px rgba(0, 0, 0, 0.1);
+            --box-shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition-standard: all 0.3s ease;
+            --min-touch-target: 44px;
+        }
+
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--navcolor);
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 0 0 4px 4px;
+            z-index: 1000;
+            font-weight: bold;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* ==================== ENHANCED HEADER DESIGN ==================== */
+        header {
+            background-color: var(--background);
+        }
+
+        .head {
+            display: flex;
+            flex-direction: column;
+            gap: 0 10px;
+        }
+
+        .headNav {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            background-color: var(--background);
+            padding: 0 2%;
+            border-radius: var(--border-radius-small);
+            align-items: center;
+            min-height: 150px;
+        }
+
+        .headNav div {
+            display: flex;
+            align-items: center;
+        }
+
+        .headNav div a {
+            text-decoration: none;
+            color: var(--Paraghfont);
+        }
+
+        .headNav img {
+            width: 150px;
+            height: 150px;
+        }
+
+        .navBar {
+            border-radius: var(--border-radius-large);
+            margin-top: 5px;
+        }
+
+        nav {
+            background-color: var(--navcolor);
+            padding: 0 5%;
+            height: 80px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: var(--border-radius-large);
+            width: 100%;
+            box-shadow: var(--box-shadow-light);
+        }
+
+        .menu {
+            flex: 1;
+        }
+
+        nav ul {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            list-style: none;
+            width: 100%;
+            gap: 5px;
+            padding: 0 10px;
+        }
+
+        nav ul li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--fontAtNav);
+            font-weight: bolder;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: var(--border-radius-large);
+            transition: var(--transition-standard);
+            min-height: 40px;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active,
+        nav ul li a:focus {
+            border: 2px solid var(--fontAtNav);
+            background-color: var(--fontAtNav);
+            color: var(--navcolor);
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        /* Enhanced User Menu */
+        .nav-user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: var(--border-radius-large);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--fontAtNav);
+            font-size: 0.9rem;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: var(--fontAtNav);
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            text-decoration: none;
+            color: var(--Paraghfont);
+            border: 2px solid var(--fontAtNav);
+            border-radius: var(--border-radius-large);
+            padding: 8px 20px;
+            background-color: var(--fontAtNav);
+            font-weight: bolder;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: var(--transition-standard);
+        }
+
+        .logout-btn:hover,
+        .logout-btn:focus {
+            text-decoration: none;
+            color: var(--fontAtNav);
+            background-color: transparent;
+            padding: 8px 20px;
+            transform: translateY(-2px);
+        }
+
+        /* ==================== ENHANCED MAIN CONTENT ==================== */
+        .container {
+            width: 90%;
+            margin: 30px auto;
+            max-width: 1200px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .page-title h2 {
+            color: var(--Paraghfont);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .page-title p {
+            color: var(--Paraghfont);
+            opacity: 0.8;
+        }
+
+        /* Enhanced Dashboard Cards */
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--fontAtNav);
+            border-radius: var(--border-radius-large);
+            padding: 25px;
+            box-shadow: var(--box-shadow-light);
+            flex: 1;
+            min-width: 300px;
+            border: 2px solid var(--navcolor);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-medium);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--Paraghfont);
+            font-weight: bold;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--navcolor);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fontAtNav);
+        }
+
+        /* Enhanced Alert Box */
+        .alert {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--error-color);
+            padding: 15px;
+            border-radius: var(--border-radius-small);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .alert i {
+            color: var(--error-color);
+            font-size: 1.5rem;
+        }
+
+        .alert strong {
+            color: #c0392b;
+        }
+
+        /* Enhanced Appointment Cards */
+        .appointment-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            border-radius: var(--border-radius-medium);
+            border-left: 4px solid var(--spanfonts);
+            box-shadow: var(--box-shadow-light);
+            transition: var(--transition-standard);
+        }
+
+        .appointment-card:hover {
+            transform: translateX(5px);
+            box-shadow: var(--box-shadow-medium);
+        }
+
+        .appointment-time {
+            background-color: var(--navcolor);
+            color: white;
+            padding: 10px;
+            border-radius: var(--border-radius-small);
+            text-align: center;
+            min-width: 70px;
+        }
+
+        .appointment-info {
+            flex: 1;
+        }
+
+        .appointment-info h4 {
+            margin-bottom: 5px;
+            color: var(--Paraghfont);
+        }
+
+        .appointment-info p {
+            font-size: 0.9rem;
+            color: var(--Paraghfont);
+            opacity: 0.8;
+        }
+
+        /* Enhanced Buttons */
+        .btn {
+            padding: 12px 25px;
+            background-color: var(--navcolor);
+            color: var(--fontAtNav);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: var(--border-radius-large);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition-standard);
+        }
+
+        .btn:hover,
+        .btn:focus {
+            background-color: var(--fontAtNav);
+            color: var(--navcolor);
+            border: 2px solid var(--navcolor);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--navcolor);
+            color: var(--navcolor);
+        }
+
+        .btn-outline:hover,
+        .btn-outline:focus {
+            background-color: var(--navcolor);
+            color: var(--fontAtNav);
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+
+        /* Enhanced Forms */
+        .form-section {
+            background-color: var(--fontAtNav);
+            border-radius: var(--border-radius-large);
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid var(--navcolor);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--Paraghfont);
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius-small);
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--spanfonts);
+        }
+
+        /* Enhanced File Upload */
+        .file-upload {
+            border: 2px dashed var(--spanfonts);
+            border-radius: var(--border-radius-medium);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            background-color: rgba(44, 165, 141, 0.05);
+            transition: var(--transition-standard);
+        }
+
+        .file-upload:hover {
+            border-color: var(--navcolor);
+            background-color: rgba(44, 165, 141, 0.1);
+        }
+
+        .file-upload i {
+            font-size: 2rem;
+            color: var(--spanfonts);
+            margin-bottom: 10px;
+        }
+
+        /* Enhanced Records Table */
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            border-radius: var(--border-radius-small);
+            overflow: hidden;
+            box-shadow: var(--box-shadow-light);
+        }
+
+        .records-table th,
+        .records-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .records-table th {
+            background-color: var(--navcolor);
+            color: var(--fontAtNav);
+            font-weight: bold;
+        }
+
+        .records-table tr:hover {
+            background-color: rgba(44, 165, 141, 0.05);
+        }
+
+        /* Enhanced MUAC Indicator */
+        .muac-indicator {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .muac-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--Paraghfont);
+        }
+
+        .muac-status {
+            padding: 10px 20px;
+            border-radius: var(--border-radius-large);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .status-red {
+            background-color: var(--error-color);
+        }
+
+        .status-yellow {
+            background-color: var(--warning-color);
+        }
+
+        .status-green {
+            background-color: var(--success-color);
+        }
+
+        /* Enhanced Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .content-card {
+            background-color: white;
+            border-radius: var(--border-radius-medium);
+            overflow: hidden;
+            box-shadow: var(--box-shadow-medium);
+            transition: var(--transition-standard);
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .content-img {
+            height: 160px;
+            background-color: var(--navcolor);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .content-body {
+            padding: 25px;
+        }
+
+        .content-body h4 {
+            margin-bottom: 10px;
+            color: var(--Paraghfont);
+        }
+
+        .content-body p {
+            color: var(--Paraghfont);
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        /* Enhanced Chat Support */
+        .chat-container {
+            background-color: white;
+            border-radius: var(--border-radius-medium);
+            overflow: hidden;
+            box-shadow: var(--box-shadow-medium);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background-color: var(--navcolor);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-header-avatar {
+            width: 45px;
+            height: 45px;
+            background-color: var(--spanfonts);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .chat-header-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .chat-header-info p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            line-height: 1.5;
+        }
+
+        .message-received {
+            align-self: flex-start;
+            background-color: rgba(44, 165, 141, 0.1);
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-sent {
+            align-self: flex-end;
+            background-color: var(--navcolor);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chat-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius-large);
+            font-size: 1rem;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--spanfonts);
+        }
+
+        /* Enhanced FAQ Section */
+        .faq-section {
+            margin-top: 30px;
+        }
+
+        .faq-item {
+            background-color: white;
+            border-radius: var(--border-radius-small);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--box-shadow-light);
+            transition: var(--transition-standard);
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--box-shadow-medium);
+        }
+
+        .faq-item h4 {
+            color: var(--Paraghfont);
+            margin-bottom: 10px;
+        }
+
+        .faq-item p {
+            color: var(--Paraghfont);
+            opacity: 0.8;
+        }
+
+        /* Page Content */
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        /* Enhanced Footer */
+        footer {
+            background-color: var(--navcolor);
+            padding: 30px 5%;
+            margin-top: 50px;
+            border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-logo img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .footer-logo h3 {
+            color: var(--fontAtNav);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--fontAtNav);
+            text-decoration: none;
+            transition: var(--transition-standard);
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--fontAtNav);
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        /* Enhanced Responsive Design */
+        @media (max-width: 1024px) {
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            nav ul li {
+                padding: 5px;
+            }
+
+            .nav-user-menu {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .user-info {
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .headNav {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
+                min-height: auto;
+            }
+
+            .headNav img {
+                width: 100px;
+                height: 100px;
+            }
+
+            nav {
+                height: auto;
+                padding: 15px 5%;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav ul li {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .dashboard {
+                flex-direction: column;
+            }
+
+            .card {
+                min-width: 100%;
+            }
+
+            .nav-user-menu {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .muac-indicator {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .appointment-card {
+                flex-direction: column;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+            }
+
+            .headNav img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .card {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .records-table {
+                font-size: 0.8rem;
+            }
+
+            .records-table th,
+            .records-table td {
+                padding: 8px;
+            }
+
+            .page-title h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mt-10 {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ==================== EXACT SAME HEADER DESIGN ==================== -->
+    <header>
+        <div class="head">
+            <div class="headNav">
+                <div><a href="/">
+                        <h1 class="text-left">The Smart Medical Point</h1>
+                    </a></div>
+                <img src="/media/logo.png" alt="Smart Medical Point Logo">
+            </div>
+
+            <div class="navBar">
+                <nav>
+                    <div class="menu">
+                        <ul>
+                            <li><a href="#" class="active" data-page="dashboard"><i class="fas fa-home"></i>
+                                    Dashboard</a></li>
+                            <li><a href="#" data-page="appointments"><i class="fas fa-calendar-check"></i>
+                                    Appointments</a></li>
+                            <li><a href="#" data-page="records"><i class="fas fa-file-medical"></i> Medical Records</a>
+                            </li>
+                            <li><a href="#" data-page="nutrition"><i class="fas fa-apple-alt"></i> Nutrition</a></li>
+                            <li><a href="#" data-page="education"><i class="fas fa-book-medical"></i> Education</a></li>
+                            <li><a href="#" data-page="support"><i class="fas fa-headset"></i> Support</a></li>
+                        </ul>
+                    </div>
+                    <!-- User Menu داخل النافبار -->
+                    <div class="nav-user-menu">
+                        <div class="user-info">
+                            <div class="user-name">Dareen Sharief</div>
+                            <div class="user-role">Patient</div>
+                        </div>
+                        <a href="/auth/logout" class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Dashboard Page -->
+            <div id="dashboard-page" class="page-content active">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h2>Patient Dashboard</h2>
+                        <p>Welcome back, Dareen. Here's your health overview.</p>
+                    </div>
+                    <button class="btn" id="bookAppointmentBtn">
+                        <i class="fas fa-plus"></i> Book Appointment
+                    </button>
+                </div>
+
+                <!-- Emergency Alert -->
+                <div class="alert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Emergency Alert:</strong> Your latest MUAC reading is 10.8cm (RED ZONE).
+                        Please contact your doctor immediately.
+                    </div>
+                </div>
+
+                <!-- Dashboard Cards -->
+                <div class="dashboard">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Health Status</h3>
+                            <div class="card-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                        </div>
+                        <div class="muac-indicator">
+                            <div class="muac-value">10.8 cm</div>
+                            <div class="muac-status status-red">CRITICAL</div>
+                        </div>
+                        <p>Last MUAC reading: 2 days ago</p>
+                        <p>BMI: 17.2 (Underweight)</p>
+                        <button class="btn btn-outline btn-small mt-20" id="updateMeasurementsBtnDashboard">
+                            <i class="fas fa-edit"></i> Update Measurements
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Upcoming Appointments</h3>
+                            <div class="card-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                        </div>
+                        <div class="appointment-card">
+                            <div class="appointment-time">
+                                <div>10:00</div>
+                                <div>AM</div>
+                            </div>
+                            <div class="appointment-info">
+                                <h4>Dr. Ahmed Abu Dabbous</h4>
+                                <p>General Consultation</p>
+                                <p><i class="fas fa-video"></i> Video Call</p>
+                            </div>
+                        </div>
+                        <div class="appointment-card">
+                            <div class="appointment-time">
+                                <div>15:30</div>
+                                <div>PM</div>
+                            </div>
+                            <div class="appointment-info">
+                                <h4>Nutritionist Sara</h4>
+                                <p>Diet Plan Review</p>
+                                <p><i class="fas fa-video"></i> Video Call</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline btn-small mt-20" data-page="appointments">
+                            <i class="fas fa-eye"></i> View All
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Medical Records</h3>
+                            <div class="card-icon">
+                                <i class="fas fa-file-medical-alt"></i>
+                            </div>
+                        </div>
+                        <div class="mb-20">
+                            <p><i class="fas fa-file-pdf"></i> Blood Test Results.pdf (2 days ago)</p>
+                            <p><i class="fas fa-file-image"></i> MUAC_Measurement.jpg (1 week ago)</p>
+                            <p><i class="fas fa-file-pdf"></i> Doctor_Notes.pdf (2 weeks ago)</p>
+                        </div>
+                        <button class="btn btn-outline btn-small" data-page="records">
+                            <i class="fas fa-upload"></i> Upload New
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="form-section">
+                    <h3 class="card-title mb-20">Quick Actions</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        <button class="btn btn-outline" data-page="appointments">
+                            <i class="fas fa-calendar-plus"></i> Book Appointment
+                        </button>
+                        <button class="btn btn-outline" data-page="records">
+                            <i class="fas fa-file-upload"></i> Upload Records
+                        </button>
+                        <button class="btn btn-outline" data-page="nutrition">
+                            <i class="fas fa-chart-line"></i> Track Nutrition
+                        </button>
+                        <button class="btn btn-outline" data-page="education">
+                            <i class="fas fa-book-reader"></i> Read Articles
+                        </button>
+                        <button class="btn btn-outline" data-page="support">
+                            <i class="fas fa-comment-medical"></i> Get Support
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointments Page -->
+            <div id="appointments-page" class="page-content hidden">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h2>Appointments</h2>
+                        <p>Schedule and manage your medical appointments</p>
+                    </div>
+                    <button class="btn" id="newAppointmentBtn">
+                        <i class="fas fa-plus"></i> New Appointment
+                    </button>
+                </div>
+
+                <!-- Appointment List -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Today's Appointments</h3>
+                    </div>
+                    <div class="appointment-card">
+                        <div class="appointment-time">
+                            <div>10:00</div>
+                            <div>AM</div>
+                        </div>
+                        <div class="appointment-info">
+                            <h4>Dr. Ahmed Abu Dabbous</h4>
+                            <p>General Consultation</p>
+                            <p><i class="fas fa-video"></i> Video Call | 30 mins</p>
+                        </div>
+                        <button class="btn btn-small join-appointment-btn">
+                            <i class="fas fa-video"></i> Join Now
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card mt-20">
+                    <div class="card-header">
+                        <h3 class="card-title">Future Appointments</h3>
+                    </div>
+                    <div class="appointment-card">
+                        <div class="appointment-time">
+                            <div>15:30</div>
+                            <div>PM</div>
+                            <div style="font-size: 0.8rem;">Tomorrow</div>
+                        </div>
+                        <div class="appointment-info">
+                            <h4>Nutritionist Sara</h4>
+                            <p>Diet Plan Review</p>
+                            <p><i class="fas fa-video"></i> Video Call | 45 mins</p>
+                        </div>
+                        <button class="btn btn-outline btn-small reschedule-btn">
+                            <i class="fas fa-edit"></i> Reschedule
+                        </button>
+                    </div>
+                    <div class="appointment-card">
+                        <div class="appointment-time">
+                            <div>11:00</div>
+                            <div>AM</div>
+                            <div style="font-size: 0.8rem;">March 15</div>
+                        </div>
+                        <div class="appointment-info">
+                            <h4>Dr. Mohammed Hassan</h4>
+                            <p>Follow-up Consultation</p>
+                            <p><i class="fas fa-clinic-medical"></i> In-person | 20 mins</p>
+                        </div>
+                        <button class="btn btn-outline btn-small reschedule-btn">
+                            <i class="fas fa-edit"></i> Reschedule
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Appointment Form -->
+                <form id="appointment-form" class="form-section hidden">
+                    <h3 class="card-title mb-20">Book New Appointment</h3>
+                    <div class="form-group">
+                        <label for="specialty">Medical Specialty *</label>
+                        <select id="specialty" name="specialty" class="form-control" required>
+                            <option value="">Select specialty</option>
+                            <option value="general">General Medicine</option>
+                            <option value="pediatrics">Pediatrics</option>
+                            <option value="nutrition">Nutrition</option>
+                            <option value="cardiology">Cardiology</option>
+                            <option value="dermatology">Dermatology</option>
+                            <option value="orthopedics">Orthopedics</option>
+                            <option value="gastroenterology">Gastroenterology</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor">Select Doctor *</label>
+                        <select id="doctor" name="doctor" class="form-control" required disabled>
+                            <option value="">First select a specialty</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="consultationType">Consultation Type *</label>
+                        <select id="consultationType" name="consultation_type" class="form-control" required>
+                            <option value="">Select type</option>
+                            <option value="video">Video Call</option>
+                            <option value="audio">Audio Call</option>
+                            <option value="chat">Text Chat</option>
+                            <option value="in-person">In-person Visit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Preferred Date *</label>
+                        <input type="date" id="date" name="date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Preferred Time *</label>
+                        <select id="time" name="time" class="form-control" required disabled>
+                            <option value="">First select date</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="urgency">Urgency Level *</label>
+                        <select id="urgency" name="urgency" class="form-control" required>
+                            <option value="stable">Stable - Routine checkup</option>
+                            <option value="moderate">Moderate - Needs attention within days</option>
+                            <option value="urgent">Urgent - Needs attention within 24 hours</option>
+                            <option value="emergency">Emergency - Needs immediate attention</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="symptoms">Symptoms / Reason for Visit *</label>
+                        <textarea id="symptoms" name="symptoms" class="form-control" rows="4"
+                            placeholder="Describe your symptoms, when they started, and any other relevant information"
+                            required></textarea>
+                    </div>
+
+                    <!-- Patient Information Form -->
+                    <div class="card mt-20">
+                        <div class="card-header">
+                            <h3 class="card-title">Patient Information (Will be sent to doctor)</h3>
+                        </div>
+                        <div class="patient-info-summary">
+                            <p><strong>Name:</strong> <span id="patient-name-form">Dareen Sharief</span></p>
+
+                            <div class="form-group">
+                                <label for="patient-age-input">Age *</label>
+                                <input type="number" id="patient-age-input" name="age" class="form-control"
+                                    placeholder="Enter your age" min="0" max="120" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="patient-gender-select">Gender *</label>
+                                <select id="patient-gender-select" name="gender" class="form-control" required>
+                                    <option value="">Select gender</option>
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                    <option value="other">Other</option>
+                                    <option value="prefer-not-to-say">Prefer not to say</option>
+                                </select>
+                            </div>
+
+                            <p><strong>Current Health Status:</strong> <span id="patient-status-form">Critical (MUAC:
+                                    10.8cm, BMI: 17.2)</span></p>
+
+                            <div class="form-group">
+                                <label for="patient-allergies-input">Allergies</label>
+                                <textarea id="patient-allergies-input" name="allergies" class="form-control" rows="2"
+                                    placeholder="List any allergies (e.g., Penicillin, Peanuts, etc.)"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="patient-conditions-input">Chronic Conditions / Medical History</label>
+                                <textarea id="patient-conditions-input" name="medical_history" class="form-control" rows="3"
+                                    placeholder="List any chronic conditions, previous surgeries, or medical history"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="patient-medications">Current Medications</label>
+                                <textarea id="patient-medications" name="medications" class="form-control" rows="2"
+                                    placeholder="List any medications you're currently taking"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="patient-pregnancy">Pregnancy Status (if applicable)</label>
+                                <select id="patient-pregnancy" name="pregnancy_status" class="form-control">
+                                    <option value="">Select if applicable</option>
+                                    <option value="not-pregnant">Not Pregnant</option>
+                                    <option value="pregnant-trimester-1">Pregnant - 1st Trimester</option>
+                                    <option value="pregnant-trimester-2">Pregnant - 2nd Trimester</option>
+                                    <option value="pregnant-trimester-3">Pregnant - 3rd Trimester</option>
+                                    <option value="postpartum">Postpartum (within 6 weeks)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Action Buttons -->
+                    <div class="form-actions mt-20">
+                        <button type="button" id="cancel-appointment" class="btn btn-secondary">
+                            Cancel
+                        </button>
+                        <button type="submit" id="submit-appointment" class="btn">
+                            Book Appointment
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Medical Records Page -->
+            <div id="records-page" class="page-content hidden">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h2>Medical Records</h2>
+                        <p>Upload and manage your medical documents</p>
+                    </div>
+                    <button class="btn" id="uploadBtn">
+                        <i class="fas fa-upload"></i> Upload Record
+                    </button>
+                </div>
+
+                <!-- Upload Form -->
+                <form id="upload-form" class="form-section" enctype="multipart/form-data">
+                    <h3 class="card-title mb-20">Upload Medical Record</h3>
+                    <div class="file-upload" id="fileDropArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h4>Click to upload or drag and drop</h4>
+                        <p>Maximum file size: 10MB. Formats: PDF, JPG, PNG</p>
+                        <input type="file" id="fileInput" name="medical_file" hidden accept=".pdf,.jpg,.jpeg,.png" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recordType">Record Type *</label>
+                        <select id="recordType" name="record_type" class="form-control" required>
+                            <option value="">Select type</option>
+                            <option value="lab">Lab Results</option>
+                            <option value="doctor">Doctor's Notes</option>
+                            <option value="prescription">Prescription</option>
+                            <option value="scan">Scan/Image</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description (Optional)</label>
+                        <textarea id="description" name="description" class="form-control" rows="2"
+                            placeholder="Brief description of this record"></textarea>
+                    </div>
+                    <button type="submit" class="btn" id="submitUploadBtn">
+                        <i class="fas fa-upload"></i> Upload File
+                    </button>
+                </form>
+
+                <!-- Records Table -->
+                <div class="form-section mt-20">
+                    <h3 class="card-title mb-20">Your Medical Records</h3>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Type</th>
+                                <th>Date Uploaded</th>
+                                <th>Size</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><i class="fas fa-file-pdf"></i> Blood_Test_Results.pdf</td>
+                                <td>Lab Results</td>
+                                <td>Mar 10, 2023</td>
+                                <td>2.4 MB</td>
+                                <td>
+                                    <button class="btn btn-outline btn-small view-record-btn">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="btn btn-outline btn-small download-record-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-file-image"></i> MUAC_Measurement.jpg</td>
+                                <td>Scan/Image</td>
+                                <td>Mar 3, 2023</td>
+                                <td>1.8 MB</td>
+                                <td>
+                                    <button class="btn btn-outline btn-small view-record-btn">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="btn btn-outline btn-small download-record-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-file-pdf"></i> Doctor_Notes.pdf</td>
+                                <td>Doctor's Notes</td>
+                                <td>Feb 25, 2023</td>
+                                <td>0.8 MB</td>
+                                <td>
+                                    <button class="btn btn-outline btn-small view-record-btn">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="btn btn-outline btn-small download-record-btn">
+                                        <i class="fas fa-download"></i> Download
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Nutrition Page -->
+            <div id="nutrition-page" class="page-content hidden">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h2>Nutrition Monitoring</h2>
+                        <p>Track your nutrition and get personalized diet plans</p>
+                    </div>
+                    <button class="btn" id="updateMeasurementsBtnNutrition">
+                        <i class="fas fa-weight"></i> Update Measurements
+                    </button>
+                </div>
+
+                <div class="dashboard">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">MUAC Tracking</h3>
+                            <div class="card-icon">
+                                <i class="fas fa-ruler"></i>
+                            </div>
+                        </div>
+                        <div class="muac-indicator">
+                            <div class="muac-value">10.8 cm</div>
+                            <div class="muac-status status-red">CRITICAL</div>
+                        </div>
+                        <p class="mb-20">Last measured: 2 days ago</p>
+                        <p><strong>Alert:</strong> MUAC below 11.5cm indicates severe acute malnutrition</p>
+                        <div class="mt-20">
+                            <h4>MUAC Categories:</h4>
+                            <ul style="padding-left: 20px; margin-top: 10px;">
+                                <li><span style="color: #e74c3c;">Red: &lt; 11.5 cm</span> - Severe acute malnutrition
+                                </li>
+                                <li><span style="color: #f39c12;">Yellow: 11.5-12.5 cm</span> - Moderate acute
+                                    malnutrition
+                                </li>
+                                <li><span style="color: #2CA58D;">Green: &gt; 12.5 cm</span> - Normal</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">BMI Tracking</h3>
+                            <div class="card-icon">
+                                <i class="fas fa-weight-scale"></i>
+                            </div>
+                        </div>
+                        <div class="muac-indicator">
+                            <div class="muac-value">17.2</div>
+                            <div class="muac-status status-yellow">UNDERWEIGHT</div>
+                        </div>
+                        <p class="mb-20">Last calculated: 2 days ago</p>
+                        <p><strong>Status:</strong> BMI below 18.5 indicates underweight</p>
+                        <button class="btn btn-outline btn-small mt-20" id="viewHistoryBtn">
+                            <i class="fas fa-chart-line"></i> View History
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Current Diet Plan</h3>
+                            <div class="card-icon">
+                                <i class="fas fa-apple-alt"></i>
+                            </div>
+                        </div>
+                        <h4 class="mb-20">High-Calorie Recovery Plan</h4>
+                        <p>Designed by Nutritionist Sara</p>
+                        <ul style="padding-left: 20px; margin: 15px 0;">
+                            <li>3 main meals + 2 snacks daily</li>
+                            <li>Fortified porridge for breakfast</li>
+                            <li>Peanut-based supplement daily</li>
+                            <li>Vitamin A & Iron supplements</li>
+                            <li>Increased fluid intake</li>
+                        </ul>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-outline btn-small download-plan-btn">
+                                <i class="fas fa-download"></i> Download Plan
+                            </button>
+                            <button class="btn btn-outline btn-small print-plan-btn">
+                                <i class="fas fa-print"></i> Print Plan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Measurement Form -->
+                <form id="measurement-form" class="form-section hidden">
+                    <h3 class="card-title mb-20">Update Health Measurements</h3>
+                    <div class="form-group">
+                        <label for="weight">Weight (kg) *</label>
+                        <input type="number" id="weight" name="weight" class="form-control" placeholder="e.g., 52.5" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="height">Height (cm) *</label>
+                        <input type="number" id="height" name="height" class="form-control" placeholder="e.g., 165" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="muac">MUAC Measurement (cm) *</label>
+                        <input type="number" id="muac" name="muac" class="form-control" placeholder="e.g., 11.2" step="0.1" required>
+                        <small style="color: #666; font-size: 0.9rem;">Measure the mid-upper arm circumference</small>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelMeasurementBtn">Cancel</button>
+                        <button type="submit" class="btn" id="saveMeasurementBtn">Save Measurements</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Education Page -->
+            <div id="education-page" class="page-content hidden">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h2>Health Education</h2>
+                        <p>Learn about nutrition, health, and wellness</p>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="content-card">
+                        <div class="content-img">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="content-body">
+                            <h4>Nutrition for Recovery</h4>
+                            <p>Learn about essential nutrients needed for recovery from malnutrition and how to
+                                incorporate them into your diet.</p>
+                            <button class="btn btn-outline btn-small watch-video-btn" data-video-id="nutrition-recovery">
+                                <i class="fas fa-play"></i> Watch Video
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-img">
+                            <i class="fas fa-weight-scale"></i>
+                        </div>
+                        <div class="content-body">
+                            <h4>Understanding MUAC</h4>
+                            <p>A guide to measuring Mid-Upper Arm Circumference (MUAC) and what the measurements mean
+                                for your health.</p>
+                            <button class="btn btn-outline btn-small read-article-btn" data-article-id="understanding-muac">
+                                <i class="fas fa-book-open"></i> Read Article
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-img">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="content-body">
+                            <h4>Meal Planning on a Budget</h4>
+                            <p>How to create nutritious, balanced meals even with limited resources and budget
+                                constraints.</p>
+                            <button class="btn btn-outline btn-small download-guide-btn" data-guide-id="meal-planning">
+                                <i class="fas fa-download"></i> Download Guide
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-img">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <div class="content-body">
+                            <h4>Child Nutrition Basics</h4>
+                            <p>Essential information about proper nutrition for children at different developmental
+                                stages.</p>
+                            <button class="btn btn-outline btn-small watch-video-btn" data-video-id="child-nutrition">
+                                <i class="fas fa-play"></i> Watch Video
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Articles -->
+                <div class="form-section mt-20">
+                    <h3 class="card-title mb-20">Recent Articles</h3>
+                    <div class="mb-20">
+                        <h4><i class="fas fa-newspaper"></i> The Importance of Hydration</h4>
+                        <p>Learn why staying hydrated is crucial for recovery and overall health.</p>
+                        <button class="btn btn-outline btn-small mt-10 read-article-btn" data-article-id="hydration">Read More</button>
+                    </div>
+                    <div>
+                        <h4><i class="fas fa-newspaper"></i> Food Safety Practices</h4>
+                        <p>Essential tips for preparing and storing food safely to prevent illness.</p>
+                        <button class="btn btn-outline btn-small mt-10 read-article-btn" data-article-id="food-safety">Read More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Page -->
+            <div id="support-page" class="page-content hidden">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h2>Support & Help Center</h2>
+                        <p>Get help with technical issues or ask questions</p>
+                    </div>
+                </div>
+
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-header-avatar">S</div>
+                        <div class="chat-header-info">
+                            <h4>Support Agent</h4>
+                            <p>Online • Usually replies in 5 minutes</p>
+                        </div>
+                    </div>
+                    <div class="chat-body" id="chat-messages">
+                        <div class="message message-received">
+                            Hello Dareen! How can I help you today?
+                        </div>
+                        <div class="message message-sent">
+                            Hi, I'm having trouble uploading my medical report. The file is 8MB PDF.
+                        </div>
+                        <div class="message message-received">
+                            Let me help you with that. First, make sure the file is in PDF, JPG, or PNG format. The
+                            system doesn't accept other formats.
+                        </div>
+                        <div class="message message-sent">
+                            It's a PDF file. When I try to upload, I get an error message.
+                        </div>
+                        <div class="message message-received">
+                            Could you try these steps: 1) Refresh the page 2) Clear your browser cache 3) Try uploading
+                            again. If it still doesn't work, you can email the file to support@medipoint.org and we'll
+                            upload it for you.
+                        </div>
+                    </div>
+                    <div class="chat-footer">
+                        <input type="text" class="chat-input" id="chat-input" placeholder="Type your message here...">
+                        <button class="btn" id="send-message-btn">
+                            <i class="fas fa-paper-plane"></i> Send
+                        </button>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="faq-section">
+                    <h3 class="card-title mb-20">Frequently Asked Questions</h3>
+
+                    <div class="faq-item">
+                        <h4>How do I reset my password?</h4>
+                        <p>Go to the login page, click "Forgot Password", and enter your phone number to receive an OTP
+                            for resetting your password.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>What file formats are supported for medical records?</h4>
+                        <p>We support PDF, JPG, and PNG files with a maximum size of 10MB per file.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>How do I join a video consultation?</h4>
+                        <p>Go to your appointments, find the upcoming video consultation, and click the "Join Now"
+                            button 5 minutes before your scheduled time.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>What should I do if I have an emergency?</h4>
+                        <p>If you have a medical emergency, please call emergency services immediately. For app-related
+                            emergencies, use the emergency contact in your profile.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="/media/logo.png" alt="Smart MediPoint Logo">
+                <h3>Smart Medical Point</h3>
+            </div>
+            <div class="footer-links">
+                <a href="#" data-page="dashboard">Dashboard</a>
+                <a href="#" data-page="appointments">Appointment</a>
+                <a href="#" data-page="records">Medical Records</a>
+                <a href="#" data-page="nutrition">Nutrition</a>
+                <a href="#" data-page="education">Education</a>
+                <a href="#" data-page="support">Support</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 SmartMediPoint. All Rights Reserved || Developed by Computer Engineering Students - IUG</p>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== PAGE NAVIGATION ====================
+        const navLinks = document.querySelectorAll('nav a, .footer-links a');
+        const pageContents = document.querySelectorAll('.page-content');
+
+        function showPage(pageId) {
+            // Hide all pages
+            pageContents.forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            const selectedPage = document.getElementById(`${pageId}-page`);
+            if (selectedPage) {
+                selectedPage.classList.remove('hidden');
+                selectedPage.classList.add('active');
+            }
+
+            // Update active nav link
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-page')) {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-page') === pageId) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+
+            // Hide all forms when switching pages
+            document.querySelectorAll('.form-section').forEach(form => {
+                if (form.id !== 'upload-form') { // Keep upload form visible on records page
+                    form.classList.add('hidden');
+                }
+            });
+        }
+
+        // Add event listeners to nav links
+        navLinks.forEach(link => {
+            if (link.getAttribute('data-page')) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            }
+        });
+
+        // ==================== APPOINTMENTS ====================
+        const newAppointmentBtn = document.getElementById('newAppointmentBtn');
+        const appointmentForm = document.getElementById('appointment-form');
+        const cancelAppointmentBtn = document.getElementById('cancel-appointment');
+        const specialtySelect = document.getElementById('specialty');
+        const doctorSelect = document.getElementById('doctor');
+        const dateInput = document.getElementById('date');
+        const timeSelect = document.getElementById('time');
+
+        // Show appointment form
+        if (newAppointmentBtn) {
+            newAppointmentBtn.addEventListener('click', () => {
+                appointmentForm.classList.remove('hidden');
+                // Set minimum date to today
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.min = today;
+            });
+        }
+
+        // Cancel appointment form
+        if (cancelAppointmentBtn) {
+            cancelAppointmentBtn.addEventListener('click', () => {
+                appointmentForm.classList.add('hidden');
+                appointmentForm.reset();
+            });
+        }
+
+        // Handle specialty selection
+        if (specialtySelect) {
+            specialtySelect.addEventListener('change', function() {
+                if (this.value) {
+                    doctorSelect.disabled = false;
+                    // Simulate doctor data - Backend should replace this
+                    const doctors = {
+                        'general': ['Dr. Ahmed Abu Dabbous', 'Dr. Sarah Johnson'],
+                        'nutrition': ['Nutritionist Sara', 'Dr. Michael Chen'],
+                        'pediatrics': ['Dr. Lisa Wang', 'Dr. James Wilson']
+                    };
+                    
+                    doctorSelect.innerHTML = '<option value="">Select doctor</option>';
+                    if (doctors[this.value]) {
+                        doctors[this.value].forEach(doctor => {
+                            const option = document.createElement('option');
+                            option.value = doctor.toLowerCase().replace(' ', '-');
+                            option.textContent = doctor;
+                            doctorSelect.appendChild(option);
+                        });
+                    }
+                } else {
+                    doctorSelect.disabled = true;
+                    doctorSelect.innerHTML = '<option value="">First select a specialty</option>';
+                }
+            });
+        }
+
+        // Handle date selection
+        if (dateInput) {
+            dateInput.addEventListener('change', function() {
+                if (this.value) {
+                    timeSelect.disabled = false;
+                    // Simulate available times - Backend should replace this
+                    const times = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
+                    timeSelect.innerHTML = '<option value="">Select time</option>';
+                    times.forEach(time => {
+                        const option = document.createElement('option');
+                        option.value = time;
+                        option.textContent = time;
+                        timeSelect.appendChild(option);
+                    });
+                } else {
+                    timeSelect.disabled = true;
+                    timeSelect.innerHTML = '<option value="">First select date</option>';
+                }
+            });
+        }
+
+        // Handle appointment form submission
+        if (document.getElementById('appointment-form')) {
+            document.getElementById('appointment-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Collect form data
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData);
+                
+                // Validate data
+                if (!data.specialty || !data.doctor || !data.date || !data.time || !data.symptoms) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                // Here you would send data to backend
+                console.log('Appointment data:', data);
+                
+                // Show success message
+                alert('Appointment booked successfully!');
+                
+                // Reset and hide form
+                this.reset();
+                this.classList.add('hidden');
+                
+                // Reset selects
+                doctorSelect.disabled = true;
+                doctorSelect.innerHTML = '<option value="">First select a specialty</option>';
+                timeSelect.disabled = true;
+                timeSelect.innerHTML = '<option value="">First select date</option>';
+            });
+        }
+
+        // ==================== MEDICAL RECORDS ====================
+        const fileDropArea = document.getElementById('fileDropArea');
+        const fileInput = document.getElementById('fileInput');
+        const uploadForm = document.getElementById('upload-form');
+
+        // File upload handling
+        if (fileDropArea && fileInput) {
+            fileDropArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const fileName = this.files[0].name;
+                    const fileSize = (this.files[0].size / (1024*1024)).toFixed(2);
+                    
+                    // Validate file size
+                    if (this.files[0].size > 10 * 1024 * 1024) {
+                        alert('File size exceeds 10MB limit');
+                        this.value = '';
+                        return;
+                    }
+                    
+                    fileDropArea.innerHTML = `
+                        <i class="fas fa-check-circle"></i>
+                        <h4>${fileName}</h4>
+                        <p>${fileSize} MB - Ready to upload</p>
+                    `;
+                }
+            });
+
+            // Drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                fileDropArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                fileDropArea.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                fileDropArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                fileDropArea.style.backgroundColor = 'rgba(44, 165, 141, 0.1)';
+            }
+
+            function unhighlight() {
+                fileDropArea.style.backgroundColor = '';
+            }
+
+            fileDropArea.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+                fileInput.dispatchEvent(new Event('change'));
+            }
+        }
+
+        // Upload form submission
+        if (uploadForm) {
+            uploadForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                
+                // Validate
+                if (!formData.get('medical_file') || !formData.get('record_type')) {
+                    alert('Please select a file and record type');
+                    return;
+                }
+                
+                // Here you would send to backend
+                console.log('Uploading file:', formData.get('medical_file').name);
+                
+                // Show success
+                alert('File uploaded successfully!');
+                
+                // Reset form
+                this.reset();
+                fileDropArea.innerHTML = `
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h4>Click to upload or drag and drop</h4>
+                    <p>Maximum file size: 10MB. Formats: PDF, JPG, PNG</p>
+                `;
+            });
+        }
+
+        // ==================== NUTRITION ====================
+        const updateMeasurementsBtnDashboard = document.getElementById('updateMeasurementsBtnDashboard');
+        const updateMeasurementsBtnNutrition = document.getElementById('updateMeasurementsBtnNutrition');
+        const measurementForm = document.getElementById('measurement-form');
+        const cancelMeasurementBtn = document.getElementById('cancelMeasurementBtn');
+
+        // Show measurement form
+        [updateMeasurementsBtnDashboard, updateMeasurementsBtnNutrition].forEach(btn => {
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    showPage('nutrition');
+                    setTimeout(() => {
+                        measurementForm.classList.remove('hidden');
+                    }, 100);
+                });
+            }
+        });
+
+        // Cancel measurement form
+        if (cancelMeasurementBtn) {
+            cancelMeasurementBtn.addEventListener('click', () => {
+                measurementForm.classList.add('hidden');
+                measurementForm.reset();
+            });
+        }
+
+        // Measurement form submission
+        if (measurementForm) {
+            measurementForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData);
+                
+                // Validate
+                if (!data.weight || !data.height || !data.muac) {
+                    alert('Please fill in all measurements');
+                    return;
+                }
+                
+                // Calculate BMI
+                const heightInMeters = data.height / 100;
+                const bmi = (data.weight / (heightInMeters * heightInMeters)).toFixed(1);
+                
+                // Send to backend
+                console.log('Measurement data:', { ...data, bmi });
+                
+                alert(`Measurements saved! BMI: ${bmi}`);
+                this.classList.add('hidden');
+                this.reset();
+                
+                // Update UI (in real app, this would come from backend)
+                document.querySelector('.muac-value').textContent = `${data.muac} cm`;
+                // You would update other measurements here
+            });
+        }
+
+        // ==================== EDUCATION ====================
+        // Handle education buttons
+        document.querySelectorAll('.watch-video-btn, .read-article-btn, .download-guide-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const type = this.classList.contains('watch-video-btn') ? 'video' : 
+                           this.classList.contains('read-article-btn') ? 'article' : 'guide';
+                const id = this.getAttribute('data-video-id') || 
+                          this.getAttribute('data-article-id') || 
+                          this.getAttribute('data-guide-id');
+                
+                console.log(`Opening ${type} with ID: ${id}`);
+                // In real app, this would navigate to the content
+                alert(`Opening ${type}: ${id}`);
+            });
+        });
+
+        // ==================== SUPPORT ====================
+        const chatInput = document.getElementById('chat-input');
+        const sendMessageBtn = document.getElementById('send-message-btn');
+        const chatMessages = document.getElementById('chat-messages');
+
+        if (sendMessageBtn && chatInput) {
+            sendMessageBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+
+                // Add user message
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message message-sent';
+                userMessage.textContent = message;
+                chatMessages.appendChild(userMessage);
+
+                // Clear input
+                chatInput.value = '';
+
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Simulate bot response
+                setTimeout(() => {
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message message-received';
+                    botMessage.textContent = 'Thank you for your message. Our support team will respond shortly.';
+                    chatMessages.appendChild(botMessage);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        // ==================== GENERAL BUTTONS ====================
+        // Quick action buttons
+        document.querySelectorAll('.btn[data-page]').forEach(btn => {
+            if (!btn.hasAttribute('id')) { // Don't double-bind
+                btn.addEventListener('click', function() {
+                    const pageId = this.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            }
+        });
+
+        // Book appointment from dashboard
+        if (document.getElementById('bookAppointmentBtn')) {
+            document.getElementById('bookAppointmentBtn').addEventListener('click', () => {
+                showPage('appointments');
+                setTimeout(() => {
+                    appointmentForm.classList.remove('hidden');
+                }, 100);
+            });
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show dashboard by default
+            showPage('dashboard');
+            
+            // Set today's date as default for date inputs
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.min = today;
+            });
+            
+            // Initialize any other components here
+        });
+
+        // ==================== BACKEND READY NOTES ====================
+        /*
+        For backend integration:
+        
+        1. APPOINTMENTS:
+           - POST /api/appointments - Create new appointment
+           - GET /api/appointments - Get user appointments
+           - PUT /api/appointments/:id - Update appointment
+           - DELETE /api/appointments/:id - Cancel appointment
+        
+        2. MEDICAL RECORDS:
+           - POST /api/medical-records/upload - Upload file (multipart/form-data)
+           - GET /api/medical-records - Get user records
+           - DELETE /api/medical-records/:id - Delete record
+        
+        3. NUTRITION:
+           - POST /api/measurements - Save measurements
+           - GET /api/measurements - Get measurement history
+        
+        4. AUTHENTICATION:
+           - POST /api/auth/login - User login
+           - POST /api/auth/logout - User logout
+           - GET /api/user/profile - Get user profile
+        
+        5. SUPPORT:
+           - WebSocket /api/support/chat - Real-time chat
+           - GET /api/support/faq - Get FAQ list
+        
+        Replace all console.log() and alert() calls with actual API calls.
+        Add loading states, error handling, and success notifications.
+        Implement proper form validation on both frontend and backend.
+        Add CSRF protection for forms.
+        Implement proper file upload with progress indication.
+        */
+    </script>
+</body>
+
+</html>

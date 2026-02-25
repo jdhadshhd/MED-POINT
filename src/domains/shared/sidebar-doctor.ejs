@@ -1,0 +1,29 @@
+<!-- Doctor Sidebar -->
+<aside class="sidebar sidebar-doctor">
+  <ul class="sidebar-menu">
+    <li>
+      <a href="/doctor/dashboard" class="<%= currentPath === '/doctor/dashboard' ? 'active' : '' %>">
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    <li>
+      <a href="/doctor/patients" class="<%= currentPath === '/doctor/patients' ? 'active' : '' %>">
+        <i class="bi bi-people"></i>
+        <span>Patients</span>
+      </a>
+    </li>
+    <li>
+      <a href="/doctor/appointments" class="<%= currentPath === '/doctor/appointments' ? 'active' : '' %>">
+        <i class="bi bi-calendar-check"></i>
+        <span>Appointments</span>
+      </a>
+    </li>
+    <li>
+      <a href="/doctor/records" class="<%= currentPath === '/doctor/records' ? 'active' : '' %>">
+        <i class="bi bi-file-medical"></i>
+        <span>Medical Records</span>
+      </a>
+    </li>
+  </ul>
+</aside>

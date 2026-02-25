@@ -1,0 +1,106 @@
+<!-- Notifications List Page -->
+<div class="page-header">
+  <h1 class="page-title">Notifications</h1>
+  <% if (notifications.length > 0) { %>
+  <form action="/notifications/read-all" method="POST" style="display: inline;">
+    <button type="submit" class="btn btn-outline">Mark All as Read</button>
+  </form>
+  <% } %>
+</div>
+
+<div class="card">
+  <% if (notifications.length === 0) { %>
+  <div class="empty-state">
+    <i class="bi bi-bell-slash"></i>
+    <h3>No notifications</h3>
+    <p>You're all caught up!</p>
+  </div>
+  <% } else { %>
+  <ul class="notification-list">
+    <% notifications.forEach(function(notification) { %>
+    <li class="notification-item <%= !notification.readAt ? 'unread' : '' %>">
+      <div class="notification-icon">
+        <% if (notification.type.includes('APPOINTMENT')) { %>
+        <i class="bi bi-calendar-check"></i>
+        <% } else if (notification.type.includes('TICKET')) { %>
+        <i class="bi bi-headset"></i>
+        <% } else { %>
+        <i class="bi bi-bell"></i>
+        <% } %>
+      </div>
+      <div class="notification-content">
+        <p class="notification-message"><%= notification.message %></p>
+        <span class="notification-time">
+          <%= new Date(notification.createdAt).toLocaleString() %>
+        </span>
+      </div>
+      <% if (!notification.readAt) { %>
+      <form action="/notifications/<%= notification.id %>/read" method="POST">
+        <button type="submit" class="btn btn-outline btn-sm">Mark Read</button>
+      </form>
+      <% } %>
+    </li>
+    <% }); %>
+  </ul>
+  <% } %>
+</div>
+
+<style>
+.notification-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item.unread {
+  background: #f0f7ff;
+}
+
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e8f0fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notification-icon i {
+  font-size: 1.25rem;
+  color: #1a73e8;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-message {
+  margin: 0 0 0.25rem 0;
+  color: #333;
+}
+
+.notification-time {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.85rem;
+}
+</style>

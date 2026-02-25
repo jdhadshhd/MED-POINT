@@ -1,0 +1,136 @@
+/**
+ * Doctor Controller
+ * Handles doctor HTTP requests
+ */
+const doctorService = require('./doctor.service');
+
+const doctorController = {
+  /**
+   * GET /doctor/dashboard - Show doctor dashboard
+   */
+  async showDashboard(req, res) {
+    try {
+      res.render('doctor/views/dashboard', {
+        layout: false,
+      });
+    } catch (error) {
+      console.error('[Doctor] Dashboard error:', error);
+      res.status(500).render('shared/error', {
+        title: 'Error',
+        message: 'Failed to load dashboard',
+        layout: 'shared/layout',
+      });
+    }
+  },
+
+  /**
+   * GET /doctor/patients - Show patients list
+   */
+  async showPatients(req, res) {
+    try {
+      const patients = await doctorService.getPatients(req.user.id);
+
+      res.render('doctor/views/patients', {
+        title: 'My Patients',
+        patients,
+        layout: 'shared/layout',
+      });
+    } catch (error) {
+      console.error('[Doctor] Patients error:', error);
+      res.status(500).render('shared/error', {
+        title: 'Error',
+        message: 'Failed to load patients',
+        layout: 'shared/layout',
+      });
+    }
+  },
+
+  /**
+   * GET /doctor/appointments - Show appointments
+   */
+  async showAppointments(req, res) {
+    try {
+      const appointments = await doctorService.getAppointments(req.user.id);
+
+      res.render('doctor/views/appointments', {
+        title: 'Appointments',
+        appointments,
+        layout: 'shared/layout',
+      });
+    } catch (error) {
+      console.error('[Doctor] Appointments error:', error);
+      res.status(500).render('shared/error', {
+        title: 'Error',
+        message: 'Failed to load appointments',
+        layout: 'shared/layout',
+      });
+    }
+  },
+
+  /**
+   * POST /doctor/appointments/:id/status - Update appointment status
+   */
+  async updateAppointmentStatus(req, res) {
+    try {
+      const { status } = req.body;
+      await doctorService.updateAppointmentStatus(req.params.id, status, req.user.id);
+
+      res.redirect('/doctor/appointments');
+    } catch (error) {
+      console.error('[Doctor] Status update error:', error);
+      res.redirect('/doctor/appointments?error=Failed to update status');
+    }
+  },
+
+  /**
+   * GET /doctor/records - Show medical records
+   */
+  async showRecords(req, res) {
+    try {
+      const records = await doctorService.getRecords(req.user.id);
+      const patients = await doctorService.getPatients(req.user.id);
+
+      res.render('doctor/views/records', {
+        title: 'Medical Records',
+        records,
+        patients,
+        layout: 'shared/layout',
+      });
+    } catch (error) {
+      console.error('[Doctor] Records error:', error);
+      res.status(500).render('shared/error', {
+        title: 'Error',
+        message: 'Failed to load records',
+        layout: 'shared/layout',
+      });
+    }
+  },
+
+  /**
+   * POST /doctor/records - Create medical record
+   */
+  async createRecord(req, res) {
+    try {
+      const { patientId, notes, muacValue, muacStatus } = req.body;
+
+      if (!patientId || !notes) {
+        return res.redirect('/doctor/records?error=Patient and notes are required');
+      }
+
+      await doctorService.createRecord({
+        doctorId: req.user.id,
+        patientId,
+        notes,
+        muacValue,
+        muacStatus,
+      });
+
+      res.redirect('/doctor/records?success=Record created');
+    } catch (error) {
+      console.error('[Doctor] Create record error:', error);
+      res.redirect('/doctor/records?error=Failed to create record');
+    }
+  },
+};
+
+module.exports = doctorController;

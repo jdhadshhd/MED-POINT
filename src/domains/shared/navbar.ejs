@@ -1,0 +1,74 @@
+<!-- Global Header -->
+<header>
+  <div class="head">
+    <div class="headNav">
+      <div class="logo-title">
+        <a href="/">
+          <img src="/site/media/logo.png" alt="Smart MediPoint Logo" onerror="this.style.display='none'">
+        </a>
+        <a href="/">
+          <h1>Smart MediPoint</h1>
+        </a>
+      </div>
+      <div class="language">
+        <img src="/site/media/world.png" alt="Language" onerror="this.style.display='none'">
+        <span>العربية</span>
+      </div>
+    </div>
+    
+    <div class="navBar">
+      <nav>
+        <div class="menu">
+          <span class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></span>
+          <ul>
+            <% if (typeof user !== 'undefined' && user) { %>
+              <% if (user.role === 'ADMIN') { %>
+                <li><a href="/admin" class="<%= typeof activePage !== 'undefined' && activePage === 'dashboard' ? 'active' : '' %>"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="/admin/users" class="<%= typeof activePage !== 'undefined' && activePage === 'users' ? 'active' : '' %>"><i class="fas fa-users"></i> Users</a></li>
+                <li><a href="/admin/reports" class="<%= typeof activePage !== 'undefined' && activePage === 'reports' ? 'active' : '' %>"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                <li><a href="/admin/support" class="<%= typeof activePage !== 'undefined' && activePage === 'support' ? 'active' : '' %>"><i class="fas fa-headset"></i> Support</a></li>
+                <li><a href="/admin/settings" class="<%= typeof activePage !== 'undefined' && activePage === 'settings' ? 'active' : '' %>"><i class="fas fa-cog"></i> Settings</a></li>
+              <% } else if (user.role === 'DOCTOR') { %>
+                <li><a href="/doctor" class="<%= typeof activePage !== 'undefined' && activePage === 'dashboard' ? 'active' : '' %>"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="/doctor/patients" class="<%= typeof activePage !== 'undefined' && activePage === 'patients' ? 'active' : '' %>"><i class="fas fa-users"></i> Patients</a></li>
+                <li><a href="/doctor/appointments" class="<%= typeof activePage !== 'undefined' && activePage === 'appointments' ? 'active' : '' %>"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="/doctor/records" class="<%= typeof activePage !== 'undefined' && activePage === 'records' ? 'active' : '' %>"><i class="fas fa-file-medical"></i> Records</a></li>
+              <% } else if (user.role === 'PATIENT') { %>
+                <li><a href="/patient" class="<%= typeof activePage !== 'undefined' && activePage === 'dashboard' ? 'active' : '' %>"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="/patient/appointments" class="<%= typeof activePage !== 'undefined' && activePage === 'appointments' ? 'active' : '' %>"><i class="fas fa-calendar-check"></i> My Appointments</a></li>
+                <li><a href="/patient/records" class="<%= typeof activePage !== 'undefined' && activePage === 'records' ? 'active' : '' %>"><i class="fas fa-file-medical"></i> My Records</a></li>
+                <li><a href="/patient/profile" class="<%= typeof activePage !== 'undefined' && activePage === 'profile' ? 'active' : '' %>"><i class="fas fa-user"></i> Profile</a></li>
+              <% } %>
+              <li><a href="/notifications" class="<%= typeof activePage !== 'undefined' && activePage === 'notifications' ? 'active' : '' %>">
+                <i class="fas fa-bell"></i> Notifications
+                <span class="notification-badge" id="notificationCount" style="display: none;">0</span>
+              </a></li>
+            <% } else { %>
+              <li><a href="/" class="<%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>"><i class="fas fa-home"></i> Home</a></li>
+              <li><a href="/about" class="<%= typeof activePage !== 'undefined' && activePage === 'about' ? 'active' : '' %>"><i class="fas fa-info-circle"></i> About Us</a></li>
+              <li><a href="/#Services"><i class="fas fa-concierge-bell"></i> Services</a></li>
+              <li><a href="/#medicalTeam"><i class="fas fa-user-md"></i> Medical Team</a></li>
+              <li><a href="/#footerBar"><i class="fas fa-envelope"></i> Contact</a></li>
+            <% } %>
+          </ul>
+        </div>
+        
+        <div class="login">
+          <% if (typeof user !== 'undefined' && user) { %>
+            <div class="nav-user-menu" style="display: flex; align-items: center; gap: 15px;">
+              <div class="user-info" style="color: var(--fontAtNav); text-align: right;">
+                <span class="user-name" style="font-weight: 600;"><%= user.name %></span>
+                <span class="user-role" style="font-size: 12px; opacity: 0.8; display: block;"><%= user.role %></span>
+              </div>
+              <a href="/auth/logout" class="nav-btn" style="display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </div>
+          <% } else { %>
+            <a href="/auth/login">Login</a>
+          <% } %>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>

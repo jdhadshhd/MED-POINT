@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Smart Medical Point - Your all-in-one platform for patient care and nutrition monitoring">
+    <meta name="Author" content="Computers Engineering Students from IUG">
+    <meta name="keyword" content="medical point, Smart medical, medical, smart, medipoint, point, healthcare">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="og:title" content="Smart MediPoint - Medical Care Platform">
+    <meta property="og:description" content="All-in-one platform for patient care and nutrition monitoring">
+    <meta property="og:image" content="media/logo.png">
+
+    <title>Smart MediPoint - Home</title>
+    <link rel="icon" href="media/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #F5F5F5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        :root {
+            --background: #F5F5F5;
+            --navcolor: #1D7874;
+            --spanfonts: #2CA58D;
+            --Paraghfont: #14535E;
+            --fontAtNav: #E4E4E4;
+            --hover-color: #144a47;
+            --card-bg: #FFFFFF;
+        }
+
+        /* إصلاح عرض الصفحة */
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles - إصلاح عرض النافبار */
+        header {
+            background-color: var(--background);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .head {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .headNav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 3%;
+            width: 100%;
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-title a {
+            text-decoration: none;
+            color: var(--Paraghfont);
+        }
+
+        .logo-title h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .headNav img {
+            width: 150px;
+            height: 150px;
+
+
+        }
+
+        .language {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--Paraghfont);
+            font-weight: 600;
+
+        }
+
+        .language img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .navBar {
+            width: 100%;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        nav {
+            background-color: var(--navcolor);
+            padding: 0 30px;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .menu ul {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+        }
+
+        .menu ul li a {
+            text-decoration: none;
+            color: var(--fontAtNav);
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .menu ul li a:hover {
+            background-color: var(--fontAtNav);
+            color: var(--navcolor);
+            transform: translateY(-2px);
+        }
+
+        .login a {
+            text-decoration: none;
+            color: var(--Paraghfont);
+            background-color: var(--fontAtNav);
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .login a:hover {
+            background-color: var(--navcolor);
+            color: var(--fontAtNav);
+            border-color: var(--fontAtNav);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        #hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 0;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .heroDescription {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .heroDescription h1 {
+            font-size: 36px;
+            color: var(--Paraghfont);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .heroDescription span {
+            color: var(--spanfonts);
+            display: inline-block;
+        }
+
+        .heroDescription p {
+            color: var(--Paraghfont);
+            font-size: 16px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .heroDescription .cta-button {
+            display: inline-block;
+            padding: 14px 35px;
+            background-color: var(--navcolor);
+            color: var(--fontAtNav);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 15px;
+        }
+
+        .heroDescription .cta-button:hover {
+            background-color: var(--background);
+            color: var(--navcolor);
+            border-color: var(--navcolor);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .heroImg {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .heroImg img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .heroImg img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Services Section - إصلاح حجم البطاقات */
+        #Services {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        #Services h2 {
+            color: var(--Paraghfont);
+            font-size: 32px;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        #Services h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--spanfonts);
+        }
+
+        .ServiceContent {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .ServiceContent .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            min-height: 220px;
+            border: none;
+        }
+
+        .ServiceContent .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .cardHead {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .cardHead img {
+            width: 35px;
+            height: 35px;
+        }
+
+        .cardHead h4 {
+            color: var(--Paraghfont);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .cardDescription p {
+            color: var(--Paraghfont);
+            margin-bottom: 20px;
+            flex-grow: 1;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .cardDescription .learn-more {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--navcolor);
+            color: var(--fontAtNav);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            margin-top: auto;
+        }
+
+        .cardDescription .learn-more:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-2px);
+        }
+
+        /* Medical Team Section */
+        #medicalTeam {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        #medicalTeam h2 {
+            color: var(--Paraghfont);
+            font-size: 32px;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        #medicalTeam h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--spanfonts);
+        }
+
+        .medicalTeamContent {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .medicalTeamContent .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: none;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .medicalTeamContent .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctorProfile {
+            margin-bottom: 20px;
+        }
+
+        .doctorProfile .doctor-img-placeholder {
+            width: 100px;
+            height: 100px;
+            background: var(--navcolor);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 35px;
+            margin: 0 auto;
+        }
+
+        .detail h4 {
+            color: var(--Paraghfont);
+            font-size: 18px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .detail p {
+            color: var(--Paraghfont);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .contact {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .contact img {
+            width: 22px;
+            height: 22px;
+        }
+
+        .contact a {
+            color: var(--navcolor);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .contact a:hover {
+            color: var(--spanfonts);
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navcolor);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            width: 100%;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-logo h3 {
+            color: var(--fontAtNav);
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .footer-logo p {
+            color: rgba(228, 228, 228, 0.8);
+            max-width: 300px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .footer-links {
+            flex: 2;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-column h4 {
+            color: var(--fontAtNav);
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .footer-column ul li a {
+            color: rgba(228, 228, 228, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--fontAtNav);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(228, 228, 228, 0.1);
+            border-radius: 50%;
+            color: var(--fontAtNav);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--fontAtNav);
+            color: var(--navcolor);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(228, 228, 228, 0.2);
+            color: rgba(228, 228, 228, 0.8);
+            font-size: 13px;
+            width: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .container {
+                width: 95%;
+                padding: 0 15px;
+            }
+
+            nav {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            #hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+                padding: 40px 0;
+            }
+
+            .heroDescription,
+            .heroImg {
+                max-width: 100%;
+            }
+
+            .heroDescription h1 {
+                font-size: 32px;
+            }
+
+            nav {
+                padding: 0 15px;
+            }
+
+            .menu ul {
+                gap: 10px;
+            }
+
+            .ServiceContent,
+            .medicalTeamContent {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .headNav {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 10px 0;
+            }
+
+            nav {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+                gap: 15px;
+                border-radius: 10px;
+            }
+
+            .menu ul {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+                width: 100%;
+            }
+
+            .menu ul li {
+                width: 100%;
+            }
+
+            .menu ul li a {
+                display: block;
+                width: 100%;
+                padding: 10px;
+            }
+
+            .login {
+                width: 100%;
+            }
+
+            .login a {
+                display: block;
+                text-align: center;
+                width: 100%;
+            }
+
+            .heroDescription h1 {
+                font-size: 28px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .ServiceContent,
+            .medicalTeamContent {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+
+            #Services h2,
+            #medicalTeam h2 {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 100%;
+                padding: 0 10px;
+            }
+
+            .heroDescription h1 {
+                font-size: 26px;
+            }
+
+            .heroDescription p {
+                font-size: 15px;
+            }
+
+            .card,
+            .medicalTeamContent .card {
+                padding: 20px;
+            }
+
+            .heroDescription .cta-button,
+            .login a {
+                padding: 12px 25px;
+                font-size: 14px;
+            }
+
+            #Services h2,
+            #medicalTeam h2 {
+                font-size: 26px;
+            }
+
+            .ServiceContent,
+            .medicalTeamContent {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+
+        /* Animation for sections */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* إصلاح النافبار ليأخذ عرض الصفحة بالكامل */
+        header .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* جعل النافبار يبدأ من أقصى اليسار إلى أقصى اليمين */
+        nav {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* تحسين عرض العناصر داخل النافبار */
+        .menu {
+            flex: 1;
+            display: flex;
+            justify-content: left;
+        }
+
+        .menu ul {
+            justify-content: center;
+        }
+
+        /* ===== Mobile Navbar ===== */
+        .menu-toggle {
+            display: none;
+            font-size: 26px;
+            color: var(--fontAtNav);
+            cursor: pointer;
+        }
+
+        /* موبايل */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: row;
+                justify-content: space-between;
+                position: relative;
+                background-color: var(--navcolor);
+                box-shadow: none;
+                width: 100%;
+
+            }
+
+            .headNav h1 {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .headNav h1 {
+                font-size: small;
+            }
+            .headNav img {
+                height: 50px;
+                width: 50px;
+            }
+
+            .menu-toggle {
+                display: flex;
+                font-display: row;
+                justify-content: center;
+
+
+            }
+
+            .menu-toggle i {
+                color: var(--fontAtNav);
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .menu {
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--navcolor);
+                border-radius: 15px;
+                display: none;
+                flex-direction: column;
+                padding: 15px 0;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                animation: fadeDown 0.3s ease;
+            }
+
+            .menu.active {
+                display: flex;
+            }
+
+            .menu ul {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .menu ul li a {
+                padding: 12px;
+                text-align: center;
+                font-size: 15px;
+            }
+
+            .login {
+                display: none;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="head">
+
+            <div class="headNav">
+                <div class="logo-title">
+                    <a href="index.html">
+                        <h1>Smart MediPoint</h1>
+                    </a>
+
+                </div>
+                <img src="media/logo.png" alt="Smart MediPoint Logo">
+                <div class="language">
+                    <img src="media/world.png" alt="Language">
+                    <span>EN-US</span>
+                </div>
+            </div>
+
+            <div class="navBar">
+                <nav>
+                    <div class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <div class="menu">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="#Services">Services</a></li>
+                            <li><a href="#medicalTeam">Medical Team</a></li>
+                            <li><a href="aboutUs.html">About Us</a></li>
+                            <li><a href="#footerBar">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="login">
+                        <a href="login.html">Login</a>
+                    </div>
+                </nav>
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Hero Section -->
+            <section id="hero">
+                <div class="heroDescription animate-on-scroll">
+                    <h1><span>Smart</span> Medical Point</h1>
+                    <p>Your all-in-one platform for patient care and nutrition monitoring in conflict zones. Easily book
+                        appointments, track medical records, and consult with our professional medical team anytime,
+                        anywhere.</p>
+                    <a href="login.html" class="cta-button">Start Consultation</a>
+                </div>
+                <div class="heroImg animate-on-scroll">
+                    <img src="media/doctor-using-mobile-phone-contact-260nw-524089942.jpg"
+                        alt="Doctor using mobile phone for consultation">
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section id="Services" class="animate-on-scroll">
+                <h2>Services Overview</h2>
+                <div class="ServiceContent">
+                    <div class="card">
+                        <div class="cardHead">
+                            <img src="media/electrocardiogram-monitor.png" alt="Nutrition Monitoring Icon">
+                            <h4>Nutrition Monitoring</h4>
+                        </div>
+                        <div class="cardDescription">
+                            <p>Track patient measurements like weight, height, and MUAC to ensure proper nutrition and
+                                growth monitoring.</p>
+                            <a href="#medicalTeam" class="learn-more">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="cardHead">
+                            <img src="media/medical-appointment.png" alt="Appointment Booking Icon">
+                            <h4>Appointment Booking</h4>
+                        </div>
+                        <div class="cardDescription">
+                            <p>Easily schedule your appointments with doctors based on availability and service type
+                                with real-time updates.</p>
+                            <a href="#medicalTeam" class="learn-more">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="cardHead">
+                            <img src="media/health-report.png" alt="Medical Records Icon">
+                            <h4>Medical Records</h4>
+                        </div>
+                        <div class="cardDescription">
+                            <p>Access and upload patient files securely with end-to-end encryption and clear status
+                                feedback.</p>
+                            <a href="#medicalTeam" class="learn-more">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="cardHead">
+                            <img src="media/doctor-patient.png" alt="Teleconsultation Icon">
+                            <h4>Teleconsultation</h4>
+                        </div>
+                        <div class="cardDescription">
+                            <p>Start video or chat consultations with medical staff from anywhere, anytime with
+                                high-quality connection.</p>
+                            <a href="#medicalTeam" class="learn-more">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Medical Team Section -->
+            <section id="medicalTeam" class="animate-on-scroll">
+                <h2>Meet Our Medical Team</h2>
+                <div class="medicalTeamContent">
+                    <div class="card">
+                        <div class="doctorProfile">
+                            <div class="doctor-img-placeholder">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                        </div>
+                        <div class="detail">
+                            <h4>Dr. Aisha Khalil</h4>
+                            <p>Specialty: Nutrition Specialist</p>
+                            <div class="contact">
+                                <img src="media/whatsapp.png" alt="WhatsApp">
+                                <a href="https://wa.me/1234567890" target="_blank">Contact Me</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="doctorProfile">
+                            <div class="doctor-img-placeholder">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                        </div>
+                        <div class="detail">
+                            <h4>Dr. Omar Al-Hassan</h4>
+                            <p>Specialty: Pediatrician</p>
+                            <div class="contact">
+                                <img src="media/whatsapp.png" alt="WhatsApp">
+                                <a href="https://wa.me/1234567891" target="_blank">Contact Me</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="doctorProfile">
+                            <div class="doctor-img-placeholder">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                        </div>
+                        <div class="detail">
+                            <h4>Dr. Youssef Adel</h4>
+                            <p>Specialty: General Practitioner</p>
+                            <div class="contact">
+                                <img src="media/whatsapp.png" alt="WhatsApp">
+                                <a href="https://wa.me/1234567892" target="_blank">Contact Me</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="doctorProfile">
+                            <div class="doctor-img-placeholder">
+                                <i class="fas fa-user-nurse"></i>
+                            </div>
+                        </div>
+                        <div class="detail">
+                            <h4>Nurse Sara Mahmoud</h4>
+                            <p>Specialty: Patient Care Nurse</p>
+                            <div class="contact">
+                                <img src="media/whatsapp.png" alt="WhatsApp">
+                                <a href="https://wa.me/1234567893" target="_blank">Contact Me</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="footerBar">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Smart MediPoint</h3>
+                    <p>Your trusted partner in healthcare. Providing comprehensive medical services with compassion and
+                        excellence.</p>
+                    <div class="social-icons">
+                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="#Services">Services</a></li>
+                            <li><a href="#medicalTeam">Medical Team</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="#footerBar">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Our Services</h4>
+                        <ul>
+                            <li><a href="#Services">Nutrition Monitoring</a></li>
+                            <li><a href="#Services">Appointment Booking</a></li>
+                            <li><a href="#Services">Medical Records</a></li>
+                            <li><a href="#Services">Teleconsultation</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Contact Info</h4>
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt"></i> Gaza, Palestine</li>
+                            <li><i class="fas fa-phone"></i> +970 123 456 789</li>
+                            <li><i class="fas fa-envelope"></i> info@medipoint.com</li>
+                            <li><i class="fas fa-clock"></i> 24/7 Available</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 SmartMediPoint. All Rights Reserved || Developed by Computer Engineering Students - IUG
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-on-scroll');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('#hero, #Services, #medicalTeam').forEach(el => {
+            observer.observe(el);
+        });
+
+        // إصلاح عرض النافبار
+        document.addEventListener('DOMContentLoaded', function () {
+            // جعل النافبار يأخذ عرض الصفحة بالكامل
+            const header = document.querySelector('header');
+            const navBar = document.querySelector('.navBar');
+
+            if (header && navBar) {
+                header.style.width = '100%';
+                navBar.style.width = '100%';
+
+                // تأكد من أن العناصر لا تتجاوز عرض الصفحة
+                const container = document.querySelector('.container');
+                if (container) {
+                    container.style.maxWidth = '1200px';
+                    container.style.margin = '0 auto';
+                }
+            }
+        });
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const menu = document.querySelector('.menu');
+
+        menuToggle.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+
+    </script>
+</body>
+
+</html>

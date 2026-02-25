@@ -1,0 +1,35 @@
+<!-- Admin Sidebar -->
+<aside class="sidebar sidebar-admin">
+  <ul class="sidebar-menu">
+    <li>
+      <a href="/admin/dashboard" class="<%= currentPath === '/admin/dashboard' ? 'active' : '' %>">
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    <li>
+      <a href="/admin/users" class="<%= currentPath === '/admin/users' ? 'active' : '' %>">
+        <i class="bi bi-people"></i>
+        <span>Users</span>
+      </a>
+    </li>
+    <li>
+      <a href="/admin/reports" class="<%= currentPath === '/admin/reports' ? 'active' : '' %>">
+        <i class="bi bi-graph-up"></i>
+        <span>Reports</span>
+      </a>
+    </li>
+    <li>
+      <a href="/admin/support" class="<%= currentPath === '/admin/support' ? 'active' : '' %>">
+        <i class="bi bi-headset"></i>
+        <span>Support</span>
+      </a>
+    </li>
+    <li>
+      <a href="/admin/settings" class="<%= currentPath === '/admin/settings' ? 'active' : '' %>">
+        <i class="bi bi-gear"></i>
+        <span>Settings</span>
+      </a>
+    </li>
+  </ul>
+</aside>

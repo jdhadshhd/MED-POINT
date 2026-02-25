@@ -1,0 +1,201 @@
+<!-- Patient Appointments -->
+<div class="page-header">
+  <div class="page-title">
+    <h2><i class="fas fa-calendar-alt"></i> My Appointments</h2>
+    <p>Book and manage your medical appointments</p>
+  </div>
+</div>
+
+<div class="appointments-grid">
+  <!-- Book New Appointment -->
+  <div class="dashboard-card">
+    <div class="card-header">
+      <div class="card-title">
+        <h3><i class="fas fa-calendar-plus"></i> Book New Appointment</h3>
+        <p>Schedule a visit with a doctor</p>
+      </div>
+    </div>
+    
+    <form action="/patient/appointments" method="POST" style="padding: 20px 0;">
+      <div class="form-group">
+        <label for="doctorId"><i class="fas fa-user-md"></i> Select Doctor</label>
+        <select id="doctorId" name="doctorId" class="form-control" required>
+          <option value="">Choose a doctor</option>
+          <% doctors.forEach(function(doctor) { %>
+          <option value="<%= doctor.id %>">
+            <%= doctor.name %> 
+            <% if (doctor.doctorProfile) { %>
+            - <%= doctor.doctorProfile.specialty %>
+            <% } %>
+          </option>
+          <% }); %>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="dateTime"><i class="fas fa-clock"></i> Date & Time</label>
+        <input type="datetime-local" id="dateTime" name="dateTime" class="form-control" required
+               min="<%= new Date().toISOString().slice(0, 16) %>">
+      </div>
+      
+      <div class="form-group">
+        <label for="notes"><i class="fas fa-sticky-note"></i> Notes (optional)</label>
+        <textarea id="notes" name="notes" class="form-control" rows="3"
+                  placeholder="Describe your symptoms or reason for visit..."></textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-primary" style="width: 100%;">
+        <i class="fas fa-calendar-check"></i> Book Appointment
+      </button>
+    </form>
+  </div>
+  
+  <!-- My Appointments List -->
+  <div class="dashboard-card">
+    <div class="card-header">
+      <div class="card-title">
+        <h3><i class="fas fa-list"></i> My Appointments</h3>
+        <p>Your scheduled visits</p>
+      </div>
+    </div>
+    
+    <% if (appointments.length === 0) { %>
+    <div class="empty-state" style="text-align: center; padding: 60px;">
+      <i class="fas fa-calendar-times" style="font-size: 64px; color: #ccc; margin-bottom: 20px;"></i>
+      <h3 style="color: var(--Paraghfont); margin-bottom: 10px;">No Appointments</h3>
+      <p style="color: #888;">You haven't booked any appointments yet.</p>
+    </div>
+    <% } else { %>
+    <div class="appointments-list">
+      <% appointments.forEach(function(apt) { %>
+      <div class="appointment-card">
+        <div class="appointment-header">
+          <div class="appointment-doctor">
+            <div class="doctor-avatar">
+              <%= apt.doctor.name.charAt(0).toUpperCase() %>
+            </div>
+            <div>
+              <strong>Dr. <%= apt.doctor.name %></strong>
+              <% if (apt.doctor.doctorProfile) { %>
+              <span class="specialty"><i class="fas fa-stethoscope"></i> <%= apt.doctor.doctorProfile.specialty %></span>
+              <% } %>
+            </div>
+          </div>
+          <span class="status-badge status-<%= apt.status.toLowerCase().replace('_', '-') %>"><%= apt.status %></span>
+        </div>
+        <p class="appointment-date">
+          <i class="fas fa-calendar"></i>
+          <%= new Date(apt.dateTime).toLocaleString() %>
+        </p>
+        <% if (apt.notes) { %>
+        <p class="appointment-notes"><i class="fas fa-sticky-note"></i> <%= apt.notes %></p>
+        <% } %>
+        <% if (['WAITING', 'IN_PROGRESS'].includes(apt.status)) { %>
+        <form action="/patient/appointments/<%= apt.id %>/cancel" method="POST" 
+              onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+          <button type="submit" class="btn btn-danger btn-small">
+            <i class="fas fa-times"></i> Cancel Appointment
+          </button>
+        </form>
+        <% } %>
+      </div>
+      <% }); %>
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<style>
+.appointments-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.form-group label i {
+  margin-right: 8px;
+  color: var(--spanfonts);
+}
+
+.appointments-list {
+  max-height: 600px;
+  overflow-y: auto;
+  margin-top: 15px;
+}
+
+.appointment-card {
+  padding: 20px;
+  margin-bottom: 15px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid var(--navcolor);
+}
+
+.appointment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.appointment-doctor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.doctor-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navcolor), var(--spanfonts));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.specialty {
+  display: block;
+  font-size: 13px;
+  color: #666;
+  margin-top: 3px;
+}
+
+.specialty i {
+  margin-right: 5px;
+}
+
+.appointment-date {
+  color: #666;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.appointment-date i {
+  margin-right: 8px;
+  color: var(--spanfonts);
+}
+
+.appointment-notes {
+  font-size: 14px;
+  color: #888;
+  margin: 10px 0;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+}
+
+.appointment-notes i {
+  margin-right: 8px;
+  color: var(--spanfonts);
+}
+
+@media (max-width: 768px) {
+  .appointments-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

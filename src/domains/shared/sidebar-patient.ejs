@@ -1,0 +1,35 @@
+<!-- Patient Sidebar -->
+<aside class="sidebar sidebar-patient">
+  <ul class="sidebar-menu">
+    <li>
+      <a href="/patient/dashboard" class="<%= currentPath === '/patient/dashboard' ? 'active' : '' %>">
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    <li>
+      <a href="/patient/appointments" class="<%= currentPath === '/patient/appointments' ? 'active' : '' %>">
+        <i class="bi bi-calendar-check"></i>
+        <span>Appointments</span>
+      </a>
+    </li>
+    <li>
+      <a href="/patient/records" class="<%= currentPath === '/patient/records' ? 'active' : '' %>">
+        <i class="bi bi-file-medical"></i>
+        <span>Medical Records</span>
+      </a>
+    </li>
+    <li>
+      <a href="/patient/upload" class="<%= currentPath === '/patient/upload' ? 'active' : '' %>">
+        <i class="bi bi-cloud-upload"></i>
+        <span>Upload Files</span>
+      </a>
+    </li>
+    <li>
+      <a href="/patient/profile" class="<%= currentPath === '/patient/profile' ? 'active' : '' %>">
+        <i class="bi bi-person"></i>
+        <span>Profile</span>
+      </a>
+    </li>
+  </ul>
+</aside>

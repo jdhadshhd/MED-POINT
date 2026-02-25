@@ -1,0 +1,406 @@
+/* ==================== AUTH PAGES STYLES ==================== */
+
+/* Auth Page Layout */
+.auth-page {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-page::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45%;
+    height: 100%;
+    background: #1D7874;
+    border-bottom-right-radius: 50%;
+    border-radius: 0% 100% 100% 0% / 0% 100% 100% 0%;
+    z-index: 1;
+}
+
+.auth-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+}
+
+/* Welcome Section */
+.welcome-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    color: white;
+    position: relative;
+    z-index: 3;
+    max-width: 50%;
+}
+
+.welcome-content {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.welcome-section span {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 15px;
+    color: #a5d6d4;
+    font-weight: 300;
+}
+
+.welcome-section h1 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.welcome-section p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 400px;
+}
+
+/* Form Section */
+.form-section-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    max-width: 50%;
+}
+
+/* Form Card */
+.form-card {
+    background-color: #F5F5F5;
+    width: 500px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.form-card h2 {
+    color: #1D7874;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 32px;
+}
+
+.form-card label {
+    color: #1D7874;
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* Input Box */
+.input-box {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    display: block;
+    height: 50px;
+    box-sizing: border-box;
+    position: relative;
+    background: white;
+    margin-bottom: 15px;
+}
+
+.input-box i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1D7874;
+    font-size: 18px;
+}
+
+.input-box input,
+.input-box select {
+    width: 100%;
+    border: none;
+    outline: none;
+    height: 100%;
+    border-radius: 6px;
+    padding: 0 50px 0 15px;
+    font-size: 16px;
+    background: transparent;
+}
+
+.input-box select {
+    cursor: pointer;
+    appearance: none;
+}
+
+/* User Type Selector */
+.user-type-selector {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.user-type-btn {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    color: #666;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-type-btn:hover:not(.active) {
+    border-color: #1a5855;
+    color: #1a5855;
+}
+
+.user-type-btn.active {
+    background-color: #1a5855;
+    border-color: #1a5855;
+    color: white;
+}
+
+.user-type-icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+/* Checkbox */
+.checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+    color: #2CA58D;
+    flex-direction: row;
+}
+
+.checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    cursor: pointer;
+    font-size: smaller;
+}
+
+.checkbox input {
+    cursor: pointer;
+}
+
+/* Auth Button */
+.auth-btn {
+    text-align: center;
+    border-radius: 6px;
+    padding: 1%;
+    color: #f2f8f7;
+    height: 50px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    margin: 20px auto 10px;
+    background-color: #1D7874;
+    border: none;
+    transition: background 0.3s;
+}
+
+.auth-btn:hover:not(:disabled) {
+    background-color: #144a47;
+}
+
+.auth-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Form Links */
+.form-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-links a {
+    color: #2CA58D;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.form-links a:hover {
+    color: #1D7874;
+    text-decoration: underline;
+}
+
+/* Back Button */
+.back-btn {
+    color: #2CA58D;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.back-btn:hover {
+    color: #1D7874;
+}
+
+/* Logo Container */
+.logo-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+.logo img {
+    width: 100px;
+    height: 100px;
+}
+
+/* Auth Footer */
+.auth-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    color: #666;
+    z-index: 5;
+}
+
+/* Alert Styles */
+.auth-alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.auth-alert.error {
+    background-color: rgba(220, 53, 69, 0.1);
+    border: 1px solid #dc3545;
+    color: #dc3545;
+}
+
+.auth-alert.success {
+    background-color: rgba(40, 167, 69, 0.1);
+    border: 1px solid #28a745;
+    color: #28a745;
+}
+
+/* Loading Spinner */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .auth-page::after {
+        display: none;
+    }
+    
+    .auth-container {
+        flex-direction: column;
+    }
+    
+    .welcome-section {
+        max-width: 100%;
+        padding: 60px 20px;
+        background: linear-gradient(135deg, #1D7874 0%, #2CA58D 100%);
+        text-align: center;
+    }
+    
+    .welcome-content {
+        max-width: 100%;
+    }
+    
+    .welcome-section h1 {
+        font-size: 32px;
+    }
+    
+    .welcome-section p {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    
+    .form-section-container {
+        max-width: 100%;
+        padding: 20px;
+    }
+    
+    .form-card {
+        width: 100%;
+        max-width: 450px;
+    }
+}
+
+@media (max-width: 768px) {
+    .welcome-section {
+        padding: 40px 20px;
+    }
+    
+    .welcome-section h1 {
+        font-size: 28px;
+    }
+    
+    .form-card {
+        padding: 30px 20px;
+    }
+    
+    .form-card h2 {
+        font-size: 26px;
+    }
+    
+    .user-type-selector {
+        flex-direction: column;
+    }
+}

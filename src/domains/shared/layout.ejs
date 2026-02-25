@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Smart Medical Point - Your all-in-one platform for patient care and nutrition monitoring">
+  <meta name="Author" content="Computer Engineering Students - IUG">
+  <meta name="keywords" content="medical point, Smart medical, medical, smart, medipoint, point, healthcare">
+  <meta property="og:title" content="Smart MediPoint - Medical Care Platform">
+  <meta property="og:description" content="All-in-one platform for patient care and nutrition monitoring">
+  <meta property="og:image" content="/site/media/logo.png">
+  
+  <title><%= typeof title !== 'undefined' ? title + ' | ' : '' %>Smart MediPoint</title>
+  <link rel="icon" href="/site/media/logo.png">
+  
+  <!-- Font Awesome (Local) -->
+  <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css">
+  
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="/site/css/main.css">
+  <link rel="stylesheet" href="/site/css/portal.css">
+  
+  <%- style %>
+</head>
+<body>
+  <%- include('navbar') %>
+  
+  <div class="app-wrapper">
+    <% if (typeof user !== 'undefined' && user) { %>
+      <% if (user.role === 'ADMIN') { %>
+        <%- include('sidebar-admin') %>
+      <% } else if (user.role === 'DOCTOR') { %>
+        <%- include('sidebar-doctor') %>
+      <% } else if (user.role === 'PATIENT') { %>
+        <%- include('sidebar-patient') %>
+      <% } %>
+    <% } %>
+    
+    <main class="main-content <%= typeof user !== 'undefined' && user ? 'with-sidebar' : '' %>">
+      <div class="container">
+        <%- body %>
+      </div>
+    </main>
+  </div>
+  
+  <%- include('footer') %>
+  
+  <!-- Socket.io -->
+  <script src="/socket.io/socket.io.js"></script>
+  
+  <!-- Global Scripts -->
+  <script src="/site/js/global.js"></script>
+  
+  <%- script %>
+</body>
+</html>

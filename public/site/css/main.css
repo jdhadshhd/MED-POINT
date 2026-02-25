@@ -1,0 +1,1420 @@
+/* ==================== SMART MEDIPOINT - MAIN STYLES ==================== */
+
+/* CSS Variables */
+:root {
+    --background: #F5F5F5;
+    --navcolor: #1D7874;
+    --spanfonts: #2CA58D;
+    --Paraghfont: #14535E;
+    --fontAtNav: #E4E4E4;
+    --hover-color: #144a47;
+    --card-bg: #FFFFFF;
+    --primary: #1D7874;
+    --primary-dark: #144a47;
+    --primary-light: #2CA58D;
+    --secondary: #14535E;
+    --accent: #2CA58D;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --success: #28a745;
+    --info: #17a2b8;
+    --text-dark: #14535E;
+    --text-light: #E4E4E4;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.15);
+    --border-radius: 15px;
+    --transition: all 0.3s ease;
+}
+
+/* ==================== RESET & BASE ==================== */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    width: 100%;
+    min-height: 100vh;
+}
+
+html, body {
+    width: 100%;
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ==================== CONTAINER ==================== */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==================== HEADER ==================== */
+header {
+    background-color: var(--background);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.head {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+}
+
+.headNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 3%;
+    width: 100%;
+}
+
+.logo-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-title a {
+    text-decoration: none;
+    color: var(--Paraghfont);
+}
+
+.logo-title h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--Paraghfont);
+}
+
+.headNav img {
+    width: 150px;
+    height: 150px;
+}
+
+.language {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--Paraghfont);
+    font-weight: 600;
+}
+
+.language img {
+    width: 24px;
+    height: 24px;
+}
+
+/* ==================== NAVIGATION BAR ==================== */
+.navBar {
+    width: 100%;
+    padding: 0;
+    margin-top: 10px;
+}
+
+nav {
+    background-color: var(--navcolor);
+    padding: 0 30px;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 100%;
+}
+
+.menu {
+    flex: 1;
+    display: flex;
+    justify-content: left;
+}
+
+.menu ul {
+    display: flex;
+    list-style: none;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: var(--fontAtNav);
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 25px;
+    transition: var(--transition);
+    font-size: 14px;
+}
+
+.menu ul li a:hover,
+.menu ul li a.active {
+    background-color: var(--fontAtNav);
+    color: var(--navcolor);
+    transform: translateY(-2px);
+}
+
+.login a,
+.nav-btn {
+    text-decoration: none;
+    color: var(--Paraghfont);
+    background-color: var(--fontAtNav);
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: 700;
+    transition: var(--transition);
+    border: 2px solid transparent;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.login a:hover,
+.nav-btn:hover {
+    background-color: var(--navcolor);
+    color: var(--fontAtNav);
+    border-color: var(--fontAtNav);
+    transform: translateY(-2px);
+}
+
+/* Mobile Menu Toggle */
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    color: var(--fontAtNav);
+    cursor: pointer;
+}
+
+/* ==================== HERO SECTION ==================== */
+#hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px 0;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.heroDescription {
+    flex: 1;
+    max-width: 500px;
+}
+
+.heroDescription h1 {
+    font-size: 36px;
+    color: var(--Paraghfont);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.heroDescription span {
+    color: var(--spanfonts);
+    display: inline-block;
+}
+
+.heroDescription p {
+    color: var(--Paraghfont);
+    font-size: 16px;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 14px 35px;
+    background-color: var(--navcolor);
+    color: var(--fontAtNav);
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    font-size: 15px;
+}
+
+.cta-button:hover {
+    background-color: var(--background);
+    color: var(--navcolor);
+    border-color: var(--navcolor);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.heroImg {
+    flex: 1;
+    max-width: 500px;
+}
+
+.heroImg img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.heroImg img:hover {
+    transform: scale(1.02);
+}
+
+/* ==================== SECTIONS ==================== */
+section {
+    padding: 60px 0;
+    text-align: center;
+}
+
+section h2 {
+    color: var(--Paraghfont);
+    font-size: 32px;
+    margin-bottom: 40px;
+    position: relative;
+    display: inline-block;
+}
+
+section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--spanfonts);
+}
+
+/* ==================== CARDS ==================== */
+.cards-grid,
+.ServiceContent,
+.medicalTeamContent {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 220px;
+    border: none;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.cardHead {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.cardHead img {
+    width: 35px;
+    height: 35px;
+}
+
+.cardHead i {
+    font-size: 35px;
+    color: var(--navcolor);
+}
+
+.cardHead h4 {
+    color: var(--Paraghfont);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.cardDescription p {
+    color: var(--Paraghfont);
+    margin-bottom: 20px;
+    flex-grow: 1;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.cardDescription .learn-more {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--navcolor);
+    color: var(--fontAtNav);
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    margin-top: auto;
+}
+
+.cardDescription .learn-more:hover {
+    background-color: var(--hover-color);
+    transform: translateY(-2px);
+}
+
+/* ==================== MEDICAL TEAM CARDS ==================== */
+.medicalTeamContent .card {
+    min-height: 280px;
+    align-items: center;
+}
+
+.doctorProfile {
+    margin-bottom: 20px;
+}
+
+.doctorProfile .doctor-img-placeholder {
+    width: 100px;
+    height: 100px;
+    background: var(--navcolor);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 35px;
+    margin: 0 auto;
+}
+
+.detail {
+    text-align: center;
+}
+
+.detail h4 {
+    color: var(--Paraghfont);
+    font-size: 18px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.detail p {
+    color: var(--Paraghfont);
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.contact img {
+    width: 22px;
+    height: 22px;
+}
+
+.contact a {
+    color: var(--navcolor);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 14px;
+}
+
+.contact a:hover {
+    color: var(--spanfonts);
+    text-decoration: underline;
+}
+
+/* ==================== BUTTONS ==================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background-color: var(--navcolor);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--hover-color);
+}
+
+.btn-success {
+    background-color: var(--success);
+    color: white;
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn-warning {
+    background-color: var(--warning);
+    color: #333;
+}
+
+.btn-info {
+    background-color: var(--info);
+    color: white;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--navcolor);
+    color: var(--navcolor);
+}
+
+.btn-outline:hover {
+    background-color: var(--navcolor);
+    color: white;
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* ==================== FORMS ==================== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: var(--Paraghfont);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--navcolor);
+    box-shadow: 0 0 0 3px rgba(29, 120, 116, 0.1);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* ==================== TABLES ==================== */
+.table-container {
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background-color: var(--navcolor);
+    color: white;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* ==================== STATUS BADGES ==================== */
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-active, .status-open, .status-confirmed {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--success);
+}
+
+.status-pending, .status-in-progress {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #d39e00;
+}
+
+.status-inactive, .status-closed, .status-cancelled {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--danger);
+}
+
+.status-resolved, .status-completed {
+    background-color: rgba(23, 162, 184, 0.1);
+    color: var(--info);
+}
+
+/* ==================== ALERTS ==================== */
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    border: 1px solid var(--danger);
+    color: var(--danger);
+}
+
+.alert-success {
+    background-color: rgba(40, 167, 69, 0.1);
+    border: 1px solid var(--success);
+    color: var(--success);
+}
+
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    border: 1px solid var(--warning);
+    color: #d39e00;
+}
+
+.alert-info {
+    background-color: rgba(23, 162, 184, 0.1);
+    border: 1px solid var(--info);
+    color: var(--info);
+}
+
+/* ==================== MODALS ==================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    border-radius: var(--border-radius);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-title {
+    font-size: 20px;
+    color: var(--Paraghfont);
+    font-weight: 600;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* ==================== DASHBOARD STYLES ==================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 25px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.card-title h3 {
+    color: var(--Paraghfont);
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.card-title p {
+    color: #888;
+    font-size: 14px;
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--navcolor), var(--spanfonts));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+}
+
+.stat-number {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--navcolor);
+}
+
+/* ==================== SIDEBAR ==================== */
+.sidebar {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.sidebar-section {
+    margin-bottom: 25px;
+}
+
+.sidebar-section h3 {
+    color: var(--Paraghfont);
+    font-size: 16px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--spanfonts);
+}
+
+.quick-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    color: var(--Paraghfont);
+    transition: var(--transition);
+    margin-bottom: 5px;
+}
+
+.quick-link:hover {
+    background-color: rgba(29, 120, 116, 0.1);
+    color: var(--navcolor);
+}
+
+.quick-link i {
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg, var(--navcolor), var(--spanfonts));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+/* ==================== APPOINTMENT CARDS ==================== */
+.appointment-card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--navcolor);
+    transition: var(--transition);
+}
+
+.appointment-card:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.appointment-card.urgent {
+    border-left-color: var(--danger);
+}
+
+.appointment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.appointment-time {
+    background: linear-gradient(135deg, var(--navcolor), var(--spanfonts));
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.appointment-time .time {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.appointment-time .date {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.appointment-info h4 {
+    color: var(--Paraghfont);
+    margin-bottom: 5px;
+}
+
+.appointment-info p {
+    color: #888;
+    font-size: 14px;
+}
+
+/* ==================== USER AVATAR ==================== */
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--navcolor), var(--spanfonts));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.avatar-lg {
+    width: 80px;
+    height: 80px;
+    font-size: 28px;
+}
+
+/* ==================== FOOTER ==================== */
+footer {
+    background-color: var(--navcolor);
+    padding: 40px 0 20px;
+    margin-top: 60px;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.footer-logo {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-logo h3 {
+    color: var(--fontAtNav);
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.footer-logo p {
+    color: rgba(228, 228, 228, 0.8);
+    max-width: 300px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.footer-links {
+    flex: 2;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-column h4 {
+    color: var(--fontAtNav);
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.footer-column ul li a {
+    color: rgba(228, 228, 228, 0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 14px;
+}
+
+.footer-column ul li a:hover {
+    color: var(--fontAtNav);
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(228, 228, 228, 0.1);
+    border-radius: 50%;
+    color: var(--fontAtNav);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.social-icons a:hover {
+    background-color: var(--fontAtNav);
+    color: var(--navcolor);
+    transform: translateY(-3px);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(228, 228, 228, 0.2);
+    color: rgba(228, 228, 228, 0.8);
+    font-size: 13px;
+    width: 100%;
+}
+
+/* ==================== PAGE CONTENT ==================== */
+.page-content {
+    display: none;
+}
+
+.page-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.page-title h2 {
+    color: var(--Paraghfont);
+    font-size: 28px;
+}
+
+.page-title p {
+    color: #888;
+}
+
+/* ==================== NOTIFICATION PANEL ==================== */
+.notification-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 350px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-hover);
+    display: none;
+    z-index: 1500;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-panel.active {
+    display: block;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.notification-item:hover {
+    background-color: #f8f9fa;
+}
+
+.notification-item.unread {
+    background-color: rgba(29, 120, 116, 0.05);
+}
+
+/* ==================== CHARTS ==================== */
+.chart-container {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 25px;
+    box-shadow: var(--shadow);
+    margin-bottom: 25px;
+}
+
+.chart-container h3 {
+    color: var(--Paraghfont);
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+/* ==================== FILE UPLOAD ==================== */
+.file-upload {
+    border: 2px dashed var(--navcolor);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.file-upload:hover {
+    background-color: rgba(29, 120, 116, 0.05);
+    border-color: var(--spanfonts);
+}
+
+.file-upload i {
+    font-size: 48px;
+    color: var(--navcolor);
+    margin-bottom: 15px;
+}
+
+.file-upload p {
+    color: #888;
+}
+
+/* ==================== TOAST NOTIFICATIONS ==================== */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 3000;
+}
+
+.toast {
+    padding: 15px 25px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.3s ease;
+}
+
+.toast.success {
+    background-color: var(--success);
+}
+
+.toast.error {
+    background-color: var(--danger);
+}
+
+.toast.info {
+    background-color: var(--info);
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 1200px) {
+    .container {
+        width: 95%;
+        padding: 0 15px;
+    }
+
+    nav {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    #hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+        padding: 40px 0;
+    }
+
+    .heroDescription,
+    .heroImg {
+        max-width: 100%;
+    }
+
+    .heroDescription h1 {
+        font-size: 32px;
+    }
+
+    nav {
+        padding: 0 15px;
+    }
+
+    .menu ul {
+        gap: 10px;
+    }
+
+    .ServiceContent,
+    .medicalTeamContent,
+    .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .headNav {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .headNav img {
+        height: 50px;
+        width: 50px;
+    }
+
+    .logo-title h1 {
+        font-size: small;
+    }
+
+    nav {
+        flex-direction: row;
+        justify-content: space-between;
+        position: relative;
+        background-color: var(--navcolor);
+        height: auto;
+        padding: 15px;
+    }
+
+    .menu-toggle {
+        display: flex;
+        justify-content: center;
+    }
+
+    .menu-toggle i {
+        color: var(--fontAtNav);
+    }
+
+    .menu {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: var(--navcolor);
+        border-radius: 15px;
+        display: none;
+        flex-direction: column;
+        padding: 15px 0;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        animation: fadeDown 0.3s ease;
+    }
+
+    .menu.active {
+        display: flex;
+    }
+
+    .menu ul {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .menu ul li {
+        width: 100%;
+    }
+
+    .menu ul li a {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .login {
+        display: none;
+    }
+
+    .heroDescription h1 {
+        font-size: 28px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .ServiceContent,
+    .medicalTeamContent,
+    .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    section h2 {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .heroDescription h1 {
+        font-size: 26px;
+    }
+
+    .heroDescription p {
+        font-size: 15px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .heroDescription .cta-button,
+    .login a {
+        padding: 12px 25px;
+        font-size: 14px;
+    }
+
+    section h2 {
+        font-size: 26px;
+    }
+
+    .ServiceContent,
+    .medicalTeamContent,
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== UTILITY CLASSES ==================== */
+.hidden {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.p-20 {
+    padding: 20px;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-20 {
+    gap: 20px;
+}

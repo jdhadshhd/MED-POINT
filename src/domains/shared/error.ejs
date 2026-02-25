@@ -1,0 +1,37 @@
+<!-- Error Page -->
+<div class="error-container">
+  <div class="error-content">
+    <h1 class="error-code"><%= typeof statusCode !== 'undefined' ? statusCode : '500' %></h1>
+    <h2 class="error-title"><%= title %></h2>
+    <p class="error-message"><%= message %></p>
+    <a href="/" class="btn btn-primary">Go Home</a>
+  </div>
+</div>
+
+<style>
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.error-code {
+  font-size: 6rem;
+  color: #1a73e8;
+  margin: 0;
+  line-height: 1;
+}
+
+.error-title {
+  margin: 1rem 0;
+  color: #333;
+}
+
+.error-message {
+  color: #666;
+  margin-bottom: 2rem;
+}
+</style>
