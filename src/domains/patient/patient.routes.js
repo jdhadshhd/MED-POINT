@@ -34,4 +34,9 @@ router.post('/profile', patientController.updateProfile);
 router.get('/upload', patientController.showUpload);
 router.post('/upload', uploadLimiter, patientController.handleUpload);
 
+// Health Measurements
+router.get('/measurements', patientController.getLatestMeasurement);
+router.get('/measurements/history', patientController.getMeasurementHistory);
+router.post('/measurements', patientController.saveMeasurements);
+
 module.exports = router;

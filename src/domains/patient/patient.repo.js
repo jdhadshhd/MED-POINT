@@ -138,6 +138,35 @@ const patientRepo = {
       orderBy: { uploadedAt: 'desc' },
     });
   },
+
+  /**
+   * Create health measurement record
+   */
+  async createHealthMeasurement(data) {
+    return prisma.healthMeasurement.create({
+      data,
+    });
+  },
+
+  /**
+   * Get latest health measurement for patient
+   */
+  async getLatestMeasurement(patientId) {
+    return prisma.healthMeasurement.findFirst({
+      where: { patientId },
+      orderBy: { createdAt: 'desc' },
+    });
+  },
+
+  /**
+   * Get all health measurements for patient (history)
+   */
+  async getMeasurementHistory(patientId) {
+    return prisma.healthMeasurement.findMany({
+      where: { patientId },
+      orderBy: { createdAt: 'desc' },
+    });
+  },
 };
 
 module.exports = patientRepo;

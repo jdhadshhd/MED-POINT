@@ -123,6 +123,58 @@ const patientService = {
   async getFiles(patientId) {
     return patientRepo.getFiles(patientId);
   },
+
+  /**
+   * Calculate MUAC status based on value
+   * RED: < 11.5 cm (severe malnutrition)
+   * YELLOW: 11.5 - 12.5 cm (moderate malnutrition)
+   * GREEN: > 12.5 cm (normal)
+   */
+  calculateMuacStatus(muacValue) {
+    if (muacValue < 11.5) return 'RED';
+    if (muacValue <= 12.5) return 'YELLOW';
+    return 'GREEN';
+  },
+
+  /**
+   * Calculate BMI
+   */
+  calculateBmi(weight, heightCm) {
+    const heightM = heightCm / 100;
+    return parseFloat((weight / (heightM * heightM)).toFixed(1));
+  },
+
+  /**
+   * Save health measurement
+   */
+  async saveHealthMeasurement({ patientId, weight, height, muacValue, notes }) {
+    const bmi = this.calculateBmi(weight, height);
+    const muacStatus = this.calculateMuacStatus(muacValue);
+
+    return patientRepo.createHealthMeasurement({
+      patientId,
+      weight: parseFloat(weight),
+      height: parseFloat(height),
+      muacValue: parseFloat(muacValue),
+      muacStatus,
+      bmi,
+      notes: notes || null,
+    });
+  },
+
+  /**
+   * Get latest health measurement
+   */
+  async getLatestMeasurement(patientId) {
+    return patientRepo.getLatestMeasurement(patientId);
+  },
+
+  /**
+   * Get measurement history
+   */
+  async getMeasurementHistory(patientId) {
+    return patientRepo.getMeasurementHistory(patientId);
+  },
 };
 
 module.exports = patientService;

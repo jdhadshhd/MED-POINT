@@ -1927,7 +1927,7 @@
 
         // Measurement form submission
         if (measurementForm) {
-            measurementForm.addEventListener('submit', function(e) {
+            measurementForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const formData = new FormData(this);
@@ -1939,22 +1939,91 @@
                     return;
                 }
                 
-                // Calculate BMI
-                const heightInMeters = data.height / 100;
-                const bmi = (data.weight / (heightInMeters * heightInMeters)).toFixed(1);
-                
-                // Send to backend
-                console.log('Measurement data:', { ...data, bmi });
-                
-                alert(`Measurements saved! BMI: ${bmi}`);
-                this.classList.add('hidden');
-                this.reset();
-                
-                // Update UI (in real app, this would come from backend)
-                document.querySelector('.muac-value').textContent = `${data.muac} cm`;
-                // You would update other measurements here
+                try {
+                    const response = await fetch('/patient/measurements', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            weight: parseFloat(data.weight),
+                            height: parseFloat(data.height),
+                            muac: parseFloat(data.muac),
+                            notes: data.notes || null
+                        }),
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert(`Measurements saved! BMI: ${result.measurement.bmi}`);
+                        this.classList.add('hidden');
+                        this.reset();
+                        
+                        // Update UI with new measurements
+                        updateMeasurementsUI(result.measurement);
+                    } else {
+                        alert('Failed to save measurements: ' + (result.error || 'Unknown error'));
+                    }
+                } catch (error) {
+                    console.error('Error saving measurements:', error);
+                    alert('Failed to save measurements. Please try again.');
+                }
             });
         }
+
+        // Function to update measurements display
+        function updateMeasurementsUI(measurement) {
+            const muacValue = document.querySelector('.muac-value');
+            const muacStatus = document.querySelector('.muac-status');
+            
+            if (muacValue) {
+                muacValue.textContent = `${measurement.muacValue} cm`;
+            }
+            if (muacStatus) {
+                muacStatus.textContent = measurement.muacStatus === 'RED' ? 'CRITICAL' : 
+                                        measurement.muacStatus === 'YELLOW' ? 'AT RISK' : 'NORMAL';
+                muacStatus.className = `muac-status status-${measurement.muacStatus.toLowerCase()}`;
+            }
+            
+            // Update BMI display if exists
+            const bmiDisplay = document.querySelector('.dashboard p:nth-child(4)');
+            if (bmiDisplay && bmiDisplay.textContent.includes('BMI')) {
+                const bmiCategory = measurement.bmi < 18.5 ? 'Underweight' :
+                                   measurement.bmi < 25 ? 'Normal' :
+                                   measurement.bmi < 30 ? 'Overweight' : 'Obese';
+                bmiDisplay.textContent = `BMI: ${measurement.bmi} (${bmiCategory})`;
+            }
+        }
+
+        // Fetch and display latest measurements on page load
+        async function loadLatestMeasurements() {
+            try {
+                const response = await fetch('/patient/measurements');
+                const data = await response.json();
+                
+                if (data.measurement) {
+                    updateMeasurementsUI(data.measurement);
+                    
+                    // Update the "Last MUAC reading" text
+                    const lastReadingText = document.querySelector('.card p');
+                    if (lastReadingText && lastReadingText.textContent.includes('Last MUAC')) {
+                        const date = new Date(data.measurement.createdAt);
+                        const now = new Date();
+                        const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+                        const timeAgo = diffDays === 0 ? 'today' : 
+                                       diffDays === 1 ? 'yesterday' : 
+                                       `${diffDays} days ago`;
+                        lastReadingText.textContent = `Last MUAC reading: ${timeAgo}`;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading measurements:', error);
+            }
+        }
+
+        // Load measurements when page loads
+        loadLatestMeasurements();
 
         // ==================== EDUCATION ====================
         // Handle education buttons

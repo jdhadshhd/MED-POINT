@@ -422,3 +422,7 @@
 [2026-02-25T13:27:15.565Z] POST /auth/login | Status: 302 | Duration: 74ms | IP: ::1 | User: anonymous
 [2026-02-25T13:27:15.576Z] GET /patient/dashboard | Status: 304 | Duration: 6ms | IP: ::1 | User: patient@medipoint.com
 [2026-02-25T13:27:15.597Z] GET /media/logo.png | Status: 304 | Duration: 2ms | IP: ::1 | User: anonymous
+[2026-02-25T13:28:35.171Z] GET /patient/dashboard | Status: 200 | Duration: 7ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-25T13:28:35.189Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-25T13:28:35.191Z] GET /media/logo.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-25T13:28:35.210Z] GET /media/logo.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous

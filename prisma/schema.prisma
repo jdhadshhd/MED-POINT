@@ -40,6 +40,7 @@ model User {
   supportTickets     SupportTicket[]
   ticketMessages     TicketMessage[]
   notifications      Notification[]
+  healthMeasurements HealthMeasurement[] @relation("PatientMeasurements")
 }
 
 model DoctorProfile {
@@ -140,4 +141,19 @@ model Notification {
 
   // Relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model HealthMeasurement {
+  id         String   @id @default(uuid())
+  patientId  String
+  weight     Float    // kg
+  height     Float    // cm
+  muacValue  Float    // cm
+  muacStatus String   // RED, YELLOW, GREEN
+  bmi        Float
+  notes      String?
+  createdAt  DateTime @default(now())
+
+  // Relations
+  patient User @relation("PatientMeasurements", fields: [patientId], references: [id], onDelete: Cascade)
 }

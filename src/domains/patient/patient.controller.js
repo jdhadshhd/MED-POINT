@@ -241,6 +241,58 @@ const patientController = {
       }
     },
   ],
+
+  /**
+   * POST /patient/measurements - Save health measurements
+   */
+  async saveMeasurements(req, res) {
+    try {
+      const { weight, height, muac, notes } = req.body;
+
+      if (!weight || !height || !muac) {
+        return res.status(400).json({ error: 'Weight, height, and MUAC are required' });
+      }
+
+      const measurement = await patientService.saveHealthMeasurement({
+        patientId: req.user.id,
+        weight: parseFloat(weight),
+        height: parseFloat(height),
+        muacValue: parseFloat(muac),
+        notes: notes || null,
+      });
+
+      res.json({ success: true, measurement });
+    } catch (error) {
+      console.error('[Patient] Save measurements error:', error);
+      res.status(500).json({ error: 'Failed to save measurements' });
+    }
+  },
+
+  /**
+   * GET /patient/measurements - Get latest measurement
+   */
+  async getLatestMeasurement(req, res) {
+    try {
+      const measurement = await patientService.getLatestMeasurement(req.user.id);
+      res.json({ measurement });
+    } catch (error) {
+      console.error('[Patient] Get measurement error:', error);
+      res.status(500).json({ error: 'Failed to get measurements' });
+    }
+  },
+
+  /**
+   * GET /patient/measurements/history - Get measurement history
+   */
+  async getMeasurementHistory(req, res) {
+    try {
+      const measurements = await patientService.getMeasurementHistory(req.user.id);
+      res.json({ measurements });
+    } catch (error) {
+      console.error('[Patient] Get measurement history error:', error);
+      res.status(500).json({ error: 'Failed to get measurement history' });
+    }
+  },
 };
 
 module.exports = patientController;
