@@ -7,6 +7,8 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "sync": "powershell -ExecutionPolicy Bypass -File ./git-sync.ps1",
+    "sync:watch": "node src/git-watcher.js",
+    "dev:sync": "concurrently \"npm run dev\" \"npm run sync:watch\"",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:seed": "node prisma/seed.js",
     "prisma:studio": "npx prisma studio",
@@ -36,6 +38,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "nodemon": "^3.1.14"
   }
 }
