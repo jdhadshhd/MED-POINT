@@ -15,6 +15,9 @@ router.use(requireRole('PATIENT'));
 // Dashboard
 router.get('/dashboard', patientController.showDashboard);
 
+// Portal (full patient portal page)
+router.get('/portal', patientController.showPortal);
+
 // Appointments
 router.get('/appointments', patientController.showAppointments);
 router.post('/appointments', patientController.createAppointment);

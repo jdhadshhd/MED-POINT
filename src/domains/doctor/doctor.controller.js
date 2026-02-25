@@ -6,6 +6,21 @@ const doctorService = require('./doctor.service');
 
 const doctorController = {
   /**
+   * GET /doctor/portal - Show full doctor portal page (from HTML design)
+   */
+  async showPortal(req, res) {
+    try {
+      res.render('doctor/views/portal', {
+        layout: false,
+        user: req.user,
+      });
+    } catch (error) {
+      console.error('[Doctor] Portal error:', error);
+      res.status(500).render('shared/error', { message: 'Failed to load portal' });
+    }
+  },
+
+  /**
    * GET /doctor/dashboard - Show doctor dashboard
    */
   async showDashboard(req, res) {

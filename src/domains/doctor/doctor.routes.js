@@ -14,6 +14,9 @@ router.use(requireRole('DOCTOR'));
 // Dashboard
 router.get('/dashboard', doctorController.showDashboard);
 
+// Portal (full doctor portal page)
+router.get('/portal', doctorController.showPortal);
+
 // Patients
 router.get('/patients', doctorController.showPatients);
 

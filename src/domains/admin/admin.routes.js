@@ -14,6 +14,9 @@ router.use(requireRole('ADMIN'));
 // Dashboard
 router.get('/dashboard', adminController.showDashboard);
 
+// Portal (full admin portal page)
+router.get('/portal', adminController.showPortal);
+
 // Users
 router.get('/users', adminController.showUsers);
 

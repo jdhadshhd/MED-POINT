@@ -39,6 +39,21 @@ const upload = multer({
 
 const patientController = {
   /**
+   * GET /patient/portal - Show full patient portal page (from HTML design)
+   */
+  async showPortal(req, res) {
+    try {
+      res.render('patient/views/portal', {
+        layout: false,
+        user: req.user,
+      });
+    } catch (error) {
+      console.error('[Patient] Portal error:', error);
+      res.status(500).render('shared/error', { message: 'Failed to load portal' });
+    }
+  },
+
+  /**
    * GET /patient/dashboard - Show patient dashboard
    */
   async showDashboard(req, res) {

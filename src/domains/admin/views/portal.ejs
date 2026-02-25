@@ -7,7 +7,7 @@
     <meta name="description" content="Complete Admin System for Smart Medical Point">
     <meta name="Author" content="Computer Engineering Students - IUG">
     <title>Admin System · API Driven</title>
-    <link rel="icon" href="media/logo.png">
+    <link rel="icon" href="/site/media/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -1095,12 +1095,12 @@
     <!-- ==================== HEADER ==================== -->
     <header>
         <div class="headNav">
-            <div><a href="#">
+            <div><a href="/">
                     <h1>The Smart Medical Point</h1>
                 </a></div>
-            <img src="media/logo.png" alt="Logo">
+            <img src="/site/media/logo.png" alt="Logo">
             <div class="language">
-                <img src="media/world.png" alt="Language" style="height: 24px; width: 24px;">
+                <img src="/site/media/world.png" alt="Language" style="height: 24px; width: 24px;">
                 <p>EN-US</p>
             </div>
         </div>
@@ -1128,7 +1128,7 @@
                             </a></li>
                     </ul>
                 </div>
-                <a href="login.html" class="logout-btn" id="logoutBtn">
+                <a href="/auth/logout" class="logout-btn" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </nav>
@@ -1881,7 +1881,7 @@
     <footer>
         <div class="footerhead">
             <h4>Smart Medical Point</h4>
-            <img src="media/logo.png" alt="Logo" style="height: 55px; width: 55px;">
+            <img src="/site/media/logo.png" alt="Logo" style="height: 55px; width: 55px;">
         </div>
         <div class="communicating">
             <div class="items">
@@ -2992,7 +2992,7 @@
                 // Logout
                 document.getElementById('logoutBtn').addEventListener('click', function(e) {
                     e.preventDefault();
-                    if (confirm('Logout?')) window.location.href = 'login.html';
+                    if (confirm('Logout?')) window.location.href = '/auth/logout';
                 });
 
                 // Click outside modal to close

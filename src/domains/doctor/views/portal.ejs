@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Portal · API Driven</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="media/logo.png">
+    <link rel="icon" href="/site/media/logo.png">
     <style>
         /* ==== CSS unchanged – exactly as you provided ==== */
         * {
@@ -1408,18 +1408,20 @@
         </div>
         <div class="header-main">
             <div class="logo-section">
-                <img src="media/logo.png" alt="Smart Medical Point">
+                <a href="/">
+                    <img src="/site/media/logo.png" alt="Smart Medical Point">
+                </a>
                 <div class="logo-text">
                     <h1>Smart Medical Point</h1>
                     <p>Doctor Portal - Connected Care</p>
                 </div>
             </div>
             <div class="doctor-info">
-                <div class="doctor-avatar" id="doctorAvatar">AA</div>
+                <div class="doctor-avatar" id="doctorAvatar"><%= user ? user.name.substring(0,2).toUpperCase() : 'DR' %></div>
                 <div class="doctor-details" id="doctorDetails">
-                    <h3 id="doctorName">Dr. Ahmed Abu Dabbous</h3>
+                    <h3 id="doctorName"><%= user ? 'Dr. ' + user.name : 'Doctor' %></h3>
                     <p><i class="fas fa-stethoscope"></i> <span id="doctorSpecialty">General Practitioner</span></p>
-                    <p><i class="fas fa-id-badge"></i> <span id="doctorId">D-2025-001</span></p>
+                    <p><i class="fas fa-id-badge"></i> <span id="doctorId">D-<%= user ? user.id : '000' %></span></p>
                 </div>
             </div>
         </div>
@@ -1440,8 +1442,8 @@
                         <span class="badge" id="notificationBadge">0</span>
                     </div>
                     <div class="quick-actions">
-                        <a href="index.html" class="action-btn logout-btn"><i class="fas fa-sign-out-alt"></i>
-                            Lnogout</a>
+                        <a href="/auth/logout" class="action-btn logout-btn"><i class="fas fa-sign-out-alt"></i>
+                            Logout</a>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,21 @@ const adminService = require('./admin.service');
 
 const adminController = {
   /**
+   * GET /admin/portal - Show full admin portal page (from HTML design)
+   */
+  async showPortal(req, res) {
+    try {
+      res.render('admin/views/portal', {
+        layout: false,
+        user: req.user,
+      });
+    } catch (error) {
+      console.error('[Admin] Portal error:', error);
+      res.status(500).render('shared/error', { message: 'Failed to load portal' });
+    }
+  },
+
+  /**
    * GET /admin/dashboard - Show admin dashboard
    */
   async showDashboard(req, res) {
