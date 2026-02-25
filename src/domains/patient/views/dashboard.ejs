@@ -1274,29 +1274,24 @@
                 </div>
 
                 <!-- Upload Form -->
-                <form id="upload-form" class="form-section" enctype="multipart/form-data">
+                <form id="upload-form" class="form-section" action="/patient/upload" method="POST" enctype="multipart/form-data">
                     <h3 class="card-title mb-20">Upload Medical Record</h3>
                     <div class="file-upload" id="fileDropArea">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <h4>Click to upload or drag and drop</h4>
                         <p>Maximum file size: 10MB. Formats: PDF, JPG, PNG</p>
-                        <input type="file" id="fileInput" name="medical_file" hidden accept=".pdf,.jpg,.jpeg,.png" required>
+                        <input type="file" id="fileInput" name="file" hidden accept=".pdf,.jpg,.jpeg,.png" required>
                     </div>
                     <div class="form-group">
-                        <label for="recordType">Record Type *</label>
-                        <select id="recordType" name="record_type" class="form-control" required>
+                        <label for="recordType">Record Type (Optional)</label>
+                        <select id="recordType" name="notes" class="form-control">
                             <option value="">Select type</option>
-                            <option value="lab">Lab Results</option>
-                            <option value="doctor">Doctor's Notes</option>
-                            <option value="prescription">Prescription</option>
-                            <option value="scan">Scan/Image</option>
-                            <option value="other">Other</option>
+                            <option value="Lab Results">Lab Results</option>
+                            <option value="Doctor's Notes">Doctor's Notes</option>
+                            <option value="Prescription">Prescription</option>
+                            <option value="Scan/Image">Scan/Image</option>
+                            <option value="Other">Other</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description (Optional)</label>
-                        <textarea id="description" name="description" class="form-control" rows="2"
-                            placeholder="Brief description of this record"></textarea>
                     </div>
                     <button type="submit" class="btn" id="submitUploadBtn">
                         <i class="fas fa-upload"></i> Upload File
@@ -1875,32 +1870,16 @@
             }
         }
 
-        // Upload form submission
+        // Upload form submission - now handled by form action
         if (uploadForm) {
             uploadForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const formData = new FormData(this);
-                
-                // Validate
-                if (!formData.get('medical_file') || !formData.get('record_type')) {
-                    alert('Please select a file and record type');
+                const fileInput = document.getElementById('fileInput');
+                if (!fileInput.files || !fileInput.files[0]) {
+                    e.preventDefault();
+                    alert('Please select a file to upload');
                     return;
                 }
-                
-                // Here you would send to backend
-                console.log('Uploading file:', formData.get('medical_file').name);
-                
-                // Show success
-                alert('File uploaded successfully!');
-                
-                // Reset form
-                this.reset();
-                fileDropArea.innerHTML = `
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <h4>Click to upload or drag and drop</h4>
-                    <p>Maximum file size: 10MB. Formats: PDF, JPG, PNG</p>
-                `;
+                // Form will submit normally to /patient/upload
             });
         }
 

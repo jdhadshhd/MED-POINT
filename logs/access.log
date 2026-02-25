@@ -1,1 +1,18 @@
 [2026-02-25T00:00:00.000Z] [INFO] Access log initialized
+[2026-02-25T13:01:05.756Z] GET / | Status: 304 | Duration: 24ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.819Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 3ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.824Z] GET /media/logo.png | Status: 304 | Duration: 4ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.826Z] GET /media/world.png | Status: 304 | Duration: 5ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.827Z] GET /media/electrocardiogram-monitor.png | Status: 304 | Duration: 0ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.829Z] GET /media/doctor-using-mobile-phone-contact-260nw-524089942.jpg | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.830Z] GET /media/medical-appointment.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.832Z] GET /media/health-report.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.847Z] GET /media/doctor-patient.png | Status: 404 | Duration: 11ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.849Z] GET /media/whatsapp.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.898Z] GET /vendor/fontawesome/webfonts/fa-solid-900.woff2 | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.902Z] GET /vendor/fontawesome/webfonts/fa-brands-400.woff2 | Status: 304 | Duration: 2ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:05.930Z] GET /media/logo.png | Status: 304 | Duration: 2ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:07.365Z] GET /auth/login | Status: 302 | Duration: 7ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:07.378Z] GET /patient/dashboard | Status: 304 | Duration: 9ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-25T13:01:07.399Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-25T13:01:07.401Z] GET /media/logo.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
