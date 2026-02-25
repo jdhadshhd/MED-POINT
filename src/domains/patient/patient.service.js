@@ -94,6 +94,30 @@ const patientService = {
   },
 
   /**
+   * Upload file with auto-created record if needed
+   */
+  async uploadFileWithAutoRecord({ patientId, recordId, filePath, originalName, mimeType, size, notes }) {
+    let targetRecordId = recordId;
+
+    // If no record specified, create one automatically
+    if (!targetRecordId) {
+      const autoRecord = await patientRepo.createSelfRecord(
+        patientId, 
+        notes || `Patient uploaded: ${originalName}`
+      );
+      targetRecordId = autoRecord.id;
+    }
+
+    return patientRepo.createFile({
+      recordId: targetRecordId,
+      filePath,
+      originalName,
+      mimeType,
+      size,
+    });
+  },
+
+  /**
    * Get uploaded files
    */
   async getFiles(patientId) {

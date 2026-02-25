@@ -44,6 +44,30 @@ const patientRepo = {
   },
 
   /**
+   * Create a self-uploaded medical record (patient uploads without doctor)
+   */
+  async createSelfRecord(patientId, notes = 'Patient uploaded documents') {
+    // Get any doctor to associate (system requirement)
+    const doctor = await prisma.user.findFirst({
+      where: { role: 'DOCTOR' },
+    });
+
+    if (!doctor) {
+      throw new Error('No doctors available in the system');
+    }
+
+    return prisma.medicalRecord.create({
+      data: {
+        patientId,
+        doctorId: doctor.id,
+        notes,
+        muacStatus: null,
+        muacValue: null,
+      },
+    });
+  },
+
+  /**
    * Get all doctors
    */
   async getDoctors() {

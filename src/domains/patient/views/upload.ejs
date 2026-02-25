@@ -16,16 +16,17 @@
     </div>
     
     <% if (records.length === 0) { %>
-    <div class="alert alert-warning" style="margin-top: 20px;">
-      <i class="fas fa-exclamation-triangle"></i>
-      You need at least one medical record to attach files. Please ask your doctor to create a record first.
+    <div class="alert alert-info" style="margin-top: 20px;">
+      <i class="fas fa-info-circle"></i>
+      No existing medical records. A new record will be created automatically when you upload a file.
     </div>
-    <% } else { %>
+    <% } %>
     <form action="/patient/upload" method="POST" enctype="multipart/form-data" style="padding: 20px 0;">
+      <% if (records.length > 0) { %>
       <div class="form-group">
-        <label for="recordId"><i class="fas fa-file-medical"></i> Attach to Record</label>
-        <select id="recordId" name="recordId" class="form-control" required>
-          <option value="">Select a medical record</option>
+        <label for="recordId"><i class="fas fa-file-medical"></i> Attach to Record (Optional)</label>
+        <select id="recordId" name="recordId" class="form-control">
+          <option value="">Create new record automatically</option>
           <% records.forEach(function(record) { %>
           <option value="<%= record.id %>">
             <%= new Date(record.createdAt).toLocaleDateString() %> - 
@@ -33,6 +34,13 @@
           </option>
           <% }); %>
         </select>
+      </div>
+      <% } %>
+      
+      <div class="form-group">
+        <label for="notes"><i class="fas fa-sticky-note"></i> Description (Optional)</label>
+        <input type="text" id="notes" name="notes" class="form-control" 
+               placeholder="e.g., Blood test results, X-ray image...">
       </div>
       
       <div class="form-group">
@@ -53,7 +61,6 @@
         <i class="fas fa-upload"></i> Upload File
       </button>
     </form>
-    <% } %>
   </div>
   
   <div class="dashboard-card">

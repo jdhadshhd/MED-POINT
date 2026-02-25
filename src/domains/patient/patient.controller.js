@@ -213,20 +213,17 @@ const patientController = {
           return res.redirect('/patient/upload?error=No file selected');
         }
 
-        const { recordId } = req.body;
+        const { recordId, notes } = req.body;
 
-        if (!recordId) {
-          // Delete uploaded file if no record selected
-          fs.unlinkSync(req.file.path);
-          return res.redirect('/patient/upload?error=Please select a medical record');
-        }
-
-        await patientService.saveFileRecord({
-          recordId,
+        // Use auto-record creation if no record selected
+        await patientService.uploadFileWithAutoRecord({
+          patientId: req.user.id,
+          recordId: recordId || null,
           filePath: req.file.filename,
           originalName: req.file.originalname,
           mimeType: req.file.mimetype,
           size: req.file.size,
+          notes: notes || null,
         });
 
         res.redirect('/patient/upload?success=File uploaded');
