@@ -25,8 +25,9 @@ const adminController = {
    */
   async showDashboard(req, res) {
     try {
-      res.render('admin/views/dashboard', {
+      res.render('admin/views/portal', {
         layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Admin] Dashboard error:', error);
@@ -43,16 +44,9 @@ const adminController = {
    */
   async showUsers(req, res) {
     try {
-      const { page = 1, role } = req.query;
-      const result = await adminService.getUsers({ page: parseInt(page), role });
-      const userCounts = await adminService.getUserCounts();
-
-      res.render('admin/views/users', {
-        title: 'Users',
-        ...result,
-        userCounts,
-        currentRole: role || 'all',
-        layout: 'shared/layout',
+      res.render('admin/views/portal', {
+        layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Admin] Users error:', error);
@@ -69,12 +63,9 @@ const adminController = {
    */
   async showReports(req, res) {
     try {
-      const stats = await adminService.getDashboardStats();
-
-      res.render('admin/views/reports', {
-        title: 'Reports',
-        stats,
-        layout: 'shared/layout',
+      res.render('admin/views/portal', {
+        layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Admin] Reports error:', error);
@@ -91,12 +82,9 @@ const adminController = {
    */
   async showSupport(req, res) {
     try {
-      const tickets = await adminService.getAllTickets();
-
-      res.render('admin/views/support', {
-        title: 'Support Tickets',
-        tickets,
-        layout: 'shared/layout',
+      res.render('admin/views/portal', {
+        layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Admin] Support error:', error);
@@ -113,21 +101,9 @@ const adminController = {
    */
   async showTicketDetail(req, res) {
     try {
-      const ticket = await adminService.getTicketById(req.params.id);
-
-      if (!ticket) {
-        return res.status(404).render('shared/error', {
-          title: 'Not Found',
-          message: 'Ticket not found',
-          statusCode: 404,
-          layout: 'shared/layout',
-        });
-      }
-
-      res.render('admin/views/ticket-detail', {
-        title: `Ticket: ${ticket.title}`,
-        ticket,
-        layout: 'shared/layout',
+      res.render('admin/views/portal', {
+        layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Admin] Ticket detail error:', error);
@@ -185,9 +161,9 @@ const adminController = {
    * GET /admin/settings - Show settings page
    */
   showSettings(req, res) {
-    res.render('admin/views/settings', {
-      title: 'Settings',
-      layout: 'shared/layout',
+    res.render('admin/views/portal', {
+      layout: false,
+      user: req.user,
     });
   },
 };

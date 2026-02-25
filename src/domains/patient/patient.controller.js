@@ -58,8 +58,9 @@ const patientController = {
    */
   async showDashboard(req, res) {
     try {
-      res.render('patient/views/dashboard', {
+      res.render('patient/views/portal', {
         layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Patient] Dashboard error:', error);
@@ -76,14 +77,9 @@ const patientController = {
    */
   async showAppointments(req, res) {
     try {
-      const appointments = await patientService.getAppointments(req.user.id);
-      const doctors = await patientService.getDoctors();
-
-      res.render('patient/views/appointments', {
-        title: 'My Appointments',
-        appointments,
-        doctors,
-        layout: 'shared/layout',
+      res.render('patient/views/portal', {
+        layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Patient] Appointments error:', error);
@@ -138,12 +134,9 @@ const patientController = {
    */
   async showRecords(req, res) {
     try {
-      const records = await patientService.getRecords(req.user.id);
-
-      res.render('patient/views/records', {
-        title: 'Medical Records',
-        records,
-        layout: 'shared/layout',
+      res.render('patient/views/portal', {
+        layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Patient] Records error:', error);
@@ -160,12 +153,9 @@ const patientController = {
    */
   async showProfile(req, res) {
     try {
-      const profile = await patientService.getProfile(req.user.id);
-
-      res.render('patient/views/profile', {
-        title: 'My Profile',
-        profile,
-        layout: 'shared/layout',
+      res.render('patient/views/portal', {
+        layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Patient] Profile error:', error);
@@ -198,14 +188,9 @@ const patientController = {
    */
   async showUpload(req, res) {
     try {
-      const records = await patientService.getRecords(req.user.id);
-      const files = await patientService.getFiles(req.user.id);
-
-      res.render('patient/views/upload', {
-        title: 'Upload Files',
-        records,
-        files,
-        layout: 'shared/layout',
+      res.render('patient/views/portal', {
+        layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Patient] Upload page error:', error);

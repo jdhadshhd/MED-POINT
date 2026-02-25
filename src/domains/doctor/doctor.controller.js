@@ -25,8 +25,9 @@ const doctorController = {
    */
   async showDashboard(req, res) {
     try {
-      res.render('doctor/views/dashboard', {
+      res.render('doctor/views/portal', {
         layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Doctor] Dashboard error:', error);
@@ -43,12 +44,9 @@ const doctorController = {
    */
   async showPatients(req, res) {
     try {
-      const patients = await doctorService.getPatients(req.user.id);
-
-      res.render('doctor/views/patients', {
-        title: 'My Patients',
-        patients,
-        layout: 'shared/layout',
+      res.render('doctor/views/portal', {
+        layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Doctor] Patients error:', error);
@@ -65,12 +63,9 @@ const doctorController = {
    */
   async showAppointments(req, res) {
     try {
-      const appointments = await doctorService.getAppointments(req.user.id);
-
-      res.render('doctor/views/appointments', {
-        title: 'Appointments',
-        appointments,
-        layout: 'shared/layout',
+      res.render('doctor/views/portal', {
+        layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Doctor] Appointments error:', error);
@@ -102,14 +97,9 @@ const doctorController = {
    */
   async showRecords(req, res) {
     try {
-      const records = await doctorService.getRecords(req.user.id);
-      const patients = await doctorService.getPatients(req.user.id);
-
-      res.render('doctor/views/records', {
-        title: 'Medical Records',
-        records,
-        patients,
-        layout: 'shared/layout',
+      res.render('doctor/views/portal', {
+        layout: false,
+        user: req.user,
       });
     } catch (error) {
       console.error('[Doctor] Records error:', error);
