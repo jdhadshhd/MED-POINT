@@ -11,11 +11,8 @@ logs/
 *.log
 npm-debug.log*
 
-# Database
-*.db
+# Database journal files only (keep .db files)
 *.db-journal
-prisma/*.db
-prisma/*.db-journal
 
 # Generated Prisma
 /generated/prisma
