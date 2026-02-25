@@ -1034,8 +1034,28 @@
                             <p><i class="fas fa-file-pdf"></i> Doctor_Notes.pdf (2 weeks ago)</p>
                         </div>
                         <button class="btn btn-outline btn-small" data-page="records">
-                            <i class="fas fa-upload"></i> Upload New
+                            <i class="fas fa-eye"></i> View All Records
                         </button>
+                    </div>
+                    
+                    <!-- Quick Upload Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Quick Upload</h3>
+                            <div class="card-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                        </div>
+                        <form id="dashboard-upload-form" action="/patient/upload" method="POST" enctype="multipart/form-data">
+                            <div class="file-upload" id="dashboardFileDropArea" style="padding: 20px; text-align: center; border: 2px dashed #ccc; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                                <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #1D7874;"></i>
+                                <p style="margin: 10px 0 0 0;">Click to select file</p>
+                                <input type="file" id="dashboardFileInput" name="file" hidden accept=".pdf,.jpg,.jpeg,.png" required>
+                            </div>
+                            <button type="submit" class="btn btn-outline btn-small" style="width: 100%;">
+                                <i class="fas fa-upload"></i> Upload File
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -1870,32 +1890,35 @@
             }
         }
 
-        // Upload form submission
-        if (uploadForm) {
-            uploadForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const formData = new FormData(this);
-                
-                // Validate
-                if (!formData.get('medical_file') || !formData.get('record_type')) {
-                    alert('Please select a file and record type');
-                    return;
+        // Upload form submission - let it submit normally to the backend
+        // The form has action="/patient/upload" so it will POST to the backend
+
+        // Dashboard quick upload handling
+        const dashboardFileDropArea = document.getElementById('dashboardFileDropArea');
+        const dashboardFileInput = document.getElementById('dashboardFileInput');
+
+        if (dashboardFileDropArea && dashboardFileInput) {
+            dashboardFileDropArea.addEventListener('click', () => {
+                dashboardFileInput.click();
+            });
+
+            dashboardFileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const fileName = this.files[0].name;
+                    const fileSize = (this.files[0].size / (1024*1024)).toFixed(2);
+                    
+                    // Validate file size
+                    if (this.files[0].size > 10 * 1024 * 1024) {
+                        alert('File size exceeds 10MB limit');
+                        this.value = '';
+                        return;
+                    }
+                    
+                    dashboardFileDropArea.innerHTML = `
+                        <i class="fas fa-check-circle" style="font-size: 2rem; color: #2CA58D;"></i>
+                        <p style="margin: 10px 0 0 0;">${fileName} (${fileSize} MB)</p>
+                    `;
                 }
-                
-                // Here you would send to backend
-                console.log('Uploading file:', formData.get('medical_file').name);
-                
-                // Show success
-                alert('File uploaded successfully!');
-                
-                // Reset form
-                this.reset();
-                fileDropArea.innerHTML = `
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <h4>Click to upload or drag and drop</h4>
-                    <p>Maximum file size: 10MB. Formats: PDF, JPG, PNG</p>
-                `;
             });
         }
 
