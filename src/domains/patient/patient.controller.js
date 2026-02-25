@@ -7,6 +7,20 @@ const fs = require('fs');
 const multer = require('multer');
 const config = require('../../config/env');
 const patientService = require('./patient.service');
+const prisma = require('../../prisma');
+
+/**
+ * Check if database is connected
+ */
+async function checkDatabaseConnection() {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    return true;
+  } catch (error) {
+    console.error('[Database] Connection check failed:', error.message);
+    return false;
+  }
+}
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -209,6 +223,24 @@ const patientController = {
     upload.single('file'),
     async (req, res) => {
       try {
+        // Check database connection FIRST
+        const dbConnected = await checkDatabaseConnection();
+        if (!dbConnected) {
+          // Delete uploaded file if DB is not available
+          if (req.file) {
+            const filePath = path.join(__dirname, '..', '..', '..', config.uploadDir, req.file.filename);
+            try {
+              fs.unlinkSync(filePath);
+              console.log('[Upload] Deleted file due to DB unavailable:', req.file.filename);
+            } catch (unlinkError) {
+              console.error('[Upload] Failed to delete file:', unlinkError);
+            }
+          }
+          const referer = req.get('Referer') || '/patient/upload';
+          const redirectUrl = referer.includes('dashboard') ? '/patient/dashboard' : '/patient/upload';
+          return res.redirect(`${redirectUrl}?error=Database is not available. Please try again later.`);
+        }
+
         if (!req.file) {
           // Check referer to redirect back to same page
           const referer = req.get('Referer') || '/patient/upload';
@@ -235,9 +267,21 @@ const patientController = {
         res.redirect(`${redirectUrl}?success=File uploaded`);
       } catch (error) {
         console.error('[Patient] Upload error:', error);
+        
+        // Delete uploaded file if database save failed
+        if (req.file) {
+          const filePath = path.join(__dirname, '..', '..', '..', config.uploadDir, req.file.filename);
+          try {
+            fs.unlinkSync(filePath);
+            console.log('[Upload] Deleted file due to DB error:', req.file.filename);
+          } catch (unlinkError) {
+            console.error('[Upload] Failed to delete file:', unlinkError);
+          }
+        }
+        
         const referer = req.get('Referer') || '/patient/upload';
         const redirectUrl = referer.includes('dashboard') ? '/patient/dashboard' : '/patient/upload';
-        res.redirect(`${redirectUrl}?error=Failed to upload file`);
+        res.redirect(`${redirectUrl}?error=Failed to upload file - database error`);
       }
     },
   ],
