@@ -210,7 +210,10 @@ const patientController = {
     async (req, res) => {
       try {
         if (!req.file) {
-          return res.redirect('/patient/upload?error=No file selected');
+          // Check referer to redirect back to same page
+          const referer = req.get('Referer') || '/patient/upload';
+          const redirectUrl = referer.includes('dashboard') ? '/patient/dashboard' : '/patient/upload';
+          return res.redirect(`${redirectUrl}?error=No file selected`);
         }
 
         const { recordId, notes } = req.body;
@@ -226,10 +229,15 @@ const patientController = {
           notes: notes || null,
         });
 
-        res.redirect('/patient/upload?success=File uploaded');
+        // Check referer to redirect back to same page
+        const referer = req.get('Referer') || '/patient/upload';
+        const redirectUrl = referer.includes('dashboard') ? '/patient/dashboard' : '/patient/upload';
+        res.redirect(`${redirectUrl}?success=File uploaded`);
       } catch (error) {
         console.error('[Patient] Upload error:', error);
-        res.redirect('/patient/upload?error=Failed to upload file');
+        const referer = req.get('Referer') || '/patient/upload';
+        const redirectUrl = referer.includes('dashboard') ? '/patient/dashboard' : '/patient/upload';
+        res.redirect(`${redirectUrl}?error=Failed to upload file`);
       }
     },
   ],
