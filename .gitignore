@@ -6,9 +6,7 @@ node_modules/
 .env.local
 .env.*.local
 
-# Logs
-logs/
-*.log
+# Log files (keep logs/ folder tracked)
 npm-debug.log*
 
 # Database journal files only (keep .db files)
