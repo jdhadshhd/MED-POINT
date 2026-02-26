@@ -1047,10 +1047,14 @@
                             </div>
                         </div>
                         <form id="dashboard-upload-form" action="/patient/upload" method="POST" enctype="multipart/form-data">
+                            <input type="file" id="dashboardFileInput" name="file" hidden accept=".pdf,.jpg,.jpeg,.png" required>
                             <div class="file-upload" id="dashboardFileDropArea" style="padding: 20px; text-align: center; border: 2px dashed #ccc; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
                                 <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #1D7874;"></i>
                                 <p style="margin: 10px 0 0 0;">Click to select file</p>
-                                <input type="file" id="dashboardFileInput" name="file" hidden accept=".pdf,.jpg,.jpeg,.png" required>
+                            </div>
+                            <div id="dashboardSelectedFileInfo" style="display: none; margin-bottom: 15px; padding: 10px; background: #e8f5e9; border-radius: 8px; text-align: center;">
+                                <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+                                <span id="dashboardSelectedFileName"></span>
                             </div>
                             <div class="form-group" style="margin-bottom: 15px;">
                                 <select name="notes" class="form-control" required style="width: 100%; padding: 10px;">
@@ -1306,11 +1310,15 @@
                 <!-- Upload Form -->
                 <form id="upload-form" class="form-section" action="/patient/upload" method="POST" enctype="multipart/form-data">
                     <h3 class="card-title mb-20">Upload Medical Record</h3>
+                    <input type="file" id="fileInput" name="file" hidden accept=".pdf,.jpg,.jpeg,.png" required>
                     <div class="file-upload" id="fileDropArea">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <h4>Click to upload or drag and drop</h4>
                         <p>Maximum file size: 10MB. Formats: PDF, JPG, PNG</p>
-                        <input type="file" id="fileInput" name="file" hidden accept=".pdf,.jpg,.jpeg,.png" required>
+                    </div>
+                    <div id="selectedFileInfo" style="display: none; margin-bottom: 15px; padding: 10px; background: #e8f5e9; border-radius: 8px; text-align: center;">
+                        <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+                        <span id="selectedFileName"></span>
                     </div>
                     <div class="form-group">
                         <label for="recordType">Record Type <span style="color: red;">*</span></label>
@@ -1856,11 +1864,14 @@
                         return;
                     }
                     
-                    fileDropArea.innerHTML = `
-                        <i class="fas fa-check-circle"></i>
-                        <h4>${fileName}</h4>
-                        <p>${fileSize} MB - Ready to upload</p>
-                    `;
+                    // Show file info without removing the input
+                    const fileInfo = document.getElementById('selectedFileInfo');
+                    const fileNameSpan = document.getElementById('selectedFileName');
+                    if (fileInfo && fileNameSpan) {
+                        fileNameSpan.textContent = `${fileName} (${fileSize} MB)`;
+                        fileInfo.style.display = 'block';
+                        fileDropArea.style.display = 'none';
+                    }
                 }
             });
 
@@ -1924,10 +1935,14 @@
                         return;
                     }
                     
-                    dashboardFileDropArea.innerHTML = `
-                        <i class="fas fa-check-circle" style="font-size: 2rem; color: #2CA58D;"></i>
-                        <p style="margin: 10px 0 0 0;">${fileName} (${fileSize} MB)</p>
-                    `;
+                    // Show file info without removing the input
+                    const fileInfo = document.getElementById('dashboardSelectedFileInfo');
+                    const fileNameSpan = document.getElementById('dashboardSelectedFileName');
+                    if (fileInfo && fileNameSpan) {
+                        fileNameSpan.textContent = `${fileName} (${fileSize} MB)`;
+                        fileInfo.style.display = 'block';
+                        dashboardFileDropArea.style.display = 'none';
+                    }
                 }
             });
         }
