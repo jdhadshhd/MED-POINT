@@ -41,6 +41,8 @@ model User {
   ticketMessages     TicketMessage[]
   notifications      Notification[]
   healthMeasurements HealthMeasurement[] @relation("PatientMeasurements")
+  dietPlansAsPatient DietPlan[] @relation("PatientDietPlans")
+  dietPlansAsDoctor  DietPlan[] @relation("DoctorDietPlans")
 }
 
 model DoctorProfile {
@@ -156,4 +158,21 @@ model HealthMeasurement {
 
   // Relations
   patient User @relation("PatientMeasurements", fields: [patientId], references: [id], onDelete: Cascade)
+}
+
+model DietPlan {
+  id          String   @id @default(uuid())
+  patientId   String
+  doctorId    String
+  title       String   // e.g., "High-Calorie Recovery Plan"
+  description String?  // e.g., "Designed for nutritional recovery"
+  designedBy  String   // nutritionist name
+  items       String   // JSON array of plan items
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  patient User @relation("PatientDietPlans", fields: [patientId], references: [id], onDelete: Cascade)
+  doctor  User @relation("DoctorDietPlans", fields: [doctorId], references: [id], onDelete: Cascade)
 }

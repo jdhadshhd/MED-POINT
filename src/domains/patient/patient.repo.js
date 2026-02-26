@@ -167,6 +167,74 @@ const patientRepo = {
       orderBy: { createdAt: 'desc' },
     });
   },
+
+  // ===== DIET PLAN FUNCTIONS =====
+
+  /**
+   * Get active diet plan for patient
+   */
+  async getActiveDietPlan(patientId) {
+    return prisma.dietPlan.findFirst({
+      where: { 
+        patientId,
+        isActive: true,
+      },
+      include: {
+        doctor: {
+          select: { name: true }
+        }
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  },
+
+  /**
+   * Get all diet plans for patient (history)
+   */
+  async getDietPlanHistory(patientId) {
+    return prisma.dietPlan.findMany({
+      where: { patientId },
+      include: {
+        doctor: {
+          select: { name: true }
+        }
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  },
+
+  /**
+   * Create a new diet plan
+   */
+  async createDietPlan(data) {
+    // Deactivate any existing active plans for this patient
+    await prisma.dietPlan.updateMany({
+      where: { 
+        patientId: data.patientId,
+        isActive: true,
+      },
+      data: { isActive: false },
+    });
+
+    return prisma.dietPlan.create({
+      data,
+      include: {
+        doctor: {
+          select: { name: true }
+        }
+      },
+    });
+  },
+
+  /**
+   * Update a diet plan
+   */
+  async updateDietPlan(id, data) {
+    return prisma.dietPlan.update({
+      where: { id },
+      data,
+    });
+  },
 };
 
 module.exports = patientRepo;

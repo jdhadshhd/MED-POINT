@@ -1385,11 +1385,11 @@
                             </div>
                         </div>
                         <div class="muac-indicator">
-                            <div class="muac-value">10.8 cm</div>
-                            <div class="muac-status status-red">CRITICAL</div>
+                            <div class="muac-value" id="muacValue">-- cm</div>
+                            <div class="muac-status" id="muacStatus">Loading...</div>
                         </div>
-                        <p class="mb-20">Last measured: 2 days ago</p>
-                        <p><strong>Alert:</strong> MUAC below 11.5cm indicates severe acute malnutrition</p>
+                        <p class="mb-20" id="muacLastMeasured">Last measured: --</p>
+                        <p id="muacAlert"><strong>Alert:</strong> <span id="muacAlertText">No data available</span></p>
                         <div class="mt-20">
                             <h4>MUAC Categories:</h4>
                             <ul style="padding-left: 20px; margin-top: 10px;">
@@ -1411,37 +1411,33 @@
                             </div>
                         </div>
                         <div class="muac-indicator">
-                            <div class="muac-value">17.2</div>
-                            <div class="muac-status status-yellow">UNDERWEIGHT</div>
+                            <div class="muac-value" id="bmiValue">--</div>
+                            <div class="muac-status" id="bmiStatus">Loading...</div>
                         </div>
-                        <p class="mb-20">Last calculated: 2 days ago</p>
-                        <p><strong>Status:</strong> BMI below 18.5 indicates underweight</p>
+                        <p class="mb-20" id="bmiLastMeasured">Last calculated: --</p>
+                        <p><strong>Status:</strong> <span id="bmiAlertText">Loading...</span></p>
                         <button class="btn btn-outline btn-small mt-20" id="viewHistoryBtn">
                             <i class="fas fa-chart-line"></i> View History
                         </button>
                     </div>
 
-                    <div class="card">
+                    <div class="card" id="dietPlanCard">
                         <div class="card-header">
                             <h3 class="card-title">Current Diet Plan</h3>
                             <div class="card-icon">
                                 <i class="fas fa-apple-alt"></i>
                             </div>
                         </div>
-                        <h4 class="mb-20">High-Calorie Recovery Plan</h4>
-                        <p>Designed by Nutritionist Sara</p>
-                        <ul style="padding-left: 20px; margin: 15px 0;">
-                            <li>3 main meals + 2 snacks daily</li>
-                            <li>Fortified porridge for breakfast</li>
-                            <li>Peanut-based supplement daily</li>
-                            <li>Vitamin A & Iron supplements</li>
-                            <li>Increased fluid intake</li>
+                        <h4 class="mb-20" id="dietPlanTitle">Loading...</h4>
+                        <p id="dietPlanDesignedBy">Loading...</p>
+                        <ul style="padding-left: 20px; margin: 15px 0;" id="dietPlanItems">
+                            <li>Loading diet plan...</li>
                         </ul>
                         <div style="display: flex; gap: 10px;">
-                            <button class="btn btn-outline btn-small download-plan-btn">
+                            <button class="btn btn-outline btn-small download-plan-btn" id="downloadPlanBtn">
                                 <i class="fas fa-download"></i> Download Plan
                             </button>
-                            <button class="btn btn-outline btn-small print-plan-btn">
+                            <button class="btn btn-outline btn-small print-plan-btn" id="printPlanBtn">
                                 <i class="fas fa-print"></i> Print Plan
                             </button>
                         </div>
@@ -1952,25 +1948,86 @@
 
         // Function to update measurements display
         function updateMeasurementsUI(measurement) {
-            const muacValue = document.querySelector('.muac-value');
-            const muacStatus = document.querySelector('.muac-status');
+            // Update MUAC
+            const muacValueEl = document.getElementById('muacValue');
+            const muacStatusEl = document.getElementById('muacStatus');
+            const muacLastMeasuredEl = document.getElementById('muacLastMeasured');
+            const muacAlertTextEl = document.getElementById('muacAlertText');
             
-            if (muacValue) {
-                muacValue.textContent = `${measurement.muacValue} cm`;
+            if (muacValueEl) {
+                muacValueEl.textContent = `${measurement.muacValue} cm`;
             }
-            if (muacStatus) {
-                muacStatus.textContent = measurement.muacStatus === 'RED' ? 'CRITICAL' : 
-                                        measurement.muacStatus === 'YELLOW' ? 'AT RISK' : 'NORMAL';
-                muacStatus.className = `muac-status status-${measurement.muacStatus.toLowerCase()}`;
+            if (muacStatusEl) {
+                const statusText = measurement.muacStatus === 'RED' ? 'CRITICAL' : 
+                                   measurement.muacStatus === 'YELLOW' ? 'AT RISK' : 'NORMAL';
+                muacStatusEl.textContent = statusText;
+                muacStatusEl.className = `muac-status status-${measurement.muacStatus.toLowerCase()}`;
+            }
+            if (muacLastMeasuredEl && measurement.createdAt) {
+                const date = new Date(measurement.createdAt);
+                const now = new Date();
+                const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+                const timeAgo = diffDays === 0 ? 'today' : 
+                               diffDays === 1 ? 'yesterday' : 
+                               `${diffDays} days ago`;
+                muacLastMeasuredEl.textContent = `Last measured: ${timeAgo}`;
+            }
+            if (muacAlertTextEl) {
+                if (measurement.muacStatus === 'RED') {
+                    muacAlertTextEl.textContent = 'MUAC below 11.5cm indicates severe acute malnutrition';
+                } else if (measurement.muacStatus === 'YELLOW') {
+                    muacAlertTextEl.textContent = 'MUAC between 11.5-12.5cm indicates moderate malnutrition';
+                } else {
+                    muacAlertTextEl.textContent = 'MUAC above 12.5cm - Normal nutritional status';
+                }
             }
             
-            // Update BMI display if exists
-            const bmiDisplay = document.querySelector('.dashboard p:nth-child(4)');
-            if (bmiDisplay && bmiDisplay.textContent.includes('BMI')) {
-                const bmiCategory = measurement.bmi < 18.5 ? 'Underweight' :
-                                   measurement.bmi < 25 ? 'Normal' :
-                                   measurement.bmi < 30 ? 'Overweight' : 'Obese';
-                bmiDisplay.textContent = `BMI: ${measurement.bmi} (${bmiCategory})`;
+            // Update BMI display
+            const bmiValueEl = document.getElementById('bmiValue');
+            const bmiStatusEl = document.getElementById('bmiStatus');
+            const bmiLastMeasuredEl = document.getElementById('bmiLastMeasured');
+            const bmiAlertTextEl = document.getElementById('bmiAlertText');
+            
+            if (bmiValueEl && measurement.bmi) {
+                bmiValueEl.textContent = measurement.bmi;
+            }
+            if (bmiStatusEl && measurement.bmi) {
+                let statusText, statusClass;
+                if (measurement.bmi < 18.5) {
+                    statusText = 'UNDERWEIGHT';
+                    statusClass = 'status-yellow';
+                } else if (measurement.bmi < 25) {
+                    statusText = 'NORMAL';
+                    statusClass = 'status-green';
+                } else if (measurement.bmi < 30) {
+                    statusText = 'OVERWEIGHT';
+                    statusClass = 'status-yellow';
+                } else {
+                    statusText = 'OBESE';
+                    statusClass = 'status-red';
+                }
+                bmiStatusEl.textContent = statusText;
+                bmiStatusEl.className = `muac-status ${statusClass}`;
+            }
+            if (bmiLastMeasuredEl && measurement.createdAt) {
+                const date = new Date(measurement.createdAt);
+                const now = new Date();
+                const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+                const timeAgo = diffDays === 0 ? 'today' : 
+                               diffDays === 1 ? 'yesterday' : 
+                               `${diffDays} days ago`;
+                bmiLastMeasuredEl.textContent = `Last calculated: ${timeAgo}`;
+            }
+            if (bmiAlertTextEl && measurement.bmi) {
+                if (measurement.bmi < 18.5) {
+                    bmiAlertTextEl.textContent = 'BMI below 18.5 indicates underweight';
+                } else if (measurement.bmi < 25) {
+                    bmiAlertTextEl.textContent = 'BMI is within healthy range';
+                } else if (measurement.bmi < 30) {
+                    bmiAlertTextEl.textContent = 'BMI above 25 indicates overweight';
+                } else {
+                    bmiAlertTextEl.textContent = 'BMI above 30 indicates obesity';
+                }
             }
         }
 
@@ -1982,18 +2039,31 @@
                 
                 if (data.measurement) {
                     updateMeasurementsUI(data.measurement);
+                } else {
+                    // No measurements found - show default message
+                    const muacValueEl = document.getElementById('muacValue');
+                    const muacStatusEl = document.getElementById('muacStatus');
+                    const muacLastMeasuredEl = document.getElementById('muacLastMeasured');
+                    const muacAlertTextEl = document.getElementById('muacAlertText');
                     
-                    // Update the "Last MUAC reading" text
-                    const lastReadingText = document.querySelector('.card p');
-                    if (lastReadingText && lastReadingText.textContent.includes('Last MUAC')) {
-                        const date = new Date(data.measurement.createdAt);
-                        const now = new Date();
-                        const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-                        const timeAgo = diffDays === 0 ? 'today' : 
-                                       diffDays === 1 ? 'yesterday' : 
-                                       `${diffDays} days ago`;
-                        lastReadingText.textContent = `Last MUAC reading: ${timeAgo}`;
+                    if (muacValueEl) muacValueEl.textContent = '-- cm';
+                    if (muacStatusEl) {
+                        muacStatusEl.textContent = 'NO DATA';
+                        muacStatusEl.className = 'muac-status';
                     }
+                    if (muacLastMeasuredEl) muacLastMeasuredEl.textContent = 'No measurements yet';
+                    if (muacAlertTextEl) muacAlertTextEl.textContent = 'Please update your measurements';
+                    
+                    const bmiValueEl = document.getElementById('bmiValue');
+                    const bmiStatusEl = document.getElementById('bmiStatus');
+                    const bmiLastMeasuredEl = document.getElementById('bmiLastMeasured');
+                    
+                    if (bmiValueEl) bmiValueEl.textContent = '--';
+                    if (bmiStatusEl) {
+                        bmiStatusEl.textContent = 'NO DATA';
+                        bmiStatusEl.className = 'muac-status';
+                    }
+                    if (bmiLastMeasuredEl) bmiLastMeasuredEl.textContent = 'No measurements yet';
                 }
             } catch (error) {
                 console.error('Error loading measurements:', error);
@@ -2002,6 +2072,70 @@
 
         // Load measurements when page loads
         loadLatestMeasurements();
+
+        // ==================== DIET PLAN ====================
+        // Load and display active diet plan
+        async function loadDietPlan() {
+            try {
+                const response = await fetch('/patient/diet-plan');
+                const data = await response.json();
+                
+                const titleEl = document.getElementById('dietPlanTitle');
+                const designedByEl = document.getElementById('dietPlanDesignedBy');
+                const itemsEl = document.getElementById('dietPlanItems');
+                const downloadBtn = document.getElementById('downloadPlanBtn');
+                const printBtn = document.getElementById('printPlanBtn');
+                
+                if (data.plan) {
+                    if (titleEl) titleEl.textContent = data.plan.title;
+                    if (designedByEl) designedByEl.textContent = `Designed by ${data.plan.designedBy}`;
+                    
+                    if (itemsEl && data.plan.itemsArray) {
+                        itemsEl.innerHTML = data.plan.itemsArray.map(item => 
+                            `<li>${item}</li>`
+                        ).join('');
+                    }
+                    
+                    // Enable download button
+                    if (downloadBtn) {
+                        downloadBtn.addEventListener('click', downloadDietPlan);
+                    }
+                    if (printBtn) {
+                        printBtn.addEventListener('click', printDietPlan);
+                    }
+                } else {
+                    // No diet plan assigned
+                    if (titleEl) titleEl.textContent = 'No Diet Plan Assigned';
+                    if (designedByEl) designedByEl.textContent = 'Contact your doctor for a personalized plan';
+                    if (itemsEl) itemsEl.innerHTML = '<li style="color: #999;">No diet plan has been assigned yet.</li>';
+                    
+                    if (downloadBtn) downloadBtn.style.display = 'none';
+                    if (printBtn) printBtn.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading diet plan:', error);
+                const titleEl = document.getElementById('dietPlanTitle');
+                if (titleEl) titleEl.textContent = 'Failed to load diet plan';
+            }
+        }
+
+        // Download diet plan as PDF
+        function downloadDietPlan() {
+            window.open('/patient/diet-plan/download', '_blank');
+        }
+
+        // Print diet plan
+        function printDietPlan() {
+            const printWindow = window.open('/patient/diet-plan/download', '_blank');
+            if (printWindow) {
+                printWindow.onload = function() {
+                    printWindow.print();
+                };
+            }
+        }
+
+        // Load diet plan on page load
+        loadDietPlan();
 
         // ==================== EDUCATION ====================
         // Handle education buttons

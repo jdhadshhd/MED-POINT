@@ -175,6 +175,64 @@ const patientService = {
   async getMeasurementHistory(patientId) {
     return patientRepo.getMeasurementHistory(patientId);
   },
+
+  // ===== DIET PLAN FUNCTIONS =====
+
+  /**
+   * Get active diet plan for patient
+   */
+  async getActiveDietPlan(patientId) {
+    const plan = await patientRepo.getActiveDietPlan(patientId);
+    if (plan) {
+      // Parse items JSON string to array
+      plan.itemsArray = JSON.parse(plan.items || '[]');
+    }
+    return plan;
+  },
+
+  /**
+   * Get diet plan history
+   */
+  async getDietPlanHistory(patientId) {
+    const plans = await patientRepo.getDietPlanHistory(patientId);
+    return plans.map(plan => ({
+      ...plan,
+      itemsArray: JSON.parse(plan.items || '[]'),
+    }));
+  },
+
+  /**
+   * Create a new diet plan (usually by doctor)
+   */
+  async createDietPlan({ patientId, doctorId, title, description, designedBy, items }) {
+    // Convert items array to JSON string for storage
+    const itemsJson = JSON.stringify(items);
+
+    return patientRepo.createDietPlan({
+      patientId,
+      doctorId,
+      title,
+      description,
+      designedBy,
+      items: itemsJson,
+    });
+  },
+
+  /**
+   * Generate PDF content for diet plan
+   */
+  generateDietPlanPdf(plan) {
+    const items = JSON.parse(plan.items || '[]');
+    
+    return {
+      title: plan.title,
+      designedBy: plan.designedBy,
+      description: plan.description,
+      items,
+      createdAt: plan.createdAt,
+      patientName: plan.patient?.name || 'Patient',
+    };
+  },
 };
 
 module.exports = patientService;

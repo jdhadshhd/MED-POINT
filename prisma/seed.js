@@ -90,6 +90,26 @@ async function main() {
   });
   console.log('✅ Created sample medical record');
 
+  // Create a sample diet plan
+  await prisma.dietPlan.create({
+    data: {
+      patientId: patient.id,
+      doctorId: doctor.id,
+      title: 'High-Calorie Recovery Plan',
+      description: 'Personalized nutrition plan for recovery',
+      designedBy: 'Nutritionist Sara',
+      items: JSON.stringify([
+        '3 main meals + 2 snacks daily',
+        'Fortified porridge for breakfast',
+        'Peanut-based supplement daily',
+        'Vitamin A & Iron supplements',
+        'Increased fluid intake'
+      ]),
+      isActive: true,
+    },
+  });
+  console.log('✅ Created sample diet plan');
+
   // Create a sample support ticket
   await prisma.supportTicket.create({
     data: {
