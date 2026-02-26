@@ -2428,39 +2428,41 @@
             }
         };
 
-        // Modal elements
-        const educationModal = document.getElementById('educationModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalBody = document.getElementById('modalBody');
-        const closeModal = document.getElementById('closeModal');
-
-        // Close modal handlers
-        if (closeModal) {
-            closeModal.addEventListener('click', () => {
-                educationModal.classList.remove('active');
-                // Stop any playing videos
-                const iframe = modalBody.querySelector('iframe');
-                if (iframe) iframe.src = '';
-            });
-        }
-
-        if (educationModal) {
-            educationModal.addEventListener('click', (e) => {
-                if (e.target === educationModal) {
-                    educationModal.classList.remove('active');
+        // Close modal handlers - using event delegation since modal is at end of document
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('educationModal');
+            const modalBody = document.getElementById('modalBody');
+            if (!modal) return;
+            
+            // Close button clicked
+            if (e.target.id === 'closeModal' || e.target.closest('#closeModal')) {
+                modal.classList.remove('active');
+                if (modalBody) {
                     const iframe = modalBody.querySelector('iframe');
                     if (iframe) iframe.src = '';
                 }
-            });
-        }
+            }
+            
+            // Click outside modal content
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                if (modalBody) {
+                    const iframe = modalBody.querySelector('iframe');
+                    if (iframe) iframe.src = '';
+                }
+            }
+        });
 
         // Show video content
         function showVideo(videoId) {
             const video = educationContent.videos[videoId];
-            if (!video || !modalTitle || !modalBody || !educationModal) return;
+            const modal = document.getElementById('educationModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            if (!video || !modal || !title || !body) return;
             
-            modalTitle.textContent = video.title;
-            modalBody.innerHTML = `
+            title.textContent = video.title;
+            body.innerHTML = `
                 <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/${video.videoId}?rel=0" 
                             frameborder="0" 
@@ -2469,16 +2471,19 @@
                 </div>
                 ${video.description}
             `;
-            educationModal.classList.add('active');
+            modal.classList.add('active');
         }
 
         // Show article content
         function showArticle(articleId) {
             const article = educationContent.articles[articleId];
-            if (!article || !modalTitle || !modalBody || !educationModal) return;
+            const modal = document.getElementById('educationModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            if (!article || !modal || !title || !body) return;
             
-            modalTitle.textContent = article.title;
-            modalBody.innerHTML = `
+            title.textContent = article.title;
+            body.innerHTML = `
                 <div class="article-meta">
                     <span><i class="fas fa-user"></i> ${article.author}</span>
                     <span><i class="fas fa-calendar"></i> ${article.date}</span>
@@ -2486,7 +2491,7 @@
                 </div>
                 ${article.content}
             `;
-            educationModal.classList.add('active');
+            modal.classList.add('active');
         }
 
         // Download guide as PDF
