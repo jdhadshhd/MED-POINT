@@ -708,3 +708,10 @@
 [2026-02-26T14:16:19.685Z] GET /media/logo.png | Status: 200 | Duration: 9ms | IP: ::1 | User: anonymous
 [2026-02-26T15:09:31.287Z] GET / | Status: 200 | Duration: 24ms | IP: ::ffff:127.0.0.1 | User: anonymous
 [2026-02-26T15:09:38.479Z] GET / | Status: 200 | Duration: 3ms | IP: ::ffff:127.0.0.1 | User: anonymous
+[2026-02-26T15:10:22.886Z] GET /patient/appointments?success=Appointment%20booked | Status: 200 | Duration: 18ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T15:10:22.918Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 3ms | IP: ::1 | User: anonymous
+[2026-02-26T15:10:22.919Z] GET /media/logo.png | Status: 304 | Duration: 3ms | IP: ::1 | User: anonymous
+[2026-02-26T15:10:22.957Z] GET /media/logo.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-26T15:10:22.967Z] GET /patient/measurements | Status: 304 | Duration: 37ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T15:10:22.972Z] GET /patient/diet-plan | Status: 304 | Duration: 42ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T15:10:25.415Z] GET /patient/measurements/history | Status: 200 | Duration: 3ms | IP: ::1 | User: patient@medipoint.com
