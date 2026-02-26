@@ -617,3 +617,16 @@
 [2026-02-26T09:11:33.461Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
 [2026-02-26T09:11:33.463Z] GET /media/logo.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
 [2026-02-26T09:11:33.472Z] GET /patient/measurements | Status: 304 | Duration: 5ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T09:15:25.330Z] GET /patient/dashboard | Status: 200 | Duration: 35ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T09:15:25.404Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 2ms | IP: ::1 | User: anonymous
+[2026-02-26T09:15:25.410Z] GET /media/logo.png | Status: 304 | Duration: 2ms | IP: ::1 | User: anonymous
+[2026-02-26T09:15:25.474Z] GET /patient/measurements | Status: 304 | Duration: 49ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T09:15:25.505Z] GET /vendor/fontawesome/webfonts/fa-solid-900.woff2 | Status: 304 | Duration: 2ms | IP: ::1 | User: anonymous
+[2026-02-26T09:15:46.324Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-26T09:15:46.335Z] GET /.well-known/appspecific/com.chrome.devtools.json | Status: 404 | Duration: 5ms | IP: ::1 | User: anonymous
+[2026-02-26T09:18:10.297Z] GET /patient/dashboard | Status: 200 | Duration: 17ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T09:18:10.318Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-26T09:18:10.321Z] GET /media/logo.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-26T09:18:10.332Z] GET /patient/measurements | Status: 304 | Duration: 5ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T09:18:10.334Z] GET /vendor/fontawesome/webfonts/fa-solid-900.woff2 | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-26T09:18:10.349Z] GET /media/logo.png | Status: 304 | Duration: 0ms | IP: ::1 | User: anonymous
