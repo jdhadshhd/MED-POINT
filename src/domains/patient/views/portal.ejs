@@ -1728,24 +1728,33 @@
 
         // Handle specialty selection
         if (specialtySelect) {
-            specialtySelect.addEventListener('change', function() {
+            specialtySelect.addEventListener('change', async function() {
                 if (this.value) {
-                    doctorSelect.disabled = false;
-                    // Simulate doctor data - Backend should replace this
-                    const doctors = {
-                        'general': ['Dr. Ahmed Abu Dabbous', 'Dr. Sarah Johnson'],
-                        'nutrition': ['Nutritionist Sara', 'Dr. Michael Chen'],
-                        'pediatrics': ['Dr. Lisa Wang', 'Dr. James Wilson']
-                    };
+                    doctorSelect.disabled = true;
+                    doctorSelect.innerHTML = '<option value="">Loading doctors...</option>';
                     
-                    doctorSelect.innerHTML = '<option value="">Select doctor</option>';
-                    if (doctors[this.value]) {
-                        doctors[this.value].forEach(doctor => {
-                            const option = document.createElement('option');
-                            option.value = doctor.toLowerCase().replace(' ', '-');
-                            option.textContent = doctor;
-                            doctorSelect.appendChild(option);
-                        });
+                    try {
+                        // Fetch doctors from API
+                        const response = await fetch('/patient/api/doctors');
+                        const data = await response.json();
+                        
+                        doctorSelect.innerHTML = '<option value="">Select doctor</option>';
+                        if (data.doctors && data.doctors.length > 0) {
+                            data.doctors.forEach(doctor => {
+                                const specialty = doctor.doctorProfile?.specialty?.toLowerCase() || '';
+                                // Show all doctors or filter by specialty if needed
+                                const option = document.createElement('option');
+                                option.value = doctor.id;
+                                option.textContent = doctor.name + (specialty ? ` (${specialty})` : '');
+                                doctorSelect.appendChild(option);
+                            });
+                            doctorSelect.disabled = false;
+                        } else {
+                            doctorSelect.innerHTML = '<option value="">No doctors available</option>';
+                        }
+                    } catch (error) {
+                        console.error('Failed to fetch doctors:', error);
+                        doctorSelect.innerHTML = '<option value="">Error loading doctors</option>';
                     }
                 } else {
                     doctorSelect.disabled = true;
