@@ -715,3 +715,11 @@
 [2026-02-26T15:10:22.967Z] GET /patient/measurements | Status: 304 | Duration: 37ms | IP: ::1 | User: patient@medipoint.com
 [2026-02-26T15:10:22.972Z] GET /patient/diet-plan | Status: 304 | Duration: 42ms | IP: ::1 | User: patient@medipoint.com
 [2026-02-26T15:10:25.415Z] GET /patient/measurements/history | Status: 200 | Duration: 3ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T15:12:03.284Z] GET /patient/appointments?success=Appointment%20booked | Status: 200 | Duration: 15ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T15:12:03.302Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 2ms | IP: ::1 | User: anonymous
+[2026-02-26T15:12:03.303Z] GET /media/logo.png | Status: 304 | Duration: 2ms | IP: ::1 | User: anonymous
+[2026-02-26T15:12:03.314Z] GET /patient/measurements | Status: 304 | Duration: 3ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T15:12:03.315Z] GET /patient/diet-plan | Status: 304 | Duration: 3ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T15:12:03.333Z] GET /media/logo.png | Status: 304 | Duration: 0ms | IP: ::1 | User: anonymous
+[2026-02-26T15:12:06.134Z] GET /patient/measurements/history | Status: 304 | Duration: 2ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T15:12:22.888Z] GET /patient/measurements/history | Status: 304 | Duration: 2ms | IP: ::1 | User: patient@medipoint.com

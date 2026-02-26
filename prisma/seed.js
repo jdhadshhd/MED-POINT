@@ -110,6 +110,41 @@ async function main() {
   });
   console.log('✅ Created sample diet plan');
 
+  // Create sample health measurements (history)
+  const measurementDates = [
+    new Date('2026-01-15'),
+    new Date('2026-01-22'),
+    new Date('2026-02-01'),
+    new Date('2026-02-10'),
+    new Date('2026-02-18'),
+    new Date('2026-02-25'),
+  ];
+
+  const measurements = [
+    { weight: 48.5, height: 165, muacValue: 10.8, muacStatus: 'SAM', bmi: 17.8 },
+    { weight: 50.2, height: 165, muacValue: 11.2, muacStatus: 'MAM', bmi: 18.4 },
+    { weight: 51.5, height: 165, muacValue: 11.8, muacStatus: 'MAM', bmi: 18.9 },
+    { weight: 53.0, height: 165, muacValue: 12.3, muacStatus: 'MAM', bmi: 19.5 },
+    { weight: 54.5, height: 165, muacValue: 12.8, muacStatus: 'Normal', bmi: 20.0 },
+    { weight: 55.2, height: 165, muacValue: 13.2, muacStatus: 'Normal', bmi: 20.3 },
+  ];
+
+  for (let i = 0; i < measurements.length; i++) {
+    await prisma.healthMeasurement.create({
+      data: {
+        patientId: patient.id,
+        weight: measurements[i].weight,
+        height: measurements[i].height,
+        muacValue: measurements[i].muacValue,
+        muacStatus: measurements[i].muacStatus,
+        bmi: measurements[i].bmi,
+        notes: `Weekly health check - Week ${i + 1}`,
+        createdAt: measurementDates[i],
+      },
+    });
+  }
+  console.log('✅ Created 6 sample health measurements');
+
   // Create a sample support ticket
   await prisma.supportTicket.create({
     data: {
