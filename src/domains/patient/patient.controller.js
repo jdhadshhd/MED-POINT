@@ -357,10 +357,10 @@ const patientController = {
   async getMeasurementHistory(req, res) {
     try {
       const measurements = await patientService.getMeasurementHistory(req.user.id);
-      res.json({ measurements });
+      res.json({ success: true, measurements });
     } catch (error) {
       console.error('[Patient] Get measurement history error:', error);
-      res.status(500).json({ error: 'Failed to get measurement history' });
+      res.status(500).json({ success: false, error: 'Failed to get measurement history' });
     }
   },
 
