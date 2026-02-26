@@ -630,3 +630,5 @@
 [2026-02-26T09:18:10.332Z] GET /patient/measurements | Status: 304 | Duration: 5ms | IP: ::1 | User: patient@medipoint.com
 [2026-02-26T09:18:10.334Z] GET /vendor/fontawesome/webfonts/fa-solid-900.woff2 | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
 [2026-02-26T09:18:10.349Z] GET /media/logo.png | Status: 304 | Duration: 0ms | IP: ::1 | User: anonymous
+[2026-02-26T11:12:25.172Z] GET /.well-known/appspecific/com.chrome.devtools.json | Status: 404 | Duration: 54ms | IP: ::1 | User: anonymous
+[2026-02-26T11:12:25.180Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 67ms | IP: ::1 | User: anonymous
