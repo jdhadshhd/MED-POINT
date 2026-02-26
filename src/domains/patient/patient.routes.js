@@ -39,4 +39,7 @@ router.get('/measurements', patientController.getLatestMeasurement);
 router.get('/measurements/history', patientController.getMeasurementHistory);
 router.post('/measurements', patientController.saveMeasurements);
 
+// API - Get doctors
+router.get('/api/doctors', patientController.getDoctors);
+
 module.exports = router;
