@@ -673,3 +673,10 @@
 [2026-02-26T12:34:31.835Z] GET /patient/diet-plan/download | Status: 200 | Duration: 18ms | IP: ::1 | User: patient@medipoint.com
 [2026-02-26T12:34:59.649Z] GET /patient/diet-plan/download | Status: 200 | Duration: 16ms | IP: ::1 | User: patient@medipoint.com
 [2026-02-26T12:35:02.507Z] GET /patient/diet-plan/download | Status: 200 | Duration: 11ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T12:37:32.251Z] GET /patient/appointments?success=Appointment%20booked | Status: 200 | Duration: 32ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T12:37:32.272Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 2ms | IP: ::1 | User: anonymous
+[2026-02-26T12:37:32.274Z] GET /media/logo.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-26T12:37:32.301Z] GET /patient/measurements | Status: 304 | Duration: 14ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T12:37:32.302Z] GET /patient/diet-plan | Status: 304 | Duration: 13ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T12:37:32.318Z] GET /media/logo.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-26T12:37:35.502Z] GET /patient/diet-plan/view | Status: 200 | Duration: 20ms | IP: ::1 | User: patient@medipoint.com

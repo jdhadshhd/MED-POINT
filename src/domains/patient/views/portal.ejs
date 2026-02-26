@@ -899,6 +899,142 @@
         .mt-10 {
             margin-top: 10px;
         }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .modal-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-body h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .modal-body p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .modal-body ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .modal-body li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            margin-bottom: 20px;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+        }
+
+        .video-placeholder i {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
     </style>
 </head>
 
@@ -2133,18 +2269,285 @@
         loadDietPlan();
 
         // ==================== EDUCATION ====================
+        // Educational content data
+        const educationContent = {
+            videos: {
+                'nutrition-recovery': {
+                    title: 'Nutrition for Recovery',
+                    videoId: 'dQw4w9WgXcQ', // Replace with actual video ID
+                    description: `<p>This video covers essential information about nutrition during recovery from malnutrition.</p>
+                    <h4>Key Topics Covered:</h4>
+                    <ul>
+                        <li>Understanding macronutrients (proteins, carbohydrates, fats)</li>
+                        <li>Importance of micronutrients (vitamins and minerals)</li>
+                        <li>Gradual refeeding strategies</li>
+                        <li>Foods to prioritize during recovery</li>
+                        <li>Signs of nutritional improvement</li>
+                    </ul>
+                    <p><strong>Duration:</strong> 12 minutes</p>`
+                },
+                'child-nutrition': {
+                    title: 'Child Nutrition Basics',
+                    videoId: 'dQw4w9WgXcQ', // Replace with actual video ID
+                    description: `<p>Essential information about proper nutrition for children at different developmental stages.</p>
+                    <h4>Topics Include:</h4>
+                    <ul>
+                        <li>Nutritional needs by age group</li>
+                        <li>Breast feeding and weaning</li>
+                        <li>Healthy snacks for children</li>
+                        <li>Dealing with picky eaters</li>
+                        <li>Signs of malnutrition in children</li>
+                    </ul>
+                    <p><strong>Duration:</strong> 15 minutes</p>`
+                }
+            },
+            articles: {
+                'understanding-muac': {
+                    title: 'Understanding MUAC Measurements',
+                    author: 'Dr. Sarah Johnson',
+                    date: 'February 2026',
+                    readTime: '5 min read',
+                    content: `<p>Mid-Upper Arm Circumference (MUAC) is a simple, practical measurement used to assess nutritional status, particularly in children and pregnant/lactating women.</p>
+                    
+                    <h4>How MUAC is Measured</h4>
+                    <p>MUAC is measured using a special tape around the mid-point of the upper arm, between the shoulder and elbow. The measurement is taken on the left arm while it hangs relaxed at the side.</p>
+                    
+                    <h4>What the Colors Mean</h4>
+                    <ul>
+                        <li><strong style="color: #28a745;">GREEN (> 12.5 cm):</strong> Normal nutritional status</li>
+                        <li><strong style="color: #ffc107;">YELLOW (11.5 - 12.5 cm):</strong> Moderate Acute Malnutrition (MAM) - requires supplementary feeding</li>
+                        <li><strong style="color: #dc3545;">RED (< 11.5 cm):</strong> Severe Acute Malnutrition (SAM) - requires immediate medical attention</li>
+                    </ul>
+                    
+                    <h4>Why MUAC is Important</h4>
+                    <p>MUAC is valuable because it:</p>
+                    <ul>
+                        <li>Is quick and easy to measure</li>
+                        <li>Requires minimal equipment</li>
+                        <li>Is a reliable predictor of mortality risk</li>
+                        <li>Can be used when age or height is unknown</li>
+                    </ul>
+                    
+                    <h4>Taking Action</h4>
+                    <p>If your MUAC reading indicates malnutrition, follow your healthcare provider's nutrition plan closely and attend all scheduled appointments.</p>`
+                },
+                'hydration': {
+                    title: 'The Importance of Hydration',
+                    author: 'Nutritionist Sara',
+                    date: 'February 2026',
+                    readTime: '4 min read',
+                    content: `<p>Proper hydration is essential for recovery and overall health. Water plays a crucial role in almost every bodily function.</p>
+                    
+                    <h4>Why Hydration Matters</h4>
+                    <ul>
+                        <li>Aids in nutrient absorption and transportation</li>
+                        <li>Helps regulate body temperature</li>
+                        <li>Supports kidney function</li>
+                        <li>Improves energy levels and brain function</li>
+                        <li>Helps with digestion and prevents constipation</li>
+                    </ul>
+                    
+                    <h4>How Much Water Do You Need?</h4>
+                    <p>A general guideline is 8 glasses (about 2 liters) per day, but needs vary based on:</p>
+                    <ul>
+                        <li>Body size and activity level</li>
+                        <li>Climate and temperature</li>
+                        <li>Health conditions</li>
+                        <li>Whether you're pregnant or breastfeeding</li>
+                    </ul>
+                    
+                    <h4>Signs of Dehydration</h4>
+                    <ul>
+                        <li>Dark yellow urine</li>
+                        <li>Feeling thirsty or tired</li>
+                        <li>Dry mouth and lips</li>
+                        <li>Headache or dizziness</li>
+                    </ul>
+                    
+                    <h4>Tips for Staying Hydrated</h4>
+                    <ul>
+                        <li>Carry a water bottle with you</li>
+                        <li>Drink water before, during, and after meals</li>
+                        <li>Eat water-rich foods (fruits, vegetables, soups)</li>
+                        <li>Set reminders to drink water throughout the day</li>
+                    </ul>`
+                },
+                'food-safety': {
+                    title: 'Food Safety Practices',
+                    author: 'Health Education Team',
+                    date: 'January 2026',
+                    readTime: '6 min read',
+                    content: `<p>Following proper food safety practices is crucial for preventing illness, especially during recovery when your immune system may be compromised.</p>
+                    
+                    <h4>The Four Key Principles</h4>
+                    
+                    <h4>1. Clean</h4>
+                    <ul>
+                        <li>Wash hands with soap for at least 20 seconds before handling food</li>
+                        <li>Clean surfaces and utensils before and after food preparation</li>
+                        <li>Wash fruits and vegetables under running water</li>
+                    </ul>
+                    
+                    <h4>2. Separate</h4>
+                    <ul>
+                        <li>Keep raw meat, poultry, and fish separate from other foods</li>
+                        <li>Use separate cutting boards for raw meat and ready-to-eat foods</li>
+                        <li>Store raw meat on the lowest shelf of the refrigerator</li>
+                    </ul>
+                    
+                    <h4>3. Cook</h4>
+                    <ul>
+                        <li>Cook food to safe internal temperatures</li>
+                        <li>Use a food thermometer to check doneness</li>
+                        <li>Reheat leftovers until steaming hot</li>
+                    </ul>
+                    
+                    <h4>4. Chill</h4>
+                    <ul>
+                        <li>Refrigerate perishable foods within 2 hours</li>
+                        <li>Keep refrigerator at 4°C (40°F) or below</li>
+                        <li>Don't leave food at room temperature for extended periods</li>
+                    </ul>`
+                }
+            },
+            guides: {
+                'meal-planning': {
+                    title: 'Meal Planning on a Budget',
+                    description: 'A comprehensive guide to creating nutritious meals with limited resources.',
+                    content: [
+                        'Plan Your Meals Weekly: Take time each week to plan what you will eat. This reduces waste and saves money.',
+                        'Make a Shopping List: Write down exactly what you need and stick to the list at the store.',
+                        'Buy in Season: Seasonal fruits and vegetables are cheaper and more nutritious.',
+                        'Use Affordable Protein Sources: Eggs, beans, lentils, and canned fish are budget-friendly protein options.',
+                        'Cook in Batches: Prepare large quantities and store portions for later meals.',
+                        'Don\'t Waste Food: Use leftovers creatively and store food properly to extend freshness.',
+                        'Grow Your Own: If possible, grow herbs and vegetables at home.',
+                        'Compare Prices: Check prices at different stores and buy store brands when possible.'
+                    ]
+                }
+            }
+        };
+
+        // Modal elements
+        const educationModal = document.getElementById('educationModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const closeModal = document.getElementById('closeModal');
+
+        // Close modal handlers
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                educationModal.classList.remove('active');
+                // Stop any playing videos
+                const iframe = modalBody.querySelector('iframe');
+                if (iframe) iframe.src = '';
+            });
+        }
+
+        if (educationModal) {
+            educationModal.addEventListener('click', (e) => {
+                if (e.target === educationModal) {
+                    educationModal.classList.remove('active');
+                    const iframe = modalBody.querySelector('iframe');
+                    if (iframe) iframe.src = '';
+                }
+            });
+        }
+
+        // Show video content
+        function showVideo(videoId) {
+            const video = educationContent.videos[videoId];
+            if (!video) return;
+            
+            modalTitle.textContent = video.title;
+            modalBody.innerHTML = `
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/${video.videoId}?rel=0" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                </div>
+                ${video.description}
+            `;
+            educationModal.classList.add('active');
+        }
+
+        // Show article content
+        function showArticle(articleId) {
+            const article = educationContent.articles[articleId];
+            if (!article) return;
+            
+            modalTitle.textContent = article.title;
+            modalBody.innerHTML = `
+                <div class="article-meta">
+                    <span><i class="fas fa-user"></i> ${article.author}</span>
+                    <span><i class="fas fa-calendar"></i> ${article.date}</span>
+                    <span><i class="fas fa-clock"></i> ${article.readTime}</span>
+                </div>
+                ${article.content}
+            `;
+            educationModal.classList.add('active');
+        }
+
+        // Download guide as PDF
+        function downloadGuide(guideId) {
+            const guide = educationContent.guides[guideId];
+            if (!guide) return;
+            
+            // Create printable HTML and trigger print/save as PDF
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+    <title>${guide.title}</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
+        h1 { color: #28a745; border-bottom: 3px solid #28a745; padding-bottom: 15px; }
+        h2 { color: #333; margin-top: 30px; }
+        ol { padding-left: 20px; }
+        li { margin: 15px 0; line-height: 1.8; padding: 10px; background: #f8f9fa; border-radius: 5px; }
+        .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #888; font-size: 12px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>${guide.title}</h1>
+    <p>${guide.description}</p>
+    <h2>Guidelines</h2>
+    <ol>
+        ${guide.content.map(item => `<li>${item}</li>`).join('')}
+    </ol>
+    <div class="footer">
+        <p>Smart MediPoint Healthcare System</p>
+        <p>Generated: ${new Date().toLocaleDateString()}</p>
+    </div>
+</body>
+</html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => printWindow.print(), 500);
+        }
+
         // Handle education buttons
-        document.querySelectorAll('.watch-video-btn, .read-article-btn, .download-guide-btn').forEach(btn => {
+        document.querySelectorAll('.watch-video-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                const type = this.classList.contains('watch-video-btn') ? 'video' : 
-                           this.classList.contains('read-article-btn') ? 'article' : 'guide';
-                const id = this.getAttribute('data-video-id') || 
-                          this.getAttribute('data-article-id') || 
-                          this.getAttribute('data-guide-id');
-                
-                console.log(`Opening ${type} with ID: ${id}`);
-                // In real app, this would navigate to the content
-                alert(`Opening ${type}: ${id}`);
+                const videoId = this.getAttribute('data-video-id');
+                showVideo(videoId);
+            });
+        });
+
+        document.querySelectorAll('.read-article-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const articleId = this.getAttribute('data-article-id');
+                showArticle(articleId);
+            });
+        });
+
+        document.querySelectorAll('.download-guide-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const guideId = this.getAttribute('data-guide-id');
+                downloadGuide(guideId);
             });
         });
 
@@ -2256,6 +2659,19 @@
         Implement proper file upload with progress indication.
         */
     </script>
+
+    <!-- Education Content Modal -->
+    <div class="modal-overlay" id="educationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Content Title</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
