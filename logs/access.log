@@ -680,3 +680,11 @@
 [2026-02-26T12:37:32.302Z] GET /patient/diet-plan | Status: 304 | Duration: 13ms | IP: ::1 | User: patient@medipoint.com
 [2026-02-26T12:37:32.318Z] GET /media/logo.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
 [2026-02-26T12:37:35.502Z] GET /patient/diet-plan/view | Status: 200 | Duration: 20ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T12:42:22.731Z] GET /patient/appointments?success=Appointment%20booked | Status: 200 | Duration: 43ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T12:42:22.744Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-26T12:42:22.745Z] GET /media/logo.png | Status: 304 | Duration: 2ms | IP: ::1 | User: anonymous
+[2026-02-26T12:42:22.786Z] GET /media/logo.png | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-26T12:42:22.791Z] GET /patient/diet-plan | Status: 304 | Duration: 37ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T12:42:22.797Z] GET /patient/measurements | Status: 304 | Duration: 43ms | IP: ::1 | User: patient@medipoint.com
+[2026-02-26T12:43:00.101Z] GET /vendor/fontawesome/css/all.min.css | Status: 304 | Duration: 1ms | IP: ::1 | User: anonymous
+[2026-02-26T12:43:00.108Z] GET /.well-known/appspecific/com.chrome.devtools.json | Status: 404 | Duration: 7ms | IP: ::1 | User: anonymous

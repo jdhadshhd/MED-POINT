@@ -2457,7 +2457,7 @@
         // Show video content
         function showVideo(videoId) {
             const video = educationContent.videos[videoId];
-            if (!video) return;
+            if (!video || !modalTitle || !modalBody || !educationModal) return;
             
             modalTitle.textContent = video.title;
             modalBody.innerHTML = `
@@ -2475,7 +2475,7 @@
         // Show article content
         function showArticle(articleId) {
             const article = educationContent.articles[articleId];
-            if (!article) return;
+            if (!article || !modalTitle || !modalBody || !educationModal) return;
             
             modalTitle.textContent = article.title;
             modalBody.innerHTML = `
