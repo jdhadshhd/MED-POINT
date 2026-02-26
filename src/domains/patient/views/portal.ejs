@@ -1035,6 +1035,103 @@
             align-items: center;
             gap: 6px;
         }
+
+        /* History Table Styles */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .history-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .history-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .history-table .status-normal {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .history-table .status-moderate {
+            color: #ffc107;
+            font-weight: 600;
+        }
+
+        .history-table .status-severe {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .history-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+        }
+
+        .history-empty i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .history-chart {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .history-chart canvas {
+            max-height: 300px;
+        }
+
+        .history-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .history-tab {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #666;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+        }
+
+        .history-tab.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .history-tab:hover:not(.active) {
+            background: #f0f0f0;
+        }
+
+        .history-table-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 
@@ -2556,6 +2653,237 @@
             });
         });
 
+        // ==================== HISTORY MODAL ====================
+        let historyChart = null;
+        let measurementHistory = [];
+
+        // View History button click
+        const viewHistoryBtn = document.getElementById('viewHistoryBtn');
+        if (viewHistoryBtn) {
+            viewHistoryBtn.addEventListener('click', async function() {
+                const historyModal = document.getElementById('historyModal');
+                if (historyModal) {
+                    historyModal.classList.add('active');
+                    await loadMeasurementHistory();
+                }
+            });
+        }
+
+        // Close history modal
+        document.addEventListener('click', function(e) {
+            const historyModal = document.getElementById('historyModal');
+            if (!historyModal) return;
+
+            if (e.target.id === 'closeHistoryModal' || e.target.closest('#closeHistoryModal')) {
+                historyModal.classList.remove('active');
+            }
+
+            if (e.target === historyModal) {
+                historyModal.classList.remove('active');
+            }
+        });
+
+        // History tab switching
+        document.querySelectorAll('.history-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                const tabName = this.getAttribute('data-tab');
+                const tableView = document.getElementById('historyTableView');
+                const chartView = document.getElementById('historyChartView');
+
+                if (tabName === 'table') {
+                    tableView.style.display = 'block';
+                    chartView.style.display = 'none';
+                } else {
+                    tableView.style.display = 'none';
+                    chartView.style.display = 'block';
+                    renderHistoryChart();
+                }
+            });
+        });
+
+        // Load measurement history from API
+        async function loadMeasurementHistory() {
+            const tbody = document.getElementById('historyTableBody');
+            if (!tbody) return;
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="history-empty">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading history...</p>
+                    </td>
+                </tr>
+            `;
+
+            try {
+                const response = await fetch('/patient/measurements/history');
+                const data = await response.json();
+
+                if (data.success && data.measurements && data.measurements.length > 0) {
+                    measurementHistory = data.measurements;
+                    renderHistoryTable(measurementHistory);
+                } else {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="history-empty">
+                                <i class="fas fa-clipboard-list"></i>
+                                <p>No measurement history found</p>
+                                <p style="font-size: 0.9rem;">Start tracking your health by adding measurements!</p>
+                            </td>
+                        </tr>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading history:', error);
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="history-empty">
+                            <i class="fas fa-exclamation-triangle" style="color: #dc3545;"></i>
+                            <p>Failed to load history</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Render history table
+        function renderHistoryTable(measurements) {
+            const tbody = document.getElementById('historyTableBody');
+            if (!tbody) return;
+
+            tbody.innerHTML = measurements.map(m => {
+                const date = new Date(m.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                const statusClass = m.muacStatus === 'Normal' ? 'status-normal' :
+                                   m.muacStatus === 'MAM' ? 'status-moderate' : 'status-severe';
+
+                return `
+                    <tr>
+                        <td>${date}</td>
+                        <td>${m.weight ? m.weight.toFixed(1) : '--'}</td>
+                        <td>${m.height || '--'}</td>
+                        <td>${m.bmi ? m.bmi.toFixed(1) : '--'}</td>
+                        <td>${m.muacValue ? m.muacValue.toFixed(1) : '--'}</td>
+                        <td class="${statusClass}">${m.muacStatus || '--'}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Render chart (simple visual representation)
+        function renderHistoryChart() {
+            const canvas = document.getElementById('historyChart');
+            if (!canvas || measurementHistory.length === 0) return;
+
+            const ctx = canvas.getContext('2d');
+            const width = canvas.parentElement.offsetWidth - 40;
+            const height = 300;
+            canvas.width = width;
+            canvas.height = height;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // Simple line chart for MUAC values
+            const padding = 50;
+            const chartWidth = width - padding * 2;
+            const chartHeight = height - padding * 2;
+
+            // Get MUAC values
+            const muacValues = measurementHistory.map(m => m.muacValue || 0).reverse();
+            const dates = measurementHistory.map(m => {
+                const d = new Date(m.createdAt);
+                return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            }).reverse();
+
+            const maxVal = Math.max(...muacValues, 15);
+            const minVal = Math.min(...muacValues, 8);
+            const range = maxVal - minVal || 1;
+
+            // Draw axes
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, height - padding);
+            ctx.lineTo(width - padding, height - padding);
+            ctx.stroke();
+
+            // Draw reference lines (SAM, MAM, Normal thresholds)
+            const drawThreshold = (value, color, label) => {
+                const y = height - padding - ((value - minVal) / range) * chartHeight;
+                ctx.strokeStyle = color;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(width - padding, y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillStyle = color;
+                ctx.font = '11px Arial';
+                ctx.fillText(label + ' (' + value + ' cm)', width - padding - 80, y - 5);
+            };
+
+            if (minVal < 11.5) drawThreshold(11.5, '#dc3545', 'SAM');
+            if (minVal < 12.5) drawThreshold(12.5, '#ffc107', 'MAM');
+
+            // Draw data points and lines
+            if (muacValues.length > 0) {
+                ctx.strokeStyle = '#28a745';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                muacValues.forEach((val, i) => {
+                    const x = padding + (i / (muacValues.length - 1 || 1)) * chartWidth;
+                    const y = height - padding - ((val - minVal) / range) * chartHeight;
+
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+
+                // Draw points
+                muacValues.forEach((val, i) => {
+                    const x = padding + (i / (muacValues.length - 1 || 1)) * chartWidth;
+                    const y = height - padding - ((val - minVal) / range) * chartHeight;
+
+                    ctx.fillStyle = val < 11.5 ? '#dc3545' : val < 12.5 ? '#ffc107' : '#28a745';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 6, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Date labels
+                    ctx.fillStyle = '#666';
+                    ctx.font = '10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(dates[i], x, height - padding + 20);
+                });
+            }
+
+            // Y-axis labels
+            ctx.fillStyle = '#666';
+            ctx.font = '11px Arial';
+            ctx.textAlign = 'right';
+            for (let i = 0; i <= 4; i++) {
+                const val = minVal + (range * i / 4);
+                const y = height - padding - (i / 4) * chartHeight;
+                ctx.fillText(val.toFixed(1), padding - 10, y + 4);
+            }
+
+            // Title
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('MUAC Measurements Over Time', width / 2, 25);
+        }
+
         // ==================== SUPPORT ====================
         const chatInput = document.getElementById('chat-input');
         const sendMessageBtn = document.getElementById('send-message-btn');
@@ -2674,6 +3002,60 @@
             </div>
             <div class="modal-body" id="modalBody">
                 <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Measurement History Modal -->
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3>Health Measurement History</h3>
+                <button class="modal-close" id="closeHistoryModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="history-tabs">
+                    <button class="history-tab active" data-tab="table">
+                        <i class="fas fa-table"></i> Table View
+                    </button>
+                    <button class="history-tab" data-tab="chart">
+                        <i class="fas fa-chart-line"></i> Chart View
+                    </button>
+                </div>
+                
+                <div id="historyTableView">
+                    <div class="history-table-container">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Weight (kg)</th>
+                                    <th>Height (cm)</th>
+                                    <th>BMI</th>
+                                    <th>MUAC (cm)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <tr>
+                                    <td colspan="6" class="history-empty">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <p>Loading history...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="historyChartView" style="display: none;">
+                    <div class="history-chart">
+                        <canvas id="historyChart"></canvas>
+                    </div>
+                    <p style="text-align: center; color: #888; margin-top: 15px;">
+                        <i class="fas fa-info-circle"></i> Chart shows your measurements over time
+                    </p>
+                </div>
             </div>
         </div>
     </div>
