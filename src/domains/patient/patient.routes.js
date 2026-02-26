@@ -43,6 +43,7 @@ router.post('/measurements', patientController.saveMeasurements);
 router.get('/diet-plan', patientController.getActiveDietPlan);
 router.get('/diet-plan/history', patientController.getDietPlanHistory);
 router.get('/diet-plan/download', patientController.downloadDietPlan);
+router.get('/diet-plan/view', patientController.viewDietPlan);
 
 // API - Get doctors
 router.get('/api/doctors', patientController.getDoctors);

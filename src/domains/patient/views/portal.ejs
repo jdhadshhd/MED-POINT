@@ -2121,17 +2121,12 @@
 
         // Download diet plan as PDF
         function downloadDietPlan() {
-            window.open('/patient/diet-plan/download', '_blank');
+            window.location.href = '/patient/diet-plan/download';
         }
 
-        // Print diet plan
+        // Print diet plan - opens in new window for printing
         function printDietPlan() {
-            const printWindow = window.open('/patient/diet-plan/download', '_blank');
-            if (printWindow) {
-                printWindow.onload = function() {
-                    printWindow.print();
-                };
-            }
+            window.open('/patient/diet-plan/view', '_blank');
         }
 
         // Load diet plan on page load
