@@ -1132,8 +1132,9 @@
                 </div>
 
                 <!-- Appointment Form -->
-                <form id="appointment-form" class="form-section hidden">
+                <form id="appointment-form" class="form-section hidden" action="/patient/appointments" method="POST">
                     <h3 class="card-title mb-20">Book New Appointment</h3>
+                    <input type="hidden" id="dateTimeHidden" name="dateTime" value="">
                     <div class="form-group">
                         <label for="specialty">Medical Specialty *</label>
                         <select id="specialty" name="specialty" class="form-control" required>
@@ -1149,7 +1150,7 @@
                     </div>
                     <div class="form-group">
                         <label for="doctor">Select Doctor *</label>
-                        <select id="doctor" name="doctor" class="form-control" required disabled>
+                        <select id="doctor" name="doctorId" class="form-control" required disabled>
                             <option value="">First select a specialty</option>
                         </select>
                     </div>
@@ -1184,7 +1185,7 @@
                     </div>
                     <div class="form-group">
                         <label for="symptoms">Symptoms / Reason for Visit *</label>
-                        <textarea id="symptoms" name="symptoms" class="form-control" rows="4"
+                        <textarea id="symptoms" name="notes" class="form-control" rows="4"
                             placeholder="Describe your symptoms, when they started, and any other relevant information"
                             required></textarea>
                     </div>
@@ -1777,33 +1778,20 @@
         // Handle appointment form submission
         if (document.getElementById('appointment-form')) {
             document.getElementById('appointment-form').addEventListener('submit', function(e) {
-                e.preventDefault();
+                // Combine date and time into dateTime field
+                const dateInput = document.getElementById('date');
+                const timeSelect = document.getElementById('time');
+                const dateTimeHidden = document.getElementById('dateTimeHidden');
                 
-                // Collect form data
-                const formData = new FormData(this);
-                const data = Object.fromEntries(formData);
-                
-                // Validate data
-                if (!data.specialty || !data.doctor || !data.date || !data.time || !data.symptoms) {
-                    alert('Please fill in all required fields');
+                if (dateInput.value && timeSelect.value) {
+                    dateTimeHidden.value = `${dateInput.value}T${timeSelect.value}:00`;
+                } else {
+                    e.preventDefault();
+                    alert('Please select date and time');
                     return;
                 }
                 
-                // Here you would send data to backend
-                console.log('Appointment data:', data);
-                
-                // Show success message
-                alert('Appointment booked successfully!');
-                
-                // Reset and hide form
-                this.reset();
-                this.classList.add('hidden');
-                
-                // Reset selects
-                doctorSelect.disabled = true;
-                doctorSelect.innerHTML = '<option value="">First select a specialty</option>';
-                timeSelect.disabled = true;
-                timeSelect.innerHTML = '<option value="">First select date</option>';
+                // Form will submit normally to /patient/appointments
             });
         }
 
