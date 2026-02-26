@@ -362,6 +362,19 @@ const patientController = {
       res.status(500).json({ error: 'Failed to get measurement history' });
     }
   },
+
+  /**
+   * GET /patient/api/doctors - Get list of doctors
+   */
+  async getDoctors(req, res) {
+    try {
+      const doctors = await patientService.getDoctors();
+      res.json({ doctors });
+    } catch (error) {
+      console.error('[Patient] Get doctors error:', error);
+      res.status(500).json({ error: 'Failed to get doctors' });
+    }
+  },
 };
 
 module.exports = patientController;
