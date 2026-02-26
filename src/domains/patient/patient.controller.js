@@ -261,6 +261,20 @@ const patientController = {
 
         const { recordId, notes } = req.body;
 
+        // Validate record type is provided
+        if (!notes || notes.trim() === '') {
+          // Delete uploaded file since record type is missing
+          const filePath = path.join(__dirname, '..', '..', '..', config.uploadDir, req.file.filename);
+          try {
+            fs.unlinkSync(filePath);
+          } catch (unlinkError) {
+            console.error('[Upload] Failed to delete file:', unlinkError);
+          }
+          const referer = req.get('Referer') || '/patient/upload';
+          const redirectUrl = referer.includes('dashboard') ? '/patient/dashboard' : '/patient/upload';
+          return res.redirect(`${redirectUrl}?error=Please select a record type`);
+        }
+
         // Use auto-record creation if no record selected
         await patientService.uploadFileWithAutoRecord({
           patientId: req.user.id,
