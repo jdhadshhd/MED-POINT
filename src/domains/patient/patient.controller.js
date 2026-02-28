@@ -293,7 +293,7 @@ const patientController = {
         res.redirect(`${redirectUrl}?success=File uploaded`);
       } catch (error) {
         console.error('[Patient] Upload error:', error);
-        
+
         // Delete uploaded file if database save failed
         if (req.file) {
           const filePath = path.join(__dirname, '..', '..', '..', config.uploadDir, req.file.filename);
@@ -304,7 +304,7 @@ const patientController = {
             console.error('[Upload] Failed to delete file:', unlinkError);
           }
         }
-        
+
         const referer = req.get('Referer') || '/patient/upload';
         const redirectUrl = referer.includes('dashboard') ? '/patient/dashboard' : '/patient/upload';
         res.redirect(`${redirectUrl}?error=Failed to upload file - database error`);
@@ -317,14 +317,14 @@ const patientController = {
    */
   async saveMeasurements(req, res) {
     try {
-      const { weight, height, muac, notes } = req.body;
+      const { weight, height, muac, notes, name } = req.body;
 
-      if (!weight || !height || !muac) {
-        return res.status(400).json({ error: 'Weight, height, and MUAC are required' });
+      if (!weight || !height || !muac || !name) {
+        return res.status(400).json({ error: 'Weight, height, MUAC, and name are required' });
       }
 
       const measurement = await patientService.saveHealthMeasurement({
-        patientId: req.user.id,
+        name,
         weight: parseFloat(weight),
         height: parseFloat(height),
         muacValue: parseFloat(muac),
@@ -377,6 +377,47 @@ const patientController = {
     }
   },
 
+  /**
+   * GET /patient/api/records - Get medical records for data table
+   */
+  async getRecordsApi(req, res) {
+    try {
+      const files = await patientService.getFiles(req.user.id);
+      res.json({ success: true, files });
+    } catch (error) {
+      console.error('[Patient] Get records API error:', error);
+      res.status(500).json({ success: false, error: 'Failed to get records' });
+    }
+  },
+
+  /**
+   * GET /patient/records/download/:id - Download medical file
+   */
+  async downloadFile(req, res) {
+    try {
+      const fileId = req.params.id;
+      const file = await prisma.medicalFile.findUnique({
+        where: { id: fileId },
+        include: { record: true },
+      });
+
+      if (!file || file.record.patientId !== req.user.id) {
+        return res.status(404).render('shared/error', { message: 'File not found' });
+      }
+
+      const filePath = path.join(__dirname, '..', '..', '..', config.uploadDir, file.filePath);
+
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).render('shared/error', { message: 'File not found on server' });
+      }
+
+      res.download(filePath, file.originalName);
+    } catch (error) {
+      console.error('[Patient] Download error:', error);
+      res.status(500).render('shared/error', { message: 'Failed to download file' });
+    }
+  },
+
   // ===== DIET PLAN ENDPOINTS =====
 
   /**
@@ -411,23 +452,23 @@ const patientController = {
   async downloadDietPlan(req, res) {
     try {
       const plan = await patientService.getActiveDietPlan(req.user.id);
-      
+
       if (!plan) {
         return res.status(404).json({ error: 'No active diet plan found' });
       }
 
       const items = plan.itemsArray || [];
-      const date = new Date(plan.createdAt).toLocaleDateString('en-US', { 
-        year: 'numeric', month: 'long', day: 'numeric' 
+      const date = new Date(plan.createdAt).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
       });
 
       // Create PDF document
       const doc = new PDFDocument({ margin: 50 });
-      
+
       // Set response headers for PDF download
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', `attachment; filename="diet-plan-${Date.now()}.pdf"`);
-      
+
       // Pipe PDF to response
       doc.pipe(res);
 
@@ -436,36 +477,36 @@ const patientController = {
       doc.moveDown(0.5);
       doc.fontSize(20).fillColor('#333').text(plan.title, { align: 'center' });
       doc.fontSize(12).fillColor('#666').text('Personalized Nutrition Plan', { align: 'center' });
-      
+
       // Divider line
       doc.moveDown(1);
       doc.strokeColor('#28a745').lineWidth(2)
-         .moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+        .moveTo(50, doc.y).lineTo(550, doc.y).stroke();
       doc.moveDown(1);
 
       // Patient Info Box
       doc.fontSize(12).fillColor('#333');
       doc.font('Helvetica-Bold').text('Patient: ', { continued: true })
-         .font('Helvetica').text(req.user.name || 'Patient');
+        .font('Helvetica').text(req.user.name || 'Patient');
       doc.font('Helvetica-Bold').text('Designed By: ', { continued: true })
-         .font('Helvetica').text(plan.designedBy);
+        .font('Helvetica').text(plan.designedBy);
       doc.font('Helvetica-Bold').text('Assigned By: ', { continued: true })
-         .font('Helvetica').text(`Dr. ${plan.doctor?.name || 'Doctor'}`);
+        .font('Helvetica').text(`Dr. ${plan.doctor?.name || 'Doctor'}`);
       doc.font('Helvetica-Bold').text('Date: ', { continued: true })
-         .font('Helvetica').text(date);
-      
+        .font('Helvetica').text(date);
+
       if (plan.description) {
         doc.font('Helvetica-Bold').text('Description: ', { continued: true })
-           .font('Helvetica').text(plan.description);
+          .font('Helvetica').text(plan.description);
       }
 
       doc.moveDown(1.5);
 
       // Diet Plan Guidelines
       doc.fontSize(16).fillColor('#28a745').font('Helvetica-Bold')
-         .text('Diet Plan Guidelines');
+        .text('Diet Plan Guidelines');
       doc.strokeColor('#ddd').lineWidth(1)
-         .moveTo(50, doc.y + 5).lineTo(300, doc.y + 5).stroke();
+        .moveTo(50, doc.y + 5).lineTo(300, doc.y + 5).stroke();
       doc.moveDown(1);
 
       // Items list
@@ -482,12 +523,12 @@ const patientController = {
       // Footer
       doc.moveDown(2);
       doc.strokeColor('#ddd').lineWidth(1)
-         .moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+        .moveTo(50, doc.y).lineTo(550, doc.y).stroke();
       doc.moveDown(0.5);
       doc.fontSize(10).fillColor('#999')
-         .text('Generated by Smart MediPoint Healthcare System', { align: 'center' })
-         .text('This plan should be followed under medical supervision.', { align: 'center' })
-         .text(`Generated: ${new Date().toLocaleDateString()}`, { align: 'center' });
+        .text('Generated by Smart MediPoint Healthcare System', { align: 'center' })
+        .text('This plan should be followed under medical supervision.', { align: 'center' })
+        .text(`Generated: ${new Date().toLocaleDateString()}`, { align: 'center' });
 
       // Finalize PDF
       doc.end();
@@ -503,15 +544,15 @@ const patientController = {
   async viewDietPlan(req, res) {
     try {
       const plan = await patientService.getActiveDietPlan(req.user.id);
-      
+
       if (!plan) {
         return res.status(404).send('<h1>No active diet plan found</h1>');
       }
 
       const items = plan.itemsArray || [];
       const itemsHtml = items.map(item => `<li style="margin: 8px 0; font-size: 14px;">${item}</li>`).join('');
-      const date = new Date(plan.createdAt).toLocaleDateString('en-US', { 
-        year: 'numeric', month: 'long', day: 'numeric' 
+      const date = new Date(plan.createdAt).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
       });
 
       const html = `

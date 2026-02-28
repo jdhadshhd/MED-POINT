@@ -28,10 +28,13 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      fontSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+      fontSrc: ["'self'", "https://cdn.jsdelivr.net"],
+      // 'self' already covers /socket.io/socket.io.js - no need to list it explicitly
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
       imgSrc: ["'self'", "data:", "https:"],
+      // WebSockets (ws/wss) for socket.io + CDN for chart.js source maps
+      connectSrc: ["'self'", "ws:", "wss:", "https://cdn.jsdelivr.net"],
     },
   },
 }));

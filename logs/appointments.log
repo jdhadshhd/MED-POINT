@@ -1,3 +1,1 @@
 [2026-02-25T00:00:00.000Z] [INFO] Appointments log initialized
-[2026-02-26T11:39:27.313Z] [APPOINTMENT] CREATE_START | {"patientId":"8baa5c5e-8fad-4464-8f3d-31ad7b14d8a2","doctorId":"d9054aca-8d05-4a49-b2aa-570ec4863f05","dateTime":"2026-02-26T14:00:00","notes":"يي"}
-[2026-02-26T11:39:27.329Z] [APPOINTMENT] CREATE_SUCCESS | {"appointmentId":"f5a76085-ca69-46b7-877f-cdc418052f0a","patientId":"8baa5c5e-8fad-4464-8f3d-31ad7b14d8a2","doctorId":"d9054aca-8d05-4a49-b2aa-570ec4863f05","patientName":"John Doe"}

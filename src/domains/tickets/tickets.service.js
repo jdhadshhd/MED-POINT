@@ -94,37 +94,47 @@ const ticketsService = {
    * Add reply to ticket
    */
   async addReply({ ticketId, senderId, message, senderRole }) {
-    const ticketMessage = await ticketsRepo.addMessage({
-      ticketId,
-      senderId,
-      message,
-    });
-
-    // Get ticket to find owner
-    const ticket = await ticketsRepo.findById(ticketId);
-
-    // If admin replies, notify ticket owner
-    if (senderRole === 'ADMIN' && ticket.userId !== senderId) {
-      await notificationsService.create({
-        userId: ticket.userId,
-        type: 'TICKET_REPLY',
-        message: `New reply on your support ticket "${ticket.title}"`,
-      });
-
-      emitToUser(ticket.userId, 'ticket:updated', {
+    try {
+      // 1. Add the message first
+      const ticketMessage = await ticketsRepo.addMessage({
         ticketId,
-        message: `New reply on your ticket "${ticket.title}"`,
+        senderId,
+        message,
       });
-    } else {
-      // If user replies, notify admins
-      emitToRole('ADMIN', 'notification', {
-        type: 'ticket',
-        message: `New reply on ticket: ${ticket.title}`,
-        ticketId,
-      });
+
+      // 2. Try to get the ticket for notifications
+      const ticket = await ticketsRepo.findById(ticketId);
+      if (!ticket) return ticketMessage; // Should not happen since we just added a message
+
+      // 3. Handle notifications in a try/catch so they don't block the reply
+      try {
+        if (senderRole === 'ADMIN' && ticket.userId !== senderId) {
+          await notificationsService.create({
+            userId: ticket.userId,
+            type: 'TICKET_REPLY',
+            message: `New reply on your support ticket "${ticket.title}"`,
+          });
+
+          emitToUser(ticket.userId, 'ticket:updated', {
+            ticketId,
+            message: `New reply on your ticket "${ticket.title}"`,
+          });
+        } else {
+          emitToRole('ADMIN', 'notification', {
+            type: 'ticket',
+            message: `New reply on ticket: ${ticket.title}`,
+            ticketId,
+          });
+        }
+      } catch (notifyErr) {
+        console.warn('[TicketsService] Notification failed but reply was saved:', notifyErr);
+      }
+
+      return ticketMessage;
+    } catch (error) {
+      console.error('[TicketsService] addReply failed:', error);
+      throw error;
     }
-
-    return ticketMessage;
   },
 
   /**

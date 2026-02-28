@@ -2,7 +2,7 @@
  * Auth Repository
  * Handles user database queries
  */
-const prisma = require('../../prisma');
+const prisma = require('../../prisma.js');
 
 const authRepo = {
   /**

@@ -47,5 +47,7 @@ router.get('/diet-plan/view', patientController.viewDietPlan);
 
 // API - Get doctors
 router.get('/api/doctors', patientController.getDoctors);
+router.get('/api/records', patientController.getRecordsApi);
+router.get('/records/download/:id', patientController.downloadFile);
 
 module.exports = router;

@@ -1,78 +1,52 @@
-<!-- Auth Register Page -->
 <link rel="stylesheet" href="/site/css/auth.css">
-
+<script src="/js/register-validation.js" defer></script>
 <div class="auth-page">
   <div class="auth-container">
-    <!-- Welcome Section -->
-    <div class="welcome-section">
-      <div class="welcome-content">
-        <span>Join Us Today!</span>
-        <h1>Smart MediPoint</h1>
-        <p>Create your account and start managing your healthcare journey. Access appointments, medical records, and connect with healthcare providers.</p>
-      </div>
-    </div>
-    
-    <!-- Form Section -->
     <div class="form-section-container">
       <div class="form-card">
         <h2>Create Account</h2>
-        
         <% if (error) { %>
         <div class="auth-alert error">
           <i class="fas fa-exclamation-circle"></i>
           <%= error %>
         </div>
         <% } %>
-        
-        <form action="/auth/register" method="POST">
-          <label for="name">Full Name</label>
-          <div class="input-box">
+        <form action="/auth/register" method="POST" novalidate>
+          <div class="form-group">
+            <label for="name">Full Name *</label>
             <input type="text" id="name" name="name" required placeholder="Enter your full name">
-            <i class="fas fa-user"></i>
           </div>
-          
-          <label for="email">Email Address</label>
-          <div class="input-box">
+          <div class="form-group">
+            <label for="email">Email Address *</label>
             <input type="email" id="email" name="email" required placeholder="Enter your email">
-            <i class="fas fa-envelope"></i>
           </div>
-          
-          <label for="dateOfBirth">Date of Birth</label>
-          <div class="input-box">
+          <div class="form-group">
+            <label for="dateOfBirth">Date of Birth</label>
             <input type="date" id="dateOfBirth" name="dateOfBirth">
-            <i class="fas fa-calendar"></i>
           </div>
-          
-          <label for="password">Password</label>
-          <div class="input-box">
-            <input type="password" id="password" name="password" required placeholder="At least 6 characters" minlength="6">
-            <i class="fas fa-lock"></i>
+          <div class="form-group">
+            <label for="password">Password *</label>
+            <input type="password" id="password" name="password" required minlength="6" placeholder="At least 6 characters">
           </div>
-          
-          <label for="confirmPassword">Confirm Password</label>
-          <div class="input-box">
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password *</label>
             <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
-            <i class="fas fa-lock"></i>
           </div>
-          
-          <div class="checkbox">
+          <div class="form-group">
             <label>
               <input type="checkbox" name="terms" required> I agree to the <a href="#">Terms & Conditions</a>
             </label>
           </div>
-          
           <button type="submit" class="auth-btn">
             <i class="fas fa-user-plus"></i> Create Account
           </button>
         </form>
-        
         <div class="form-links">
           <p>Already have an account? <a href="/auth/login">Sign In</a></p>
         </div>
       </div>
     </div>
   </div>
-  
   <div class="logo-container">
     <div class="logo">
       <img src="/site/media/logo.png" alt="Logo" onerror="this.style.display='none'">

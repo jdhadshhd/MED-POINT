@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Patient Portal</title>
+    <script src="/js/global.js"></script>
     <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css">
     <link rel="icon" href="/media/logo.png">
     <style>
@@ -945,7 +946,7 @@
         }
 
         .modal-close {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             border: none;
             color: white;
             font-size: 24px;
@@ -960,7 +961,7 @@
         }
 
         .modal-close:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .modal-body {
@@ -1052,11 +1053,16 @@
         }
 
         .history-table th {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            font-weight: 600;
+            background: #14535E;
+            /* أزرق داكن واضح */
+            color: #fff;
+            /* نص أبيض واضح */
+            font-weight: bold;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
             position: sticky;
             top: 0;
+            z-index: 2;
         }
 
         .history-table tr:hover {
@@ -1112,21 +1118,27 @@
         .history-tab {
             padding: 10px 20px;
             border: none;
-            background: none;
+            background: #e9f5f3;
             cursor: pointer;
             font-size: 1rem;
-            color: #666;
+            color: #14535E;
             border-radius: 8px 8px 0 0;
+            font-weight: 500;
             transition: all 0.3s;
+            box-shadow: 0 2px 6px rgba(44, 165, 141, 0.07);
+            margin-bottom: -2px;
         }
 
         .history-tab.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
+            background: #14535E;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(44, 165, 141, 0.13);
         }
 
         .history-tab:hover:not(.active) {
-            background: #f0f0f0;
+            background: #d1ede7;
+            color: #14535E;
         }
 
         .history-table-container {
@@ -1165,7 +1177,9 @@
                     <!-- User Menu داخل النافبار -->
                     <div class="nav-user-menu">
                         <div class="user-info">
-                            <div class="user-name"><%= user ? user.name : 'Patient' %></div>
+                            <div class="user-name">
+                                <%= user ? user.name : 'Patient' %>
+                            </div>
                             <div class="user-role">Patient</div>
                         </div>
                         <a href="/auth/logout" class="logout-btn">
@@ -1185,7 +1199,8 @@
                 <div class="page-header">
                     <div class="page-title">
                         <h2>Patient Dashboard</h2>
-                        <p>Welcome back, <%= user ? user.name.split(' ')[0] : 'Patient' %>. Here's your health overview.</p>
+                        <p>Welcome back, <%= user ? user.name.split(' ')[0] : ' Patient' %>. Here's your health
+                                overview.</p>
                     </div>
                     <button class="btn" id="bookAppointmentBtn">
                         <i class="fas fa-plus"></i> Book Appointment
@@ -1262,10 +1277,8 @@
                                 <i class="fas fa-file-medical-alt"></i>
                             </div>
                         </div>
-                        <div class="mb-20">
-                            <p><i class="fas fa-file-pdf"></i> Blood Test Results.pdf (2 days ago)</p>
-                            <p><i class="fas fa-file-image"></i> MUAC_Measurement.jpg (1 week ago)</p>
-                            <p><i class="fas fa-file-pdf"></i> Doctor_Notes.pdf (2 weeks ago)</p>
+                        <div id="dashboard-recent-records" class="mb-20">
+                            <!-- Loaded via JavaScript -->
                         </div>
                         <button class="btn btn-outline btn-small" data-page="records">
                             <i class="fas fa-eye"></i> View All Records
@@ -1370,25 +1383,6 @@
                     <h3 class="card-title mb-20">Book New Appointment</h3>
                     <input type="hidden" id="dateTimeHidden" name="dateTime" value="">
                     <div class="form-group">
-                        <label for="specialty">Medical Specialty *</label>
-                        <select id="specialty" name="specialty" class="form-control" required>
-                            <option value="">Select specialty</option>
-                            <option value="general">General Medicine</option>
-                            <option value="pediatrics">Pediatrics</option>
-                            <option value="nutrition">Nutrition</option>
-                            <option value="cardiology">Cardiology</option>
-                            <option value="dermatology">Dermatology</option>
-                            <option value="orthopedics">Orthopedics</option>
-                            <option value="gastroenterology">Gastroenterology</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="doctor">Select Doctor *</label>
-                        <select id="doctor" name="doctorId" class="form-control" required disabled>
-                            <option value="">First select a specialty</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label for="consultationType">Consultation Type *</label>
                         <select id="consultationType" name="consultation_type" class="form-control" required>
                             <option value="">Select type</option>
@@ -1430,7 +1424,9 @@
                             <h3 class="card-title">Patient Information (Will be sent to doctor)</h3>
                         </div>
                         <div class="patient-info-summary">
-                            <p><strong>Name:</strong> <span id="patient-name-form"><%= user ? user.name : 'Patient' %></span></p>
+                            <p><strong>Name:</strong> <span id="patient-name-form">
+                                    <%= user ? user.name : 'Patient' %>
+                                </span></p>
 
                             <div class="form-group">
                                 <label for="patient-age-input">Age *</label>
@@ -1460,7 +1456,8 @@
 
                             <div class="form-group">
                                 <label for="patient-conditions-input">Chronic Conditions / Medical History</label>
-                                <textarea id="patient-conditions-input" name="medical_history" class="form-control" rows="3"
+                                <textarea id="patient-conditions-input" name="medical_history" class="form-control"
+                                    rows="3"
                                     placeholder="List any chronic conditions, previous surgeries, or medical history"></textarea>
                             </div>
 
@@ -1489,6 +1486,7 @@
                         <button type="button" id="cancel-appointment" class="btn btn-secondary">
                             Cancel
                         </button>
+                        </button>
                         <button type="submit" id="submit-appointment" class="btn">
                             Book Appointment
                         </button>
@@ -1509,7 +1507,8 @@
                 </div>
 
                 <!-- Upload Form -->
-                <form id="upload-form" class="form-section" action="/patient/upload" method="POST" enctype="multipart/form-data">
+                <form id="upload-form" class="form-section" action="/patient/upload" method="POST"
+                    enctype="multipart/form-data">
                     <h3 class="card-title mb-20">Upload Medical Record</h3>
                     <input type="file" id="fileInput" name="file" hidden accept=".pdf,.jpg,.jpeg,.png" required>
                     <div class="file-upload" id="fileDropArea">
@@ -1517,7 +1516,8 @@
                         <h4>Click to upload or drag and drop</h4>
                         <p>Maximum file size: 10MB. Formats: PDF, JPG, PNG</p>
                     </div>
-                    <div id="selectedFileInfo" style="display: none; margin-bottom: 15px; padding: 10px; background: #e8f5e9; border-radius: 8px; text-align: center;">
+                    <div id="selectedFileInfo"
+                        style="display: none; margin-bottom: 15px; padding: 10px; background: #e8f5e9; border-radius: 8px; text-align: center;">
                         <i class="fas fa-check-circle" style="color: #4caf50;"></i>
                         <span id="selectedFileName"></span>
                     </div>
@@ -1538,7 +1538,7 @@
                 </form>
 
                 <!-- Records Table -->
-                <div class="form-section mt-20">
+                <div id="records-table-section" class="form-section mt-20">
                     <h3 class="card-title mb-20">Your Medical Records</h3>
                     <table class="records-table">
                         <thead>
@@ -1551,48 +1551,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><i class="fas fa-file-pdf"></i> Blood_Test_Results.pdf</td>
-                                <td>Lab Results</td>
-                                <td>Mar 10, 2023</td>
-                                <td>2.4 MB</td>
-                                <td>
-                                    <button class="btn btn-outline btn-small view-record-btn">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <button class="btn btn-outline btn-small download-record-btn">
-                                        <i class="fas fa-download"></i> Download
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><i class="fas fa-file-image"></i> MUAC_Measurement.jpg</td>
-                                <td>Scan/Image</td>
-                                <td>Mar 3, 2023</td>
-                                <td>1.8 MB</td>
-                                <td>
-                                    <button class="btn btn-outline btn-small view-record-btn">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <button class="btn btn-outline btn-small download-record-btn">
-                                        <i class="fas fa-download"></i> Download
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><i class="fas fa-file-pdf"></i> Doctor_Notes.pdf</td>
-                                <td>Doctor's Notes</td>
-                                <td>Feb 25, 2023</td>
-                                <td>0.8 MB</td>
-                                <td>
-                                    <button class="btn btn-outline btn-small view-record-btn">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <button class="btn btn-outline btn-small download-record-btn">
-                                        <i class="fas fa-download"></i> Download
-                                    </button>
-                                </td>
-                            </tr>
+                            <!-- Loaded via JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -1683,15 +1642,18 @@
                     <h3 class="card-title mb-20">Update Health Measurements</h3>
                     <div class="form-group">
                         <label for="weight">Weight (kg) *</label>
-                        <input type="number" id="weight" name="weight" class="form-control" placeholder="e.g., 52.5" step="0.1" required>
+                        <input type="number" id="weight" name="weight" class="form-control" placeholder="e.g., 52.5"
+                            step="0.1" required>
                     </div>
                     <div class="form-group">
                         <label for="height">Height (cm) *</label>
-                        <input type="number" id="height" name="height" class="form-control" placeholder="e.g., 165" required>
+                        <input type="number" id="height" name="height" class="form-control" placeholder="e.g., 165"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="muac">MUAC Measurement (cm) *</label>
-                        <input type="number" id="muac" name="muac" class="form-control" placeholder="e.g., 11.2" step="0.1" required>
+                        <input type="number" id="muac" name="muac" class="form-control" placeholder="e.g., 11.2"
+                            step="0.1" required>
                         <small style="color: #666; font-size: 0.9rem;">Measure the mid-upper arm circumference</small>
                     </div>
                     <div class="form-actions">
@@ -1719,7 +1681,8 @@
                             <h4>Nutrition for Recovery</h4>
                             <p>Learn about essential nutrients needed for recovery from malnutrition and how to
                                 incorporate them into your diet.</p>
-                            <button class="btn btn-outline btn-small watch-video-btn" data-video-id="nutrition-recovery">
+                            <button class="btn btn-outline btn-small watch-video-btn"
+                                data-video-id="nutrition-recovery">
                                 <i class="fas fa-play"></i> Watch Video
                             </button>
                         </div>
@@ -1733,7 +1696,8 @@
                             <h4>Understanding MUAC</h4>
                             <p>A guide to measuring Mid-Upper Arm Circumference (MUAC) and what the measurements mean
                                 for your health.</p>
-                            <button class="btn btn-outline btn-small read-article-btn" data-article-id="understanding-muac">
+                            <button class="btn btn-outline btn-small read-article-btn"
+                                data-article-id="understanding-muac">
                                 <i class="fas fa-book-open"></i> Read Article
                             </button>
                         </div>
@@ -1774,12 +1738,14 @@
                     <div class="mb-20">
                         <h4><i class="fas fa-newspaper"></i> The Importance of Hydration</h4>
                         <p>Learn why staying hydrated is crucial for recovery and overall health.</p>
-                        <button class="btn btn-outline btn-small mt-10 read-article-btn" data-article-id="hydration">Read More</button>
+                        <button class="btn btn-outline btn-small mt-10 read-article-btn"
+                            data-article-id="hydration">Read More</button>
                     </div>
                     <div>
                         <h4><i class="fas fa-newspaper"></i> Food Safety Practices</h4>
                         <p>Essential tips for preparing and storing food safely to prevent illness.</p>
-                        <button class="btn btn-outline btn-small mt-10 read-article-btn" data-article-id="food-safety">Read More</button>
+                        <button class="btn btn-outline btn-small mt-10 read-article-btn"
+                            data-article-id="food-safety">Read More</button>
                     </div>
                 </div>
             </div>
@@ -1912,10 +1878,15 @@
 
             // Hide all forms when switching pages
             document.querySelectorAll('.form-section').forEach(form => {
-                if (form.id !== 'upload-form') { // Keep upload form visible on records page
+                if (form.id !== 'upload-form' && form.id !== 'records-table-section') {
                     form.classList.add('hidden');
                 }
             });
+
+            // Load data for specific pages
+            if (pageId === 'records') {
+                loadMedicalRecords();
+            }
         }
 
         // Add event listeners to nav links
@@ -1958,16 +1929,16 @@
 
         // Handle specialty selection
         if (specialtySelect) {
-            specialtySelect.addEventListener('change', async function() {
+            specialtySelect.addEventListener('change', async function () {
                 if (this.value) {
                     doctorSelect.disabled = true;
                     doctorSelect.innerHTML = '<option value="">Loading doctors...</option>';
-                    
+
                     try {
                         // Fetch doctors from API
                         const response = await fetch('/patient/api/doctors');
                         const data = await response.json();
-                        
+
                         doctorSelect.innerHTML = '<option value="">Select doctor</option>';
                         if (data.doctors && data.doctors.length > 0) {
                             data.doctors.forEach(doctor => {
@@ -1995,7 +1966,7 @@
 
         // Handle date selection
         if (dateInput) {
-            dateInput.addEventListener('change', function() {
+            dateInput.addEventListener('change', function () {
                 if (this.value) {
                     timeSelect.disabled = false;
                     // Simulate available times - Backend should replace this
@@ -2016,12 +1987,12 @@
 
         // Handle appointment form submission
         if (document.getElementById('appointment-form')) {
-            document.getElementById('appointment-form').addEventListener('submit', function(e) {
+            document.getElementById('appointment-form').addEventListener('submit', function (e) {
                 // Combine date and time into dateTime field
                 const dateInput = document.getElementById('date');
                 const timeSelect = document.getElementById('time');
                 const dateTimeHidden = document.getElementById('dateTimeHidden');
-                
+
                 if (dateInput.value && timeSelect.value) {
                     dateTimeHidden.value = `${dateInput.value}T${timeSelect.value}:00`;
                 } else {
@@ -2029,7 +2000,7 @@
                     alert('Please select date and time');
                     return;
                 }
-                
+
                 // Form will submit normally to /patient/appointments
             });
         }
@@ -2045,18 +2016,18 @@
                 fileInput.click();
             });
 
-            fileInput.addEventListener('change', function() {
+            fileInput.addEventListener('change', function () {
                 if (this.files && this.files[0]) {
                     const fileName = this.files[0].name;
-                    const fileSize = (this.files[0].size / (1024*1024)).toFixed(2);
-                    
+                    const fileSize = (this.files[0].size / (1024 * 1024)).toFixed(2);
+
                     // Validate file size
                     if (this.files[0].size > 10 * 1024 * 1024) {
                         alert('File size exceeds 10MB limit');
                         this.value = '';
                         return;
                     }
-                    
+
                     // Show file info without removing the input
                     const fileInfo = document.getElementById('selectedFileInfo');
                     const fileNameSpan = document.getElementById('selectedFileName');
@@ -2107,6 +2078,74 @@
         // Upload form submission - let it submit normally to the backend
         // The form has action="/patient/upload" so it will POST to the backend
 
+        // Function to load medical records
+        async function loadMedicalRecords() {
+            const tbody = document.querySelector('.records-table tbody');
+            const dashboardRecent = document.getElementById('dashboard-recent-records');
+
+            if (tbody) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;"><i class="fas fa-spinner fa-spin"></i> Loading records...</td></tr>';
+            }
+            if (dashboardRecent) {
+                dashboardRecent.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading...</p>';
+            }
+
+            try {
+                const response = await fetch('/patient/api/records');
+                const data = await response.json();
+
+                if (data.success && data.files && data.files.length > 0) {
+                    // Populate records table
+                    if (tbody) {
+                        tbody.innerHTML = data.files.map(file => {
+                            const date = new Date(file.uploadedAt).toLocaleDateString();
+                            const size = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                            const icon = file.mimeType.includes('pdf') ? 'fa-file-pdf' : 'fa-file-image';
+
+                            return `
+                                <tr>
+                                    <td><i class="fas ${icon}"></i> ${file.originalName}</td>
+                                    <td>${file.record?.notes || 'General'}</td>
+                                    <td>${date}</td>
+                                    <td>${size}</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small" onclick="window.open('/patient/records/download/${file.id}', '_blank')">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                        <button class="btn btn-outline btn-small" onclick="window.location.href='/patient/records/download/${file.id}'">
+                                            <i class="fas fa-download"></i> Download
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('');
+                    }
+
+                    // Populate dashboard recent (top 3)
+                    if (dashboardRecent) {
+                        dashboardRecent.innerHTML = data.files.slice(0, 3).map(file => {
+                            const date = new Date(file.uploadedAt);
+                            const now = new Date();
+                            const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+                            const timeAgo = diffDays === 0 ? 'today' :
+                                diffDays === 1 ? 'yesterday' :
+                                    `${diffDays} days ago`;
+                            const icon = file.mimeType.includes('pdf') ? 'fa-file-pdf' : 'fa-file-image';
+
+                            return `<p><i class="fas ${icon}"></i> ${file.originalName} (${timeAgo})</p>`;
+                        }).join('');
+                    }
+                } else {
+                    if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No medical records found.</td></tr>';
+                    if (dashboardRecent) dashboardRecent.innerHTML = '<p>No recent records.</p>';
+                }
+            } catch (error) {
+                console.error('Error loading medical records:', error);
+                if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: red;">Failed to load records.</td></tr>';
+                if (dashboardRecent) dashboardRecent.innerHTML = '<p style="color: red;">Failed to load records.</p>';
+            }
+        }
+
         // ==================== NUTRITION ====================
         const updateMeasurementsBtnDashboard = document.getElementById('updateMeasurementsBtnDashboard');
         const updateMeasurementsBtnNutrition = document.getElementById('updateMeasurementsBtnNutrition');
@@ -2135,18 +2174,18 @@
 
         // Measurement form submission
         if (measurementForm) {
-            measurementForm.addEventListener('submit', async function(e) {
+            measurementForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
-                
+
                 const formData = new FormData(this);
                 const data = Object.fromEntries(formData);
-                
+
                 // Validate
                 if (!data.weight || !data.height || !data.muac) {
                     alert('Please fill in all measurements');
                     return;
                 }
-                
+
                 try {
                     const response = await fetch('/patient/measurements', {
                         method: 'POST',
@@ -2162,12 +2201,12 @@
                     });
 
                     const result = await response.json();
-                    
+
                     if (result.success) {
                         alert(`Measurements saved! BMI: ${result.measurement.bmi}`);
                         this.classList.add('hidden');
                         this.reset();
-                        
+
                         // Update UI with new measurements
                         updateMeasurementsUI(result.measurement);
                     } else {
@@ -2187,13 +2226,13 @@
             const muacStatusEl = document.getElementById('muacStatus');
             const muacLastMeasuredEl = document.getElementById('muacLastMeasured');
             const muacAlertTextEl = document.getElementById('muacAlertText');
-            
+
             if (muacValueEl) {
                 muacValueEl.textContent = `${measurement.muacValue} cm`;
             }
             if (muacStatusEl) {
-                const statusText = measurement.muacStatus === 'RED' ? 'CRITICAL' : 
-                                   measurement.muacStatus === 'YELLOW' ? 'AT RISK' : 'NORMAL';
+                const statusText = measurement.muacStatus === 'RED' ? 'CRITICAL' :
+                    measurement.muacStatus === 'YELLOW' ? 'AT RISK' : 'NORMAL';
                 muacStatusEl.textContent = statusText;
                 muacStatusEl.className = `muac-status status-${measurement.muacStatus.toLowerCase()}`;
             }
@@ -2201,9 +2240,9 @@
                 const date = new Date(measurement.createdAt);
                 const now = new Date();
                 const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-                const timeAgo = diffDays === 0 ? 'today' : 
-                               diffDays === 1 ? 'yesterday' : 
-                               `${diffDays} days ago`;
+                const timeAgo = diffDays === 0 ? 'today' :
+                    diffDays === 1 ? 'yesterday' :
+                        `${diffDays} days ago`;
                 muacLastMeasuredEl.textContent = `Last measured: ${timeAgo}`;
             }
             if (muacAlertTextEl) {
@@ -2215,13 +2254,13 @@
                     muacAlertTextEl.textContent = 'MUAC above 12.5cm - Normal nutritional status';
                 }
             }
-            
+
             // Update BMI display
             const bmiValueEl = document.getElementById('bmiValue');
             const bmiStatusEl = document.getElementById('bmiStatus');
             const bmiLastMeasuredEl = document.getElementById('bmiLastMeasured');
             const bmiAlertTextEl = document.getElementById('bmiAlertText');
-            
+
             if (bmiValueEl && measurement.bmi) {
                 bmiValueEl.textContent = measurement.bmi;
             }
@@ -2247,9 +2286,9 @@
                 const date = new Date(measurement.createdAt);
                 const now = new Date();
                 const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-                const timeAgo = diffDays === 0 ? 'today' : 
-                               diffDays === 1 ? 'yesterday' : 
-                               `${diffDays} days ago`;
+                const timeAgo = diffDays === 0 ? 'today' :
+                    diffDays === 1 ? 'yesterday' :
+                        `${diffDays} days ago`;
                 bmiLastMeasuredEl.textContent = `Last calculated: ${timeAgo}`;
             }
             if (bmiAlertTextEl && measurement.bmi) {
@@ -2270,7 +2309,7 @@
             try {
                 const response = await fetch('/patient/measurements');
                 const data = await response.json();
-                
+
                 if (data.measurement) {
                     updateMeasurementsUI(data.measurement);
                 } else {
@@ -2279,7 +2318,7 @@
                     const muacStatusEl = document.getElementById('muacStatus');
                     const muacLastMeasuredEl = document.getElementById('muacLastMeasured');
                     const muacAlertTextEl = document.getElementById('muacAlertText');
-                    
+
                     if (muacValueEl) muacValueEl.textContent = '-- cm';
                     if (muacStatusEl) {
                         muacStatusEl.textContent = 'NO DATA';
@@ -2287,11 +2326,11 @@
                     }
                     if (muacLastMeasuredEl) muacLastMeasuredEl.textContent = 'No measurements yet';
                     if (muacAlertTextEl) muacAlertTextEl.textContent = 'Please update your measurements';
-                    
+
                     const bmiValueEl = document.getElementById('bmiValue');
                     const bmiStatusEl = document.getElementById('bmiStatus');
                     const bmiLastMeasuredEl = document.getElementById('bmiLastMeasured');
-                    
+
                     if (bmiValueEl) bmiValueEl.textContent = '--';
                     if (bmiStatusEl) {
                         bmiStatusEl.textContent = 'NO DATA';
@@ -2305,7 +2344,9 @@
         }
 
         // Load measurements when page loads
+        // Load initial data
         loadLatestMeasurements();
+        loadMedicalRecords();
 
         // ==================== DIET PLAN ====================
         // Load and display active diet plan
@@ -2313,23 +2354,23 @@
             try {
                 const response = await fetch('/patient/diet-plan');
                 const data = await response.json();
-                
+
                 const titleEl = document.getElementById('dietPlanTitle');
                 const designedByEl = document.getElementById('dietPlanDesignedBy');
                 const itemsEl = document.getElementById('dietPlanItems');
                 const downloadBtn = document.getElementById('downloadPlanBtn');
                 const printBtn = document.getElementById('printPlanBtn');
-                
+
                 if (data.plan) {
                     if (titleEl) titleEl.textContent = data.plan.title;
                     if (designedByEl) designedByEl.textContent = `Designed by ${data.plan.designedBy}`;
-                    
+
                     if (itemsEl && data.plan.itemsArray) {
-                        itemsEl.innerHTML = data.plan.itemsArray.map(item => 
+                        itemsEl.innerHTML = data.plan.itemsArray.map(item =>
                             `<li>${item}</li>`
                         ).join('');
                     }
-                    
+
                     // Enable download button
                     if (downloadBtn) {
                         downloadBtn.addEventListener('click', downloadDietPlan);
@@ -2342,7 +2383,7 @@
                     if (titleEl) titleEl.textContent = 'No Diet Plan Assigned';
                     if (designedByEl) designedByEl.textContent = 'Contact your doctor for a personalized plan';
                     if (itemsEl) itemsEl.innerHTML = '<li style="color: #999;">No diet plan has been assigned yet.</li>';
-                    
+
                     if (downloadBtn) downloadBtn.style.display = 'none';
                     if (printBtn) printBtn.style.display = 'none';
                 }
@@ -2527,11 +2568,11 @@
         };
 
         // Close modal handlers - using event delegation since modal is at end of document
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             const modal = document.getElementById('educationModal');
             const modalBody = document.getElementById('modalBody');
             if (!modal) return;
-            
+
             // Close button clicked
             if (e.target.id === 'closeModal' || e.target.closest('#closeModal')) {
                 modal.classList.remove('active');
@@ -2540,7 +2581,7 @@
                     if (iframe) iframe.src = '';
                 }
             }
-            
+
             // Click outside modal content
             if (e.target === modal) {
                 modal.classList.remove('active');
@@ -2558,7 +2599,7 @@
             const title = document.getElementById('modalTitle');
             const body = document.getElementById('modalBody');
             if (!video || !modal || !title || !body) return;
-            
+
             title.textContent = video.title;
             body.innerHTML = `
                 <div class="video-container">
@@ -2579,7 +2620,7 @@
             const title = document.getElementById('modalTitle');
             const body = document.getElementById('modalBody');
             if (!article || !modal || !title || !body) return;
-            
+
             title.textContent = article.title;
             body.innerHTML = `
                 <div class="article-meta">
@@ -2596,7 +2637,7 @@
         function downloadGuide(guideId) {
             const guide = educationContent.guides[guideId];
             if (!guide) return;
-            
+
             // Create printable HTML and trigger print/save as PDF
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
@@ -2634,21 +2675,21 @@
 
         // Handle education buttons
         document.querySelectorAll('.watch-video-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 const videoId = this.getAttribute('data-video-id');
                 showVideo(videoId);
             });
         });
 
         document.querySelectorAll('.read-article-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 const articleId = this.getAttribute('data-article-id');
                 showArticle(articleId);
             });
         });
 
         document.querySelectorAll('.download-guide-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 const guideId = this.getAttribute('data-guide-id');
                 downloadGuide(guideId);
             });
@@ -2658,20 +2699,58 @@
         let historyChart = null;
         let measurementHistory = [];
 
+        // إعادة تفعيل أحداث التبويبات عند فتح المودال (لضمان عملها بعد إعادة تحميل الصفحة أو إعادة فتح المودال)
+        function setupHistoryTabs() {
+            document.querySelectorAll('.history-tab').forEach(tab => {
+                // إزالة أي أحداث سابقة
+                tab.replaceWith(tab.cloneNode(true));
+            });
+            document.querySelectorAll('.history-tab').forEach(tab => {
+                tab.addEventListener('click', function () {
+                    document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const tabName = this.getAttribute('data-tab');
+                    const tableView = document.getElementById('historyTableView');
+                    const chartView = document.getElementById('historyChartView');
+
+                    if (tabName === 'table') {
+                        tableView.style.display = 'block';
+                        chartView.style.display = 'none';
+                    } else {
+                        tableView.style.display = 'none';
+                        chartView.style.display = 'block';
+                        renderHistoryChart();
+                        // إذا لا يوجد بيانات، أظهر رسالة توضيحية
+                        const canvas = document.getElementById('historyChart');
+                        if (canvas && (!measurementHistory || measurementHistory.length === 0)) {
+                            const ctx = canvas.getContext('2d');
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.fillStyle = '#888';
+                            ctx.font = 'bold 16px Arial';
+                            ctx.textAlign = 'center';
+                            ctx.fillText('لا يوجد بيانات لعرض الرسم البياني', canvas.width / 2, canvas.height / 2);
+                        }
+                    }
+                });
+            });
+        }
+
         // View History button click
         const viewHistoryBtn = document.getElementById('viewHistoryBtn');
         if (viewHistoryBtn) {
-            viewHistoryBtn.addEventListener('click', async function() {
+            viewHistoryBtn.addEventListener('click', async function () {
                 const historyModal = document.getElementById('historyModal');
                 if (historyModal) {
                     historyModal.classList.add('active');
+                    setupHistoryTabs();
                     await loadMeasurementHistory();
                 }
             });
         }
 
         // Close history modal
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             const historyModal = document.getElementById('historyModal');
             if (!historyModal) return;
 
@@ -2686,7 +2765,7 @@
 
         // History tab switching
         document.querySelectorAll('.history-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
+            tab.addEventListener('click', function () {
                 document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
 
@@ -2701,6 +2780,16 @@
                     tableView.style.display = 'none';
                     chartView.style.display = 'block';
                     renderHistoryChart();
+                    // إذا لا يوجد بيانات، أظهر رسالة توضيحية
+                    const canvas = document.getElementById('historyChart');
+                    if (canvas && (!measurementHistory || measurementHistory.length === 0)) {
+                        const ctx = canvas.getContext('2d');
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.fillStyle = '#888';
+                        ctx.font = 'bold 16px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('لا يوجد بيانات لعرض الرسم البياني', canvas.width / 2, canvas.height / 2);
+                    }
                 }
             });
         });
@@ -2763,7 +2852,7 @@
                 });
 
                 const statusClass = m.muacStatus === 'Normal' ? 'status-normal' :
-                                   m.muacStatus === 'MAM' ? 'status-moderate' : 'status-severe';
+                    m.muacStatus === 'MAM' ? 'status-moderate' : 'status-severe';
 
                 return `
                     <tr>
@@ -2886,48 +2975,13 @@
         }
 
         // ==================== SUPPORT ====================
-        const chatInput = document.getElementById('chat-input');
-        const sendMessageBtn = document.getElementById('send-message-btn');
-        const chatMessages = document.getElementById('chat-messages');
-
-        if (sendMessageBtn && chatInput) {
-            sendMessageBtn.addEventListener('click', sendMessage);
-            chatInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') sendMessage();
-            });
-
-            function sendMessage() {
-                const message = chatInput.value.trim();
-                if (!message) return;
-
-                // Add user message
-                const userMessage = document.createElement('div');
-                userMessage.className = 'message message-sent';
-                userMessage.textContent = message;
-                chatMessages.appendChild(userMessage);
-
-                // Clear input
-                chatInput.value = '';
-
-                // Scroll to bottom
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-
-                // Simulate bot response
-                setTimeout(() => {
-                    const botMessage = document.createElement('div');
-                    botMessage.className = 'message message-received';
-                    botMessage.textContent = 'Thank you for your message. Our support team will respond shortly.';
-                    chatMessages.appendChild(botMessage);
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }, 1000);
-            }
-        }
+        // Support chat logic is now handled in /js/support-chat.js
 
         // ==================== GENERAL BUTTONS ====================
         // Quick action buttons
         document.querySelectorAll('.btn[data-page]').forEach(btn => {
             if (!btn.hasAttribute('id')) { // Don't double-bind
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     const pageId = this.getAttribute('data-page');
                     showPage(pageId);
                 });
@@ -2948,13 +3002,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Show dashboard by default
             showPage('dashboard');
-            
+
             // Set today's date as default for date inputs
             const today = new Date().toISOString().split('T')[0];
             document.querySelectorAll('input[type="date"]').forEach(input => {
                 input.min = today;
             });
-            
+
             // Initialize any other components here
         });
 
@@ -2993,6 +3047,10 @@
         Implement proper file upload with progress indication.
         */
     </script>
+    <!-- Socket.io client -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Support chat logic -->
+    <script src="/js/support-chat.js"></script>
 
     <!-- Education Content Modal -->
     <div class="modal-overlay" id="educationModal">
@@ -3023,7 +3081,7 @@
                         <i class="fas fa-chart-line"></i> Chart View
                     </button>
                 </div>
-                
+
                 <div id="historyTableView">
                     <div class="history-table-container">
                         <table class="history-table">

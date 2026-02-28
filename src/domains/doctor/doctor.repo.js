@@ -6,6 +6,45 @@ const prisma = require('../../prisma');
 
 const doctorRepo = {
   /**
+   * Create a new patient user (doctor-initiated registration)
+   */
+  async createPatient(data) {
+    return prisma.user.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        passwordHash: data.passwordHash,
+        role: data.role || 'PATIENT',
+        status: data.status || 'ACTIVE',
+      },
+    });
+  },
+
+  /**
+   * Get all critical patients for this doctor
+   */
+  async getCriticalPatients(doctorId) {
+    const flags = await prisma.criticalCaseFlag.findMany({
+      where: {
+        doctorId,
+        status: 'FLAGGED',
+      },
+      include: {
+        patient: {
+          include: {
+            patientProfile: true,
+          },
+        },
+      },
+      orderBy: { flaggedAt: 'desc' },
+    });
+
+    return flags.map(f => ({
+      ...f.patient,
+      flag: f,
+    }));
+  },
+  /**
    * Get doctor profile by user ID
    */
   async getProfileByUserId(userId) {

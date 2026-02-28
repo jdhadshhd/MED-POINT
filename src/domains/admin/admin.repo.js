@@ -88,6 +88,102 @@ const adminRepo = {
       tickets: ticketCount,
     };
   },
+
+  /**
+   * Create new user
+   */
+  async createUser(data) {
+    const { profile, ...userData } = data;
+    return prisma.user.create({
+      data: {
+        ...userData,
+        doctorProfile: userData.role === 'DOCTOR' ? { create: profile } : undefined,
+        patientProfile: userData.role === 'PATIENT' ? { create: profile } : undefined,
+      },
+      include: {
+        doctorProfile: true,
+        patientProfile: true,
+      },
+    });
+  },
+
+  /**
+   * Update existing user
+   */
+  async updateUser(id, data) {
+    const { profile, ...userData } = data;
+    return prisma.user.update({
+      where: { id },
+      data: {
+        ...userData,
+        doctorProfile: userData.role === 'DOCTOR' && profile ? { update: profile } : undefined,
+        patientProfile: userData.role === 'PATIENT' && profile ? { update: profile } : undefined,
+      },
+      include: {
+        doctorProfile: true,
+        patientProfile: true,
+      },
+    });
+  },
+
+  /**
+   * Get pending users (requesting verification/activation)
+   */
+  async getPendingUsers() {
+    return prisma.user.findMany({
+      where: { status: 'PENDING' },
+      include: {
+        doctorProfile: true,
+        patientProfile: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  },
+
+  /**
+   * FAQ Management
+   */
+  async getFAQs() {
+    return prisma.fAQ.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+  },
+
+  async createFAQ(data) {
+    return prisma.fAQ.create({ data });
+  },
+
+  async updateFAQ(id, data) {
+    return prisma.fAQ.update({
+      where: { id },
+      data,
+    });
+  },
+
+  async deleteFAQ(id) {
+    return prisma.fAQ.delete({ where: { id } });
+  },
+
+  /**
+   * Settings Management
+   */
+  async saveSettings(settingsArray) {
+    // settingsArray: [{ key: 'site_name', value: '...' }, ...]
+    const transactions = settingsArray.map(set => prisma.setting.upsert({
+      where: { key: set.key },
+      update: { value: JSON.stringify(set.value) },
+      create: { key: set.key, value: JSON.stringify(set.value) },
+    }));
+    return prisma.$transaction(transactions);
+  },
+
+  async loadSettings() {
+    const settings = await prisma.setting.findMany();
+    return settings.reduce((acc, curr) => {
+      acc[curr.key] = JSON.parse(curr.value);
+      return acc;
+    }, {});
+  },
 };
 
 module.exports = adminRepo;

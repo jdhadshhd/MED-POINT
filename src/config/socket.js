@@ -6,6 +6,7 @@ const { Server } = require('socket.io');
 const jwt = require('jsonwebtoken');
 const cookie = require('cookie');
 const config = require('./env');
+const registerSupportSocket = require('../domains/support/support.socket');
 
 let io = null;
 
@@ -73,6 +74,9 @@ function initSocket(httpServer) {
       console.log(`[Socket] Notification read: ${data.notificationId}`);
     });
   });
+
+  // Register support chat socket handler
+  registerSupportSocket(io);
 
   return io;
 }

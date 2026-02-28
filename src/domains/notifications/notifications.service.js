@@ -3,17 +3,23 @@
  * Handles notification business logic
  */
 const notificationsRepo = require('./notifications.repo');
+const { emitToUser, emitToRole } = require('../../config/socket');
 
 const notificationsService = {
   /**
    * Create a notification for a user
    */
   async create({ userId, type, message }) {
-    return notificationsRepo.create({
+    const notification = await notificationsRepo.create({
       userId,
       type,
       message,
     });
+
+    // Emit real-time notification
+    emitToUser(userId, 'notification', notification);
+
+    return notification;
   },
 
   /**
@@ -21,7 +27,7 @@ const notificationsService = {
    */
   async createForRole(role, { type, message }) {
     const users = await notificationsRepo.getUsersByRole(role);
-    
+
     if (users.length === 0) return [];
 
     const notifications = users.map(user => ({
@@ -31,6 +37,10 @@ const notificationsService = {
     }));
 
     await notificationsRepo.createMany(notifications);
+
+    // Emit real-time notification to the role room
+    emitToRole(role, 'notification', { type, message });
+
     return notifications;
   },
 

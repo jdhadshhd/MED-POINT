@@ -5,6 +5,7 @@
 const patientRepo = require('./patient.repo');
 const appointmentsService = require('../appointments/appointments.service');
 const ticketsService = require('../tickets/tickets.service');
+const criticalCasesService = require('../shared/critical-cases.service');
 
 const patientService = {
   /**
@@ -102,7 +103,7 @@ const patientService = {
     // If no record specified, create one automatically
     if (!targetRecordId) {
       const autoRecord = await patientRepo.createSelfRecord(
-        patientId, 
+        patientId,
         notes || `Patient uploaded: ${originalName}`
       );
       targetRecordId = autoRecord.id;
@@ -147,12 +148,17 @@ const patientService = {
   /**
    * Save health measurement
    */
-  async saveHealthMeasurement({ patientId, weight, height, muacValue, notes }) {
+  async saveHealthMeasurement({ name, weight, height, muacValue, notes }) {
+    // ابحث عن المريض بالاسم
+    const user = await patientRepo.findUserByNameClean(name);
+    if (!user) {
+      throw new Error('لم يتم العثور على مريض بهذا الاسم');
+    }
     const bmi = this.calculateBmi(weight, height);
     const muacStatus = this.calculateMuacStatus(muacValue);
 
-    return patientRepo.createHealthMeasurement({
-      patientId,
+    const measurement = await patientRepo.createHealthMeasurement({
+      patientId: user.id,
       weight: parseFloat(weight),
       height: parseFloat(height),
       muacValue: parseFloat(muacValue),
@@ -160,6 +166,17 @@ const patientService = {
       bmi,
       notes: notes || null,
     });
+
+    // Check for critical case (auto-flagging)
+    // For patient self-measurements, we'll associate with a default doctor
+    const doctor = await patientRepo.getDoctors();
+    const doctorId = doctor[0]?.id; // System chooses first doctor if none assigned
+
+    if (doctorId && muacStatus === 'RED') {
+      await criticalCasesService.checkAndFlag(user.id, doctorId, muacStatus);
+    }
+
+    return measurement;
   },
 
   /**
@@ -223,7 +240,7 @@ const patientService = {
    */
   generateDietPlanPdf(plan) {
     const items = JSON.parse(plan.items || '[]');
-    
+
     return {
       title: plan.title,
       designedBy: plan.designedBy,

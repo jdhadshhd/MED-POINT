@@ -1,3 +1,4 @@
+
 /**
  * Patient Repository
  * Handles patient-specific database queries
@@ -5,6 +6,13 @@
 const prisma = require('../../prisma');
 
 const patientRepo = {
+  /**
+   * Find user by name (for health measurement association)
+   */
+  async findUserByNameClean(name) {
+    return prisma.user.findFirst({ where: { name } });
+  },
+
   /**
    * Get patient profile by user ID
    */

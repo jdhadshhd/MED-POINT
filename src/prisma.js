@@ -1,11 +1,12 @@
-/**
- * Prisma Client Singleton
- * Ensures a single instance across the application
- */
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('@prisma/client')
 
 const prisma = new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-});
+  // تحديد نوع المحرك صراحة
+  __internal: {
+    engine: {
+      type: 'binary' // أو 'library' حسب نظامك
+    }
+  }
+})
 
-module.exports = prisma;
+module.exports = prisma

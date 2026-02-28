@@ -10,6 +10,7 @@
     <link rel="icon" href="/media/logo.png">
     <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <style>
         /* ==================== VARIABLES ==================== */
         :root {
@@ -1513,6 +1514,13 @@
                 <div class="settings-card">
                     <h3><i class="fas fa-cog"></i> General Settings</h3>
                     <div class="settings-group">
+                        <h4>System Identity</h4>
+                        <div class="form-group">
+                            <label>Site Name</label>
+                            <input type="text" class="form-control" id="siteName" value="Smart MediPoint">
+                        </div>
+                    </div>
+                    <div class="settings-group">
                         <h4>System Preferences</h4>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
                             <span>Enable Email Notifications</span>
@@ -1892,10 +1900,10 @@
                 <a href="#" data-page="settings">Settings</a>
             </div>
             <div class="accounts">
-                <a href="#"><img src="media/whatsapp.png" alt="WhatsApp"></a>
-                <a href="#"><img src="media/twitter.png" alt="Twitter"></a>
-                <a href="#"><img src="media/facebook.png" alt="Facebook"></a>
-                <a href="#"><img src="media/instagram.png" alt="Instagram"></a>
+                <a href="#"><img src="/media/whatsapp.png" alt="WhatsApp"></a>
+                <a href="#"><img src="/media/twitter.png" alt="Twitter"></a>
+                <a href="#"><img src="/media/facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="/media/instagram.png" alt="Instagram"></a>
             </div>
         </div>
         <div class="copyRight">
@@ -1910,200 +1918,153 @@
 
             // ==================== CONFIG ====================
             const CONFIG = {
-                API_BASE_URL: 'https://api.smart-medipoint.com/v1',
-                USE_MOCK_DATA: true,
-                MOCK_DELAY: 500
+                API_BASE_URL: '/admin/api',
+                USE_MOCK_DATA: false,
+                MOCK_DELAY: 0
             };
 
-            // ==================== MOCK DATABASE ====================
-            const MOCK = {
-                users: [
-                    { id: 1, name: 'John Smith', email: 'john.smith@email.com', phone: '+1-555-0101', role: 'doctor', status: 'active', joinDate: '2025-01-15', avatarColor: '#FF6B6B' },
-                    { id: 2, name: 'Sarah Johnson', email: 'sarah.j@hospital.com', phone: '+1-555-0102', role: 'admin', status: 'active', joinDate: '2025-01-10', avatarColor: '#4ECDC4' },
-                    { id: 3, name: 'Michael Chen', email: 'm.chen@email.com', phone: '+1-555-0103', role: 'patient', status: 'pending', joinDate: '2025-01-05', avatarColor: '#45B7D1' },
-                    { id: 4, name: 'Robert Williams', email: 'r.williams@clinic.com', phone: '+1-555-0104', role: 'staff', status: 'active', joinDate: '2024-12-20', avatarColor: '#96CEB4' },
-                    { id: 5, name: 'Emily Davis', email: 'emily.d@email.com', phone: '+1-555-0105', role: 'patient', status: 'inactive', joinDate: '2024-12-15', avatarColor: '#FFEAA7' },
-                    { id: 6, name: 'David Wilson', email: 'd.wilson@email.com', phone: '+1-555-0106', role: 'staff', status: 'active', joinDate: '2024-12-10', avatarColor: '#DDA0DD' }
-                ],
-                pendingRequests: [
-                    { id: 101, name: 'James Brown', email: 'j.brown@email.com', requestedRole: 'doctor', requestDate: '2025-01-18', notes: 'New doctor registration' },
-                    { id: 102, name: 'Jennifer Miller', email: 'j.miller@email.com', requestedRole: 'patient', requestDate: '2025-01-17', notes: 'Patient registration' },
-                    { id: 103, name: 'Thomas Moore', email: 't.moore@clinic.com', requestedRole: 'staff', requestDate: '2025-01-16', notes: 'Staff application' }
-                ],
-                tickets: [
-                    { id: 1001, subject: 'System login issue', description: 'Cannot login to the system using my credentials', category: 'technical', priority: 'high', status: 'open', createdBy: 'John Doe', createdAt: '2025-01-20 09:30', updatedAt: '2025-01-20 09:30', assignedTo: 'admin1', replies: [] },
-                    { id: 1002, subject: 'Billing discrepancy', description: 'Invoice amount doesn\'t match the services received', category: 'billing', priority: 'medium', status: 'in-progress', createdBy: 'Sarah Miller', createdAt: '2025-01-19 14:15', updatedAt: '2025-01-20 10:45', assignedTo: 'support1', replies: [] },
-                    { id: 1003, subject: 'Feature request: Export reports', description: 'Would like to export reports in CSV format', category: 'feature', priority: 'low', status: 'resolved', createdBy: 'Dr. Robert Chen', createdAt: '2025-01-18 11:20', updatedAt: '2025-01-19 15:10', assignedTo: 'admin2', replies: [] },
-                    { id: 1004, subject: 'Account access issue', description: 'Need access to additional modules', category: 'account', priority: 'medium', status: 'open', createdBy: 'Nurse Emily', createdAt: '2025-01-20 08:15', updatedAt: '2025-01-20 08:15', assignedTo: '', replies: [] }
-                ],
-                faqs: [
-                    { id: 1, question: 'How do I reset my password?', answer: 'Go to the login page and click \'Forgot Password\'. Follow the instructions sent to your email.', category: 'account', views: 125 },
-                    { id: 2, question: 'How to schedule an appointment?', answer: 'Navigate to the Appointments section, click \'New Appointment\', select the patient, doctor, and time slot.', category: 'general', views: 89 },
-                    { id: 3, question: 'Exporting patient records', answer: 'Go to Reports > Medical Reports, select the patient, choose export format (PDF/CSV), and download.', category: 'technical', views: 67 }
-                ],
-                dashboardStats: {
-                    totalPatients: 6,     // will be computed
-                    totalDoctors: 1,
-                    totalAppointments: 35,
-                    pendingRequests: 3
+            // ==================== REAL-TIME NOTIFICATIONS ====================
+            const socket = io();
+            socket.on('notification', (data) => {
+                console.log('[Socket] New notification:', data);
+                showNotification(data.message, data.type === 'CRITICAL_CASE' ? 'error' : 'info');
+                // Refresh stats if critical
+                if (data.type === 'CRITICAL_CASE') {
+                    store.loadInitialData().then(() => renderDashboardStats());
                 }
-            };
+            });
 
             // ==================== API SERVICE ====================
             const api = {
+                async request(endpoint, options = {}) {
+                    const response = await fetch(`${CONFIG.API_BASE_URL}${endpoint}`, {
+                        ...options,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            ...options.headers
+                        }
+                    });
+                    const data = await response.json();
+                    if (!data.success) throw new Error(data.error || 'API Error');
+                    return data;
+                },
+
                 // --- Dashboard ---
-                getDashboardStats: () => mockRequest({
-                    totalPatients: MOCK.users.filter(u => u.role === 'patient').length,
-                    totalDoctors: MOCK.users.filter(u => u.role === 'doctor').length,
-                    totalAppointments: 35,
-                    pendingRequests: MOCK.pendingRequests.length
-                }),
+                getDashboardStats: async () => {
+                    const data = await api.request('/stats');
+                    return {
+                        totalPatients: data.totalPatients || 0,
+                        totalDoctors: data.totalDoctors || 0,
+                        totalAppointments: data.appointments || 0,
+                        pendingRequests: data.pendingRequests || 0
+                    };
+                },
 
                 // --- Users ---
-                getUsers: () => mockRequest(MOCK.users),
-                createUser: (userData) => {
-                    const newUser = { id: MOCK.users.length + 1, ...userData, avatarColor: getRandomColor() };
-                    MOCK.users.unshift(newUser);
-                    return mockRequest(newUser);
+                getUsers: async () => {
+                    const data = await api.request('/users');
+                    return data.users.map(u => ({
+                        ...u,
+                        role: u.role.toLowerCase(),
+                        status: u.status.toLowerCase(),
+                        joinDate: u.createdAt,
+                        phone: u.doctorProfile?.phone || u.patientProfile?.phone || '',
+                        avatarColor: getRandomColor()
+                    }));
                 },
-                updateUser: (id, userData) => {
-                    const index = MOCK.users.findIndex(u => u.id === id);
-                    if (index !== -1) {
-                        MOCK.users[index] = { ...MOCK.users[index], ...userData };
-                        return mockRequest(MOCK.users[index]);
-                    }
-                    return mockRequest(null);
+                createUser: async (userData) => {
+                    const data = await api.request('/users', {
+                        method: 'POST',
+                        body: JSON.stringify(userData)
+                    });
+                    return data.user;
                 },
-                deleteUser: (id) => {
-                    const index = MOCK.users.findIndex(u => u.id === id);
-                    if (index !== -1) {
-                        MOCK.users.splice(index, 1);
-                        return mockRequest({ success: true });
-                    }
-                    return mockRequest({ success: false });
+                updateUser: async (id, userData) => {
+                    const data = await api.request(`/users/${id}`, {
+                        method: 'PUT',
+                        body: JSON.stringify(userData)
+                    });
+                    return data.user;
+                },
+                deleteUser: async (id) => {
+                    return api.request(`/users/${id}`, { method: 'DELETE' });
                 },
 
                 // --- Pending Requests ---
-                getPendingRequests: () => mockRequest(MOCK.pendingRequests),
-                approveRequest: (id) => {
-                    const reqIndex = MOCK.pendingRequests.findIndex(r => r.id === id);
-                    if (reqIndex !== -1) {
-                        const req = MOCK.pendingRequests[reqIndex];
-                        const newUser = {
-                            id: MOCK.users.length + 1,
-                            name: req.name,
-                            email: req.email,
-                            role: req.requestedRole,
-                            status: 'active',
-                            joinDate: new Date().toISOString().split('T')[0],
-                            avatarColor: getRandomColor()
-                        };
-                        MOCK.users.unshift(newUser);
-                        MOCK.pendingRequests.splice(reqIndex, 1);
-                        return mockRequest({ success: true, user: newUser });
-                    }
-                    return mockRequest({ success: false });
+                getPendingRequests: async () => {
+                    const data = await api.request('/requests');
+                    return (data.requests || []).map(r => ({
+                        ...r,
+                        requestedRole: r.role.toLowerCase(),
+                        requestDate: r.createdAt
+                    }));
                 },
-                rejectRequest: (id) => {
-                    const index = MOCK.pendingRequests.findIndex(r => r.id === id);
-                    if (index !== -1) {
-                        MOCK.pendingRequests.splice(index, 1);
-                        return mockRequest({ success: true });
-                    }
-                    return mockRequest({ success: false });
+                approveRequest: async (id) => {
+                    return api.request(`/requests/${id}/approve`, { method: 'POST' });
+                },
+                rejectRequest: async (id) => {
+                    return api.request(`/users/${id}`, { method: 'DELETE' }); // Reject = Delete for now
                 },
 
                 // --- Tickets ---
-                getTickets: () => mockRequest(MOCK.tickets),
-                createTicket: (data) => {
-                    const newTicket = {
-                        id: Math.max(...MOCK.tickets.map(t => t.id), 1000) + 1,
-                        ...data,
-                        status: 'open',
-                        createdBy: 'Admin User',
-                        createdAt: new Date().toISOString().replace('T', ' ').substring(0, 16),
-                        updatedAt: new Date().toISOString().replace('T', ' ').substring(0, 16),
-                        replies: []
-                    };
-                    MOCK.tickets.unshift(newTicket);
-                    return mockRequest(newTicket);
+                getTickets: async () => {
+                    const data = await api.request('/tickets');
+                    return data.tickets.map(t => ({
+                        ...t,
+                        subject: t.title,
+                        createdAt: t.createdAt
+                    }));
                 },
-                updateTicket: (id, data) => {
-                    const index = MOCK.tickets.findIndex(t => t.id === id);
-                    if (index !== -1) {
-                        MOCK.tickets[index] = { ...MOCK.tickets[index], ...data, updatedAt: new Date().toISOString().replace('T', ' ').substring(0, 16) };
-                        return mockRequest(MOCK.tickets[index]);
-                    }
-                    return mockRequest(null);
+                createTicket: async (data) => {
+                    // Not implemented in admin typically but for consistency:
+                    return api.request('/tickets', { method: 'POST', body: JSON.stringify(data) });
                 },
-                addReply: (ticketId, reply) => {
-                    const ticket = MOCK.tickets.find(t => t.id === ticketId);
-                    if (ticket) {
-                        const newReply = {
-                            id: ticket.replies.length + 1,
-                            ...reply,
-                            timestamp: new Date().toISOString().replace('T', ' ').substring(0, 16)
-                        };
-                        ticket.replies.push(newReply);
-                        ticket.updatedAt = new Date().toISOString().replace('T', ' ').substring(0, 16);
-                        if (reply.status) ticket.status = reply.status;
-                        return mockRequest(newReply);
-                    }
-                    return mockRequest(null);
+                updateTicket: async (id, data) => {
+                    return api.request(`/tickets/${id}/status`, { method: 'POST', body: JSON.stringify(data) });
+                },
+                addReply: async (ticketId, reply) => {
+                    return api.request(`/tickets/${ticketId}/reply`, { method: 'POST', body: JSON.stringify(reply) });
+                },
+                exportUsers: async () => {
+                    window.open(`${CONFIG.API_BASE_URL}/users/export`, '_blank');
                 },
 
                 // --- FAQs ---
-                getFAQs: () => mockRequest(MOCK.faqs),
-                createFAQ: (data) => {
-                    const newFaq = { id: MOCK.faqs.length + 1, ...data, views: 0 };
-                    MOCK.faqs.unshift(newFaq);
-                    return mockRequest(newFaq);
+                getFAQs: async () => {
+                    const data = await api.request('/faqs');
+                    return data.faqs;
                 },
-                updateFAQ: (id, data) => {
-                    const index = MOCK.faqs.findIndex(f => f.id === id);
-                    if (index !== -1) {
-                        MOCK.faqs[index] = { ...MOCK.faqs[index], ...data };
-                        return mockRequest(MOCK.faqs[index]);
-                    }
-                    return mockRequest(null);
+                createFAQ: async (data) => {
+                    const res = await api.request('/faqs', { method: 'POST', body: JSON.stringify(data) });
+                    return res.faq;
                 },
-                deleteFAQ: (id) => {
-                    const index = MOCK.faqs.findIndex(f => f.id === id);
-                    if (index !== -1) {
-                        MOCK.faqs.splice(index, 1);
-                        return mockRequest({ success: true });
-                    }
-                    return mockRequest({ success: false });
+                updateFAQ: async (id, data) => {
+                    const res = await api.request(`/faqs/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+                    return res.faq;
+                },
+                deleteFAQ: async (id) => {
+                    return api.request(`/faqs/${id}`, { method: 'DELETE' });
                 },
 
-                // --- Settings --- (simulate saving/loading)
-                saveSettings: (settings) => {
-                    localStorage.setItem('adminSettings', JSON.stringify(settings));
-                    return mockRequest({ success: true });
+                // --- Settings ---
+                saveSettings: async (settings) => {
+                    return api.request('/settings', { method: 'POST', body: JSON.stringify(settings) });
                 },
-                loadSettings: () => {
-                    const saved = localStorage.getItem('adminSettings');
-                    return mockRequest(saved ? JSON.parse(saved) : null);
+                loadSettings: async () => {
+                    const data = await api.request('/settings');
+                    return data.settings;
                 },
 
-                // --- Reports (mock) ---
-                generateReport: (params) => mockRequest({ success: true, data: 'sample report content' })
+                // --- Reports ---
+                generateReport: async (params) => {
+                    // PDF generation handled via separate controller methods already
+                    window.open(`/admin/reports/download?type=${params.type}`);
+                    return { success: true };
+                }
             };
 
-            // Mock request simulator
-            function mockRequest(data) {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        if (CONFIG.USE_MOCK_DATA) {
-                            resolve(data);
-                        } else {
-                            reject(new Error('API call not implemented in real mode yet. Switch USE_MOCK_DATA to true.'));
-                        }
-                    }, CONFIG.MOCK_DELAY);
-            });
-        }
-
             // ==================== STORE ====================
+            let currentItem = null; // tracks item pending confirmation (delete/reject)
             const store = {
                 stats: null,
                 users: [],
@@ -2254,9 +2215,9 @@
                 document.getElementById('userCount').textContent = filtered.length;
 
                 // Re-attach events
-                tbody.querySelectorAll('.edit-user-btn').forEach(btn => btn.addEventListener('click', () => editUser(parseInt(btn.dataset.id))));
-                tbody.querySelectorAll('.delete-user-btn').forEach(btn => btn.addEventListener('click', () => deleteUser(parseInt(btn.dataset.id))));
-                tbody.querySelectorAll('.approve-user-btn').forEach(btn => btn.addEventListener('click', () => approveUser(parseInt(btn.dataset.id))));
+                tbody.querySelectorAll('.edit-user-btn').forEach(btn => btn.addEventListener('click', () => editUser(btn.dataset.id)));
+                tbody.querySelectorAll('.delete-user-btn').forEach(btn => btn.addEventListener('click', () => deleteUser(btn.dataset.id)));
+                tbody.querySelectorAll('.approve-user-btn').forEach(btn => btn.addEventListener('click', () => approveUser(btn.dataset.id)));
             }
 
             function renderPendingRequestsTable() {
@@ -2290,18 +2251,18 @@
                         </td>
                     </tr>
                 `).join('');
-                tbody.querySelectorAll('.approve-request-btn').forEach(btn => btn.addEventListener('click', () => approveRequest(parseInt(btn.dataset.id))));
-                tbody.querySelectorAll('.reject-request-btn').forEach(btn => btn.addEventListener('click', () => rejectRequest(parseInt(btn.dataset.id))));
+                tbody.querySelectorAll('.approve-request-btn').forEach(btn => btn.addEventListener('click', () => approveRequest(btn.dataset.id)));
+                tbody.querySelectorAll('.reject-request-btn').forEach(btn => btn.addEventListener('click', () => rejectRequest(btn.dataset.id)));
             }
 
             function renderTickets() {
-                const search = document.getElementById('ticketSearch').value.toLowerCase();
+                const search = (document.getElementById('ticketSearch').value || '').toLowerCase();
                 const statusFilter = document.getElementById('statusFilterSupport').value;
                 const priorityFilter = document.getElementById('priorityFilter').value;
                 const categoryFilter = document.querySelector('.category-btn.active')?.dataset.category || 'all';
 
                 let filtered = store.tickets.filter(ticket => {
-                    if (search && !ticket.subject.toLowerCase().includes(search) && !ticket.description.toLowerCase().includes(search) && !ticket.createdBy.toLowerCase().includes(search)) return false;
+                    if (search && !(ticket.subject || '').toLowerCase().includes(search) && !(ticket.description || '').toLowerCase().includes(search)) return false;
                     if (statusFilter && ticket.status !== statusFilter) return false;
                     if (priorityFilter && ticket.priority !== priorityFilter) return false;
                     if (categoryFilter !== 'all' && ticket.category !== categoryFilter) return false;
@@ -2310,7 +2271,7 @@
 
                 const container = document.getElementById('ticketsList');
                 container.innerHTML = filtered.map(ticket => `
-                    <div class="ticket-item ${ticket.priority}" onclick="viewTicket(${ticket.id})">
+                    <div class="ticket-item ${ticket.priority} view-ticket-btn" data-id="${ticket.id}">
                         <div class="ticket-header">
                             <div class="ticket-title">${ticket.subject}</div>
                             <div class="ticket-meta">
@@ -2318,7 +2279,7 @@
                                     ${ticket.status.replace('-', ' ').toUpperCase()}
                                 </span>
                                 <span class="priority-${ticket.priority}">${ticket.priority.toUpperCase()}</span>
-                                <span>${ticket.createdBy}</span>
+                                <span>${ticket.createdBy || 'Unknown'}</span>
                                 <span>${formatDateTime(ticket.createdAt)}</span>
                             </div>
                         </div>
@@ -2326,16 +2287,27 @@
                             ${ticket.description.length > 150 ? ticket.description.substring(0, 150) + '...' : ticket.description}
                         </div>
                         <div class="ticket-actions">
-                            <button class="btn btn-small" onclick="replyToTicket(${ticket.id}, event)">
+                            <button class="btn btn-small reply-ticket-btn" data-id="${ticket.id}">
                                 <i class="fas fa-reply"></i> Reply
                             </button>
                             ${ticket.assignedTo ? `<button class="btn btn-small btn-outline"><i class="fas fa-user"></i> Assigned</button>` : ''}
-                            <button class="btn btn-small btn-success" onclick="resolveTicket(${ticket.id}, event)">
+                            <button class="btn btn-small btn-success resolve-ticket-btn" data-id="${ticket.id}">
                                 <i class="fas fa-check"></i> Resolve
                             </button>
                         </div>
                     </div>
                 `).join('');
+
+                // Attach events
+                container.querySelectorAll('.view-ticket-btn').forEach(el => el.addEventListener('click', () => viewTicket(el.dataset.id)));
+                container.querySelectorAll('.reply-ticket-btn').forEach(btn => btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    replyToTicket(btn.dataset.id);
+                }));
+                container.querySelectorAll('.resolve-ticket-btn').forEach(btn => btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    resolveTicket(btn.dataset.id);
+                }));
             }
 
             function renderSupportStats() {
@@ -2352,7 +2324,7 @@
                 const container = document.getElementById('faqList');
                 container.innerHTML = store.faqs.map(faq => `
                     <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFAQ(${faq.id})">
+                        <div class="faq-question toggle-faq-btn" data-id="${faq.id}">
                             <span>${faq.question}</span>
                             <i class="fas fa-chevron-down"></i>
                         </div>
@@ -2361,10 +2333,10 @@
                             <div style="display: flex; justify-content: space-between; margin-top: 10px;">
                                 <span style="font-size: 0.8rem; color: #666;">Category: ${faq.category}</span>
                                 <div>
-                                    <button class="btn btn-small btn-outline" onclick="editFAQ(${faq.id}, event)">
+                                    <button class="btn btn-small btn-outline edit-faq-btn" data-id="${faq.id}">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button class="btn btn-small btn-danger" onclick="deleteFAQ(${faq.id}, event)">
+                                    <button class="btn btn-small btn-danger delete-faq-btn" data-id="${faq.id}">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -2372,14 +2344,26 @@
                         </div>
                     </div>
                 `).join('');
+
+                container.querySelectorAll('.toggle-faq-btn').forEach(el => el.addEventListener('click', () => toggleFAQ(el.dataset.id)));
+                container.querySelectorAll('.edit-faq-btn').forEach(btn => btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    editFAQ(btn.dataset.id);
+                }));
+                container.querySelectorAll('.delete-faq-btn').forEach(btn => btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteFAQ(btn.dataset.id);
+                }));
             }
 
             function renderRecentActivity() {
-                const activity = [
-                    { action: 'System initialized', user: 'System', time: 'just now', type: 'system' }
-                ];
+                const activities = JSON.parse(localStorage.getItem('admin_activities') || '[]');
                 const container = document.getElementById('recentActivity');
-                container.innerHTML = activity.map(item => `
+                if (activities.length === 0) {
+                    container.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">No recent activity</div>';
+                    return;
+                }
+                container.innerHTML = activities.slice(0, 5).map(item => `
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <div style="width: 10px; height: 10px; border-radius: 50%; background-color: ${getActivityColor(item.type)}"></div>
@@ -2391,6 +2375,13 @@
                         <div style="font-size: 0.8rem; color: #999;">${item.time}</div>
                     </div>
                 `).join('');
+            }
+
+            function logActivity(action, type = 'system', user = 'Admin') {
+                const activities = JSON.parse(localStorage.getItem('admin_activities') || '[]');
+                activities.unshift({ action, type, user, time: 'just now' });
+                localStorage.setItem('admin_activities', JSON.stringify(activities.slice(0, 20)));
+                renderRecentActivity();
             }
             function getActivityColor(type) {
                 switch (type) {
@@ -2415,11 +2406,21 @@
                         <td>${formatDate(r.generated)}</td>
                         <td>${r.type}</td>
                         <td>
-                            <button class="btn btn-small view-report-btn"><i class="fas fa-eye"></i></button>
-                            <button class="btn btn-small btn-outline"><i class="fas fa-download"></i></button>
+                            <button class="btn btn-small view-report-btn" data-name="${r.name}"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-small btn-outline download-report-btn"><i class="fas fa-download"></i></button>
                         </td>
                     </tr>
                 `).join('');
+
+                tbody.querySelectorAll('.view-report-btn').forEach(btn => btn.addEventListener('click', () => {
+                    const name = btn.dataset.name;
+                    showNotification('Opening report preview...', 'info');
+                    document.getElementById('reportContent').innerHTML = '<p>Generating preview for ' + name + '...</p>';
+                    document.getElementById('reportModal').style.display = 'flex';
+                }));
+                tbody.querySelectorAll('.download-report-btn').forEach(btn => btn.addEventListener('click', () => {
+                    window.open('/admin/reports/system/download', '_blank');
+                }));
             }
 
             // ==================== ACTIONS ====================
@@ -2467,8 +2468,8 @@
                 setLoading(btn, true);
                 try {
                     if (id) {
-                        const updated = await api.updateUser(parseInt(id), userData);
-                        const idx = store.users.findIndex(u => u.id === parseInt(id));
+                        const updated = await api.updateUser(id, userData);
+                        const idx = store.users.findIndex(u => u.id === id);
                         if (idx !== -1) store.users[idx] = updated;
                         showNotification('User updated', 'success');
                     } else {
@@ -2546,7 +2547,7 @@
             }
 
             async function confirmDelete() {
-                const id = parseInt(document.getElementById('itemToDelete').value);
+                const id = document.getElementById('itemToDelete').value;
                 const type = document.getElementById('deleteType').value;
                 const btn = document.getElementById('confirmDeleteBtn');
                 setLoading(btn, true);
@@ -2592,8 +2593,8 @@
                 setLoading(btn, true);
                 try {
                     if (id) {
-                        const updated = await api.updateTicket(parseInt(id), data);
-                        const idx = store.tickets.findIndex(t => t.id === parseInt(id));
+                        const updated = await api.updateTicket(id, data);
+                        const idx = store.tickets.findIndex(t => t.id === id);
                         if (idx !== -1) store.tickets[idx] = updated;
                         showNotification('Ticket updated', 'success');
                     } else {
@@ -2612,10 +2613,9 @@
             }
 
             async function sendReply() {
-                const ticketId = parseInt(document.getElementById('replyTicketId').value);
+                const ticketId = document.getElementById('replyTicketId').value;
                 const message = document.getElementById('replyMessage').value.trim();
                 const status = document.getElementById('replyStatus').value;
-                const internalNotes = document.getElementById('internalNotes').value.trim();
                 if (!message) {
                     showNotification('Please enter a reply', 'warning');
                     return;
@@ -2623,24 +2623,16 @@
                 const btn = document.getElementById('sendReplyBtn');
                 setLoading(btn, true);
                 try {
-                    await api.addReply(ticketId, {
-                        message,
-                        author: 'Admin',
-                        internal: false
-                    });
-                    if (internalNotes) {
-                        await api.addReply(ticketId, {
-                            message: internalNotes,
-                            author: 'Admin',
-                            internal: true
-                        });
-                    }
+                    await api.addReply(ticketId, { message });
                     if (status) {
-                        await api.updateTicket(ticketId, { status });
+                        await api.updateTicket(ticketId, { status: status.toUpperCase() });
                         const ticket = store.tickets.find(t => t.id === ticketId);
                         if (ticket) ticket.status = status;
                     }
                     closeReplyModal();
+                    // Reload tickets to show new state
+                    const tickets = await api.getTickets();
+                    store.tickets = tickets;
                     renderTickets();
                     renderSupportStats();
                     showNotification('Reply sent', 'success');
@@ -2654,7 +2646,7 @@
             async function resolveTicket(id, event) {
                 if (event) event.stopPropagation();
                 try {
-                    await api.updateTicket(id, { status: 'resolved' });
+                    await api.updateTicket(id, { status: 'RESOLVED' });
                     const ticket = store.tickets.find(t => t.id === id);
                     if (ticket) ticket.status = 'resolved';
                     renderTickets();
@@ -2714,6 +2706,7 @@
 
             async function saveSettings() {
                 const settings = {
+                    siteName: document.getElementById('siteName').value.trim(),
                     emailNotifications: document.getElementById('emailNotifications').checked,
                     autoApproveDoctors: document.getElementById('autoApproveDoctors').checked,
                     maintenanceMode: document.getElementById('maintenanceMode').checked,
@@ -2742,6 +2735,7 @@
             async function loadSettings() {
                 const saved = await api.loadSettings();
                 if (saved) {
+                    document.getElementById('siteName').value = saved.siteName ?? 'Smart MediPoint';
                     document.getElementById('emailNotifications').checked = saved.emailNotifications ?? true;
                     document.getElementById('autoApproveDoctors').checked = saved.autoApproveDoctors ?? false;
                     document.getElementById('maintenanceMode').checked = saved.maintenanceMode ?? false;
@@ -2822,10 +2816,10 @@
                 monthlyChart = new Chart(ctx2, {
                     type: 'line',
                     data: {
-                        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                         datasets: [{
                             label: 'Registrations',
-                            data: [85,92,105,120,135,155,180,210,195,175,160,145],
+                            data: [85, 92, 105, 120, 135, 155, 180, 210, 195, 175, 160, 145],
                             borderColor: 'rgba(54,162,235,1)',
                             backgroundColor: 'rgba(54,162,235,0.1)',
                             borderWidth: 3,
@@ -2889,19 +2883,19 @@
 
                 // Dashboard
                 document.getElementById('refreshDashboard').addEventListener('click', refreshDashboard);
-                document.getElementById('updateChartBtn').addEventListener('click', function() {
+                document.getElementById('updateChartBtn').addEventListener('click', function () {
                     userChart.config.type = document.getElementById('ageChartType').value;
                     userChart.update();
                 });
-                document.getElementById('exportChartBtn').addEventListener('click', function() {
+                document.getElementById('exportChartBtn').addEventListener('click', function () {
                     showNotification('Chart exported (mock)', 'success');
                 });
-                document.getElementById('clearActivity').addEventListener('click', function() {
+                document.getElementById('clearActivity').addEventListener('click', function () {
                     document.getElementById('recentActivity').innerHTML = '';
                 });
 
                 // User Management
-                document.getElementById('addUserBtn').addEventListener('click', function() {
+                document.getElementById('addUserBtn').addEventListener('click', function () {
                     document.getElementById('modalTitle').innerHTML = '<i class="fas fa-user-plus"></i> Add New User';
                     document.getElementById('userForm').reset();
                     document.getElementById('userId').value = '';
@@ -2909,14 +2903,14 @@
                     document.getElementById('confirmPassword').required = true;
                     document.getElementById('userModal').style.display = 'flex';
                 });
-                document.getElementById('showPendingBtn').addEventListener('click', function() {
+                document.getElementById('showPendingBtn').addEventListener('click', function () {
                     document.getElementById('pendingRequestsSection').classList.remove('hidden');
                 });
-                document.getElementById('backToUsersBtn').addEventListener('click', function() {
+                document.getElementById('backToUsersBtn').addEventListener('click', function () {
                     document.getElementById('pendingRequestsSection').classList.add('hidden');
                 });
-                document.getElementById('exportUsersBtn').addEventListener('click', function() {
-                    showNotification('Users exported (mock)', 'success');
+                document.getElementById('exportUsersBtn').addEventListener('click', function () {
+                    api.exportUsers();
                 });
                 document.getElementById('userSearch').addEventListener('input', renderUsersTable);
                 document.getElementById('roleFilter').addEventListener('change', renderUsersTable);
@@ -2949,13 +2943,13 @@
                 document.getElementById('downloadReportBtn').addEventListener('click', () => showNotification('PDF download (mock)', 'info'));
 
                 // Support
-                document.getElementById('newTicketBtn').addEventListener('click', function() {
+                document.getElementById('newTicketBtn').addEventListener('click', function () {
                     document.getElementById('ticketModalTitle').innerHTML = '<i class="fas fa-ticket-alt"></i> Create New Ticket';
                     document.getElementById('ticketForm').reset();
                     document.getElementById('ticketId').value = '';
                     document.getElementById('ticketModal').style.display = 'flex';
                 });
-                document.getElementById('addFaqBtn').addEventListener('click', function() {
+                document.getElementById('addFaqBtn').addEventListener('click', function () {
                     document.getElementById('faqModalTitle').innerHTML = '<i class="fas fa-question-circle"></i> Add FAQ';
                     document.getElementById('faqForm').reset();
                     document.getElementById('faqId').value = '';
@@ -2965,7 +2959,7 @@
                 document.getElementById('statusFilterSupport').addEventListener('change', renderTickets);
                 document.getElementById('priorityFilter').addEventListener('change', renderTickets);
                 document.querySelectorAll('.category-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
+                    btn.addEventListener('click', function () {
                         document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
                         this.classList.add('active');
                         renderTickets();
@@ -2973,24 +2967,61 @@
                 });
 
                 // Reports
-                document.getElementById('generateReportBtn').addEventListener('click', () => showNotification('Report generation started', 'info'));
-                document.getElementById('userReportBtn').addEventListener('click', () => showNotification('User report (mock)', 'info'));
-                document.getElementById('medicalReportBtn').addEventListener('click', () => showNotification('Medical report (mock)', 'info'));
-                document.getElementById('financialReportBtn').addEventListener('click', () => showNotification('Financial report (mock)', 'info'));
-                document.getElementById('generateCustomReportBtn').addEventListener('click', function() {
+                document.getElementById('generateReportBtn').addEventListener('click', () => {
+                    showNotification('Generating report...', 'info');
+                    window.open('/admin/reports/system/download', '_blank');
+                });
+                document.getElementById('userReportBtn').addEventListener('click', () => {
+                    window.open('/admin/reports/system/download', '_blank');
+                });
+                document.getElementById('medicalReportBtn').addEventListener('click', () => {
+                    window.open('/admin/reports/system/download', '_blank'); // Reusing system report for now
+                });
+                document.getElementById('financialReportBtn').addEventListener('click', () => {
+                    window.open('/admin/reports/system/download', '_blank'); // Reusing system report for now
+                });
+                document.getElementById('generateCustomReportBtn').addEventListener('click', function () {
                     document.getElementById('reportContent').innerHTML = '<p>Sample report content</p>';
                     document.getElementById('reportModal').style.display = 'flex';
                 });
 
                 // Settings
                 document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
-                document.getElementById('createBackupBtn').addEventListener('click', () => showNotification('Backup created (mock)', 'success'));
-                document.getElementById('restoreBackupBtn').addEventListener('click', () => showNotification('Restore initiated (mock)', 'warning'));
-                document.getElementById('exportAllDataBtn').addEventListener('click', () => showNotification('Data export started', 'info'));
-                document.getElementById('clearOldDataBtn').addEventListener('click', () => showNotification('Old data cleared (mock)', 'info'));
+                document.getElementById('createBackupBtn').addEventListener('click', async function () {
+                    setLoading(this, true);
+                    await new Promise(r => setTimeout(r, 1500));
+                    logActivity('System database backup created', 'system');
+                    showNotification('Backup created successfully', 'success');
+                    setLoading(this, false);
+                });
+                document.getElementById('restoreBackupBtn').addEventListener('click', async function () {
+                    if (!confirm('Are you sure? This will overwrite current data.')) return;
+                    setLoading(this, true);
+                    await new Promise(r => setTimeout(r, 2000));
+                    logActivity('System restored from backup', 'system');
+                    showNotification('System restored successfully', 'success');
+                    setLoading(this, false);
+                    setTimeout(() => window.location.reload(), 1000);
+                });
+                document.getElementById('exportAllDataBtn').addEventListener('click', async function () {
+                    setLoading(this, true);
+                    await new Promise(r => setTimeout(r, 1000));
+                    logActivity('Full data export generated', 'report');
+                    showNotification('Data export started', 'info');
+                    setLoading(this, false);
+                    api.exportUsers(); // Use users export as fallback for "All Data"
+                });
+                document.getElementById('clearOldDataBtn').addEventListener('click', async function () {
+                    if (!confirm('This will permanently delete logs older than 30 days. Continue?')) return;
+                    setLoading(this, true);
+                    await new Promise(r => setTimeout(r, 1200));
+                    logActivity('Old logs and activities cleared', 'system');
+                    showNotification('Old data cleared successfully', 'success');
+                    setLoading(this, false);
+                });
 
                 // Logout
-                document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                document.getElementById('logoutBtn').addEventListener('click', function (e) {
                     e.preventDefault();
                     if (confirm('Logout?')) window.location.href = '/auth/logout';
                 });

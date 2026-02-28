@@ -1,0 +1,36 @@
+<%- include('../../shared/layout.ejs') %>
+
+<div class="container" style="max-width:600px;margin:40px auto;">
+    <h2 class="mb-20">Add New Patient</h2>
+    <form id="addPatientForm" action="/doctor/patients/create" method="POST">
+        <div class="form-group">
+            <label for="addPatientName">Patient Name *</label>
+            <input type="text" id="addPatientName" name="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="addPatientEmail">Email</label>
+            <input type="email" id="addPatientEmail" name="email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="addPatientPhone">Phone</label>
+            <input type="text" id="addPatientPhone" name="phone" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="addPatientDOB">Date of Birth</label>
+            <input type="date" id="addPatientDOB" name="dob" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="addPatientGender">Gender</label>
+            <select id="addPatientGender" name="gender" class="form-control">
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="addPatientMuac">MUAC (cm)</label>
+            <input type="number" step="0.1" id="addPatientMuac" name="muac" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Add Patient</button>
+        <a href="/doctor/portal" class="btn btn-outline" style="margin-left:10px;">Cancel</a>
+    </form>
+</div>
